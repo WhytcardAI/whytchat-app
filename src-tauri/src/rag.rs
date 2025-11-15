@@ -81,6 +81,14 @@ struct Chunk { text: String }
 pub async fn rag_list_datasets() -> Result<Vec<DatasetInfo>, String> { load_registry() }
 
 #[tauri::command]
+pub async fn rag_list_chunks(dataset_id: String) -> Result<Vec<String>, String> {
+    let path = chunks_json_path(&dataset_id)?;
+    let content = fs::read_to_string(path).map_err(|e| e.to_string())?;
+    let chunks: Vec<Chunk> = serde_json::from_str(&content).map_err(|e| e.to_string())?;
+    Ok(chunks.into_iter().map(|c| c.text).collect())
+}
+
+#[tauri::command]
 pub async fn rag_create_dataset(name: String) -> Result<DatasetInfo, String> {
     let mut list = load_registry()?;
     // ID = ds_<epoch_ms>
@@ -127,7 +135,7 @@ pub async fn rag_ingest_text(args: IngestTextArgs) -> Result<IngestResult, Strin
     let mut i = 0;
     let t = args.text.replace("\r\n", "\n");
     let chars: Vec<char> = t.chars().collect();
-    
+
     while i < chars.len() {
         let end = usize::min(i + max, chars.len());
         let s: String = chars[i..end].iter().collect();

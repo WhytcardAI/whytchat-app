@@ -277,6 +277,7 @@ fn main() {
             rag::rag_create_dataset,
             rag::rag_delete_dataset,
             rag::rag_ingest_text,
+            rag::rag_list_chunks,
             // RAG Dataset Linking
             link_dataset_to_conversation,
             unlink_dataset_from_conversation,
@@ -558,6 +559,53 @@ async fn list_datasets_for_conversation(
     db::list_datasets_for_conversation(&conn, conversation_id).map_err(|e| e.to_string())
 }
 
+/// Load RAG context from all datasets linked to a conversation
+async fn load_rag_context(conversation_id: i64, db: &State<'_, DbState>) -> Result<String, String> {
+    // Get linked datasets
+    let dataset_ids = {
+        let conn = db.0.lock().map_err(|e| e.to_string())?;
+        db::list_datasets_for_conversation(&conn, conversation_id).map_err(|e| e.to_string())?
+    };
+
+    if dataset_ids.is_empty() {
+        return Ok(String::new());
+    }
+
+    // Load chunks from each dataset
+    let mut all_chunks = Vec::new();
+    for dataset_id in dataset_ids {
+        match rag::rag_list_chunks(dataset_id.clone()).await {
+            Ok(chunks) => {
+                all_chunks.extend(chunks);
+            }
+            Err(e) => {
+                eprintln!("[RAG] Failed to load chunks for dataset {}: {}", dataset_id, e);
+                // Continue with other datasets
+            }
+        }
+    }
+
+    if all_chunks.is_empty() {
+        return Ok(String::new());
+    }
+
+    // Limit total context size (max ~3000 chars to avoid token overflow)
+    const MAX_CONTEXT_CHARS: usize = 3000;
+    let mut context = String::new();
+    let mut total_chars = 0;
+
+    for chunk in all_chunks {
+        if total_chars + chunk.len() > MAX_CONTEXT_CHARS {
+            break;
+        }
+        context.push_str(&chunk);
+        context.push_str("\n\n---\n\n");
+        total_chars += chunk.len() + 8; // 8 for separator
+    }
+
+    Ok(context.trim().to_string())
+}
+
 #[tauri::command]
 async fn generate_text(
     conversation_id: i64,
@@ -588,6 +636,21 @@ async fn generate_text(
                 content: system_prompt.clone(),
             });
         }
+    }
+
+    // Add RAG context if datasets are linked
+    let rag_context = load_rag_context(conversation_id, &db).await?;
+    if !rag_context.is_empty() {
+        let context_message = format!(
+            "Relevant knowledge from your datasets:\n\n{}\n\n\
+            Use this information to provide accurate answers. \
+            If the question relates to this knowledge, reference it in your response.",
+            rag_context
+        );
+        chat_messages.push(llama::ChatMessage {
+            role: "system".to_string(),
+            content: context_message,
+        });
     }
 
     // Add message history
