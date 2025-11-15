@@ -10,13 +10,13 @@ engines:
       - "dist/**"
       - ".tauri-target/**"
       - "src-tauri/target/**"
-  
+
   stylelint:
     enabled: true
     exclude_paths:
       - "node_modules/**"
       - "dist/**"
-  
+
   markdownlint:
     enabled: true
     exclude_paths:

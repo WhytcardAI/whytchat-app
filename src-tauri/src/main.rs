@@ -279,6 +279,8 @@ fn main() {
             rag::rag_ingest_text,
             rag::rag_ingest_file,
             rag::rag_ingest_url,
+            rag::rag_ingest_folder,
+            rag::rag_scrape_url,
             rag::rag_query
         ])
         .run(tauri::generate_context!())

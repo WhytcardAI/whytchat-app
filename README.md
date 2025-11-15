@@ -14,6 +14,7 @@ WhytChat est une application de chat IA sécurisée et hors ligne, construite av
 ## ✨ Nouvelles Fonctionnalités v0.2.9
 
 ### 🛍️ Support & Donations
+
 - **Boutique intégrée** avec 3 niveaux de don (Coffee ☕, Happiness 🌟, Hope 🚀)
 - Support du projet via Stripe sécurisé
 - Page dédiée accessible depuis le menu principal
@@ -21,6 +22,7 @@ WhytChat est une application de chat IA sécurisée et hors ligne, construite av
 ## 🎯 Fonctionnalités v0.2.1
 
 ### 🎯 Système de Paramètres Dynamiques
+
 - **6 types de conversation** avec paramètres personnalisés :
   - 💬 **General** - Discussion générale (Tone : 7 options)
   - 💻 **Coding** - Développement (Language : 10 langages + Style : 4 options)
@@ -30,11 +32,13 @@ WhytChat est une application de chat IA sécurisée et hors ligne, construite av
   - 📊 **Analysis** - Analyse (Depth : 3 profondeurs + Format : 3 présentations)
 
 ### 🤖 10 Modèles IA Optimisés
+
 - **Light** (3-4GB RAM) : Llama 3.2 3B, Qwen Coder 1.5B
 - **Balanced** (6GB RAM) : Mistral 7B, Qwen Coder 7B, OpenHermes 7B, Nous Hermes 7B
 - **Heavy** (8-12GB RAM) : Llama 3.1 8B, WizardLM 7B, Dolphin 7B, Qwen Coder 14B
 
 ### 🌍 Support Multilingue Complet
+
 8 langues : **Français**, English, Español, Deutsch, Italiano, Português, Nederlands, Polski
 
 ---
@@ -44,6 +48,7 @@ WhytChat est une application de chat IA sécurisée et hors ligne, construite av
 ### Télécharger l'Application
 
 **Windows** (3 options disponibles)
+
 - **[EXE Installer](https://github.com/WhytcardAI/whytchat-app/releases/latest/download/WhytChat_0.2.9_x64-setup.exe)** - Installation classique (recommandé)
 - **[MSI Installer](https://github.com/WhytcardAI/whytchat-app/releases/latest/download/WhytChat_0.2.9_x64_en-US.msi)** - Déploiement entreprise
 - **[ZIP Portable](https://github.com/WhytcardAI/whytchat-app/releases/tag/v0.2.9)** - Version portable
@@ -108,6 +113,7 @@ WhytChat/
 ### Gaming Overlay Mode
 
 Press **F10** to enable transparent overlay:
+
 - Adjust opacity with slider
 - Auto-passthrough on idle (configurable)
 - Compact UI for minimal screen space
@@ -118,6 +124,7 @@ Press **F10** to enable transparent overlay:
 ### System Prompt Templates
 
 Customize AI behavior with system prompts:
+
 - **Code Expert**: Programming assistance
 - **Translator**: Language translation
 - **Writer**: Creative writing help
@@ -126,6 +133,7 @@ Customize AI behavior with system prompts:
 ### Model Parameters
 
 Fine-tune per conversation:
+
 - **Temperature**: Higher = more creative, lower = more focused
 - **Top-P**: Nucleus sampling threshold
 - **Max Tokens**: Limit response length (default: 2048)
@@ -196,6 +204,7 @@ Comprehensive guides for developers and contributors:
 ## 🤝 Contributing
 
 Contributions welcome! Please:
+
 1. Read the [Contributing Guide](CONTRIBUTING.md) and [Architecture](ARCHITECTURE.md)
 2. Fork the repository
 3. Create a feature branch (`feat/...`, `fix/...`, `docs/...`)
@@ -205,6 +214,7 @@ Contributions welcome! Please:
 ### Code Quality
 
 We use automated code quality tools:
+
 - **Codacy**: Automated code review and quality analysis
 - **Sourcery**: AI-powered code refactoring suggestions
 - **ESLint**: JavaScript/TypeScript linting
@@ -219,4 +229,5 @@ We use automated code quality tools:
 ---
 
 **Made with ❤️ for privacy-conscious AI enthusiasts**
+
 # WhytChat

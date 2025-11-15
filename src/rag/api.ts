@@ -40,6 +40,25 @@ export async function ingestUrl(
   });
 }
 
+export async function ingestFolder(
+  datasetId: string,
+  folderPath: string
+): Promise<IngestResult> {
+  return invoke<IngestResult>("rag_ingest_folder", {
+    args: { dataset_id: datasetId, folder_path: folderPath },
+  });
+}
+
+export async function scrapeUrl(
+  datasetId: string,
+  baseUrl: string,
+  maxDepth?: number
+): Promise<IngestResult> {
+  return invoke<IngestResult>("rag_scrape_url", {
+    args: { dataset_id: datasetId, base_url: baseUrl, max_depth: maxDepth },
+  });
+}
+
 export async function ragQuery(
   datasetId: string,
   query: string,

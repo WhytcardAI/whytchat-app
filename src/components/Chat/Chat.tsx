@@ -7,7 +7,7 @@ function sanitizeLLM(text: string): string {
     // Remove lines like 'Prompt système:' / 'Prompt systeme:' / 'System prompt:' (case-insensitive)
     return text.replace(
       /(?:^|\n)\s*(?:prompt\s*(?:syst[eÃ¨]me|systeme)|system\s*prompt)\s*:/gi,
-      "\n",
+      "\n"
     );
   } catch {
     return text;
@@ -56,7 +56,7 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [conversationName, setConversationName] = useState("");
   const [conversationGroup, setConversationGroup] = useState<string | null>(
-    null,
+    null
   );
   const [modelName, setModelName] = useState("");
   const [overlayEnabled, setOverlayEnabled] = useState<boolean>(() => {
@@ -71,12 +71,12 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
   const [overlayAutoPassthrough, setOverlayAutoPassthrough] = useState<boolean>(
     () => {
       return getStorageBoolean("overlayAutoPassthrough", true);
-    },
+    }
   );
   const [overlayControlsIdleSec, setOverlayControlsIdleSec] = useState<number>(
     () => {
       return getStorageNumberWithClamp("overlayControlsIdleSec", 2, 1, 5);
-    },
+    }
   );
   const [overlayToggleKey, setOverlayToggleKey] = useState<string>(() => {
     try {
@@ -88,7 +88,7 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
   const [overlayShowDragStrip, setOverlayShowDragStrip] = useState<boolean>(
     () => {
       return getStorageBoolean("overlayShowDragStrip", true);
-    },
+    }
   );
   const [showOverlayControls, setShowOverlayControls] = useState<boolean>(true);
   const [isOverlayHover, setIsOverlayHover] = useState<boolean>(false);
@@ -190,7 +190,7 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
             content:
               m.role === "assistant" ? sanitizeLLM(m.content) : m.content,
             timestamp: new Date(m.created_at),
-          })),
+          }))
         );
       } catch (err) {
         console.error("Failed to load conversation:", err);
@@ -263,8 +263,8 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
         const chunk = sanitizeLLM(event.payload || "");
         setMessages((prev) =>
           prev.map((msg) =>
-            msg.id === tempId ? { ...msg, content: msg.content + chunk } : msg,
-          ),
+            msg.id === tempId ? { ...msg, content: msg.content + chunk } : msg
+          )
         );
       });
 
@@ -354,7 +354,7 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
               console.debug("[Overlay] disable click-through err", err);
             }
             window.dispatchEvent(
-              new CustomEvent("overlaychange", { detail: { enabled: false } }),
+              new CustomEvent("overlaychange", { detail: { enabled: false } })
             );
           } catch (err) {
             console.error("Failed to disable overlay:", err);
@@ -381,7 +381,7 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
               console.debug("[Overlay] toggle set_click_through err", err);
             }
             window.dispatchEvent(
-              new CustomEvent("overlaychange", { detail: { enabled: next } }),
+              new CustomEvent("overlaychange", { detail: { enabled: next } })
             );
           } catch (err) {
             console.error("Failed to toggle overlay via key:", err);
@@ -434,14 +434,14 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
     const onPrefs = (_e: Event) => {
       try {
         setOverlayAutoPassthrough(
-          getStorageBoolean("overlayAutoPassthrough", true),
+          getStorageBoolean("overlayAutoPassthrough", true)
         );
         setOverlayControlsIdleSec(
-          getStorageNumberWithClamp("overlayControlsIdleSec", 2, 1, 5),
+          getStorageNumberWithClamp("overlayControlsIdleSec", 2, 1, 5)
         );
         setOverlayToggleKey(localStorage.getItem("overlayToggleKey") || "");
         setOverlayShowDragStrip(
-          getStorageBoolean("overlayShowDragStrip", true),
+          getStorageBoolean("overlayShowDragStrip", true)
         );
       } catch (err) {
         console.debug("[Overlay] prefs update err", err);
@@ -462,7 +462,7 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
       window.clearTimeout(hideControlsTimer.current);
     hideControlsTimer.current = window.setTimeout(
       () => setShowOverlayControls(false),
-      Math.max(500, Math.min(5000, overlayControlsIdleSec * 1000)) as number,
+      Math.max(500, Math.min(5000, overlayControlsIdleSec * 1000)) as number
     );
   };
 
@@ -572,7 +572,7 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
             onChange={(e) => {
               const v = Math.max(
                 50,
-                Math.min(100, parseInt(e.target.value || "100", 10)),
+                Math.min(100, parseInt(e.target.value || "100", 10))
               );
               const f = v / 100;
               setOverlayOpacity(f);

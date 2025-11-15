@@ -25,6 +25,8 @@ zip = "0.6"
 
 # Document parsing for RAG
 pdf-extract = "0.7"
+docx-rs = "0.4"  # DOCX parsing
 xml-rs = "0.8"
-scraper = "0.21"  # HTML parsing
+scraper = "0.21"  # HTML parsing and web scraping
 regex = "1.10"
+url = "2.5"  # URL parsing and validation
