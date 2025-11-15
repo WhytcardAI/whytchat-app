@@ -276,12 +276,7 @@ fn main() {
             rag::rag_list_datasets,
             rag::rag_create_dataset,
             rag::rag_delete_dataset,
-            rag::rag_ingest_text,
-            rag::rag_ingest_file,
-            rag::rag_ingest_url,
-            rag::rag_ingest_folder,
-            rag::rag_scrape_url,
-            rag::rag_query
+            rag::rag_ingest_text
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

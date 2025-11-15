@@ -3,10 +3,6 @@ import { i18n } from "../../i18n";
 import {
   createDataset,
   ingestText,
-  ingestFile,
-  ingestUrl,
-  ingestFolder,
-  scrapeUrl,
   listDatasets,
 } from "../../rag/api";
 import type { DatasetInfo } from "../../rag/types";
@@ -14,13 +10,10 @@ import { open } from "@tauri-apps/plugin-dialog";
 import {
   Database,
   FileText,
-  Link,
   Type,
   HelpCircle,
   CheckCircle,
   XCircle,
-  Folder,
-  Globe,
 } from "lucide-react";
 
 export default function DatasetsPanel() {
@@ -35,15 +28,11 @@ export default function DatasetsPanel() {
   const [datasets, setDatasets] = useState<DatasetInfo[]>([]);
   const [name, setName] = useState("");
   const [text, setText] = useState("");
-  const [url, setUrl] = useState("");
-  const [scrapeDepth, setScrapeDepth] = useState(1);
   const [selected, setSelected] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
   const [msgType, setMsgType] = useState<"success" | "error" | null>(null);
-  const [ingestMode, setIngestMode] = useState<
-    "text" | "file" | "folder" | "url" | "scrape"
-  >("text");
+  const [ingestMode, setIngestMode] = useState<"text" | "file">("text");
   const [showHelp, setShowHelp] = useState(false);
 
   const reload = async () => {
@@ -106,18 +95,8 @@ export default function DatasetsPanel() {
         multiple: false,
         filters: [
           {
-            name: "Documents",
-            extensions: [
-              "txt",
-              "md",
-              "pdf",
-              "html",
-              "htm",
-              "json",
-              "csv",
-              "log",
-              "docx",
-            ],
+            name: "Text Files",
+            extensions: ["txt", "md", "json", "csv", "log"],
           },
           { name: "All Files", extensions: ["*"] },
         ],
@@ -126,70 +105,12 @@ export default function DatasetsPanel() {
       if (!files) return;
 
       const filePath = Array.isArray(files) ? files[0] : files;
-      const res = await ingestFile(selected, filePath);
+      // Read file content using fetch API with file:// protocol
+      // Works for local files in Tauri without needing fs plugin
+      const content = await fetch(`file://${filePath}`).then((r) => r.text());
+      const res = await ingestText(selected, content);
       setMsg(t("rag.ingest.success", { count: res.chunks }));
       setMsgType("success");
-    } catch (e: any) {
-      setMsg(String(e));
-      setMsgType("error");
-    } finally {
-      setBusy(false);
-    }
-  };
-
-  const onIngestFolder = async () => {
-    if (!selected) return;
-    setBusy(true);
-    setMsg(null);
-    setMsgType(null);
-    try {
-      const folder = await open({
-        multiple: false,
-        directory: true,
-      });
-
-      if (!folder) return;
-
-      const folderPath = Array.isArray(folder) ? folder[0] : folder;
-      const res = await ingestFolder(selected, folderPath);
-      setMsg(t("rag.ingest.success", { count: res.chunks }));
-      setMsgType("success");
-    } catch (e: any) {
-      setMsg(String(e));
-      setMsgType("error");
-    } finally {
-      setBusy(false);
-    }
-  };
-
-  const onIngestUrl = async () => {
-    if (!selected || !url.trim()) return;
-    setBusy(true);
-    setMsg(null);
-    setMsgType(null);
-    try {
-      const res = await ingestUrl(selected, url.trim());
-      setMsg(t("rag.ingest.success", { count: res.chunks }));
-      setMsgType("success");
-      setUrl("");
-    } catch (e: any) {
-      setMsg(String(e));
-      setMsgType("error");
-    } finally {
-      setBusy(false);
-    }
-  };
-
-  const onScrapeUrl = async () => {
-    if (!selected || !url.trim()) return;
-    setBusy(true);
-    setMsg(null);
-    setMsgType(null);
-    try {
-      const res = await scrapeUrl(selected, url.trim(), scrapeDepth);
-      setMsg(t("rag.ingest.scrapeSuccess", { count: res.chunks }));
-      setMsgType("success");
-      setUrl("");
     } catch (e: any) {
       setMsg(String(e));
       setMsgType("error");
@@ -321,42 +242,6 @@ export default function DatasetsPanel() {
               <FileText size={16} />
               {t("rag.ingest.mode.file")}
             </button>
-            <button
-              onClick={() => setIngestMode("folder")}
-              disabled={busy}
-              className={`px-3 py-2 rounded-lg font-medium transition-all flex items-center justify-center gap-2 text-sm ${
-                ingestMode === "folder"
-                  ? "bg-blue-600 text-white shadow-md"
-                  : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
-              } disabled:opacity-50 disabled:cursor-not-allowed`}
-            >
-              <Folder size={16} />
-              {t("rag.ingest.mode.folder")}
-            </button>
-            <button
-              onClick={() => setIngestMode("url")}
-              disabled={busy}
-              className={`px-3 py-2 rounded-lg font-medium transition-all flex items-center justify-center gap-2 text-sm ${
-                ingestMode === "url"
-                  ? "bg-blue-600 text-white shadow-md"
-                  : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
-              } disabled:opacity-50 disabled:cursor-not-allowed`}
-            >
-              <Link size={16} />
-              {t("rag.ingest.mode.url")}
-            </button>
-            <button
-              onClick={() => setIngestMode("scrape")}
-              disabled={busy}
-              className={`px-3 py-2 rounded-lg font-medium transition-all flex items-center justify-center gap-2 text-sm ${
-                ingestMode === "scrape"
-                  ? "bg-blue-600 text-white shadow-md"
-                  : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
-              } disabled:opacity-50 disabled:cursor-not-allowed`}
-            >
-              <Globe size={16} />
-              {t("rag.ingest.mode.scrape")}
-            </button>
           </div>
 
           {/* Text Mode */}
@@ -403,94 +288,7 @@ export default function DatasetsPanel() {
             </div>
           )}
 
-          {/* Folder Mode */}
-          {ingestMode === "folder" && (
-            <div className="space-y-3">
-              <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center">
-                <Folder
-                  size={48}
-                  className="mx-auto text-gray-400 dark:text-gray-500 mb-3"
-                />
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                  Select a folder to ingest all supported files (TXT, MD, PDF,
-                  DOCX, HTML, JSON, CSV)
-                </p>
-                <button
-                  onClick={onIngestFolder}
-                  disabled={busy}
-                  className="px-6 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-400 dark:disabled:from-gray-600 dark:disabled:to-gray-600 text-white font-medium transition-all disabled:cursor-not-allowed shadow-md hover:shadow-lg inline-flex items-center gap-2"
-                >
-                  <Folder size={18} />
-                  {busy ? t("rag.ingest.loading") : "Choose Folder"}
-                </button>
-              </div>
-            </div>
-          )}
 
-          {/* URL Mode */}
-          {ingestMode === "url" && (
-            <div className="space-y-3">
-              <input
-                type="url"
-                value={url}
-                onChange={(e) => setUrl(e.target.value)}
-                placeholder={t("rag.ingest.urlPlaceholder")}
-                disabled={busy}
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
-                onKeyDown={(e) => e.key === "Enter" && onIngestUrl()}
-              />
-              <button
-                onClick={onIngestUrl}
-                disabled={busy || !url.trim()}
-                className="w-full px-6 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-400 dark:disabled:from-gray-600 dark:disabled:to-gray-600 text-white font-medium transition-all disabled:cursor-not-allowed shadow-md hover:shadow-lg inline-flex items-center justify-center gap-2"
-              >
-                <Link size={18} />
-                {busy ? t("rag.ingest.loading") : t("rag.ingest.fetchUrl")}
-              </button>
-            </div>
-          )}
-
-          {/* Scrape Mode */}
-          {ingestMode === "scrape" && (
-            <div className="space-y-3">
-              <input
-                type="url"
-                value={url}
-                onChange={(e) => setUrl(e.target.value)}
-                placeholder="https://example.com (will scrape page and follow links)"
-                disabled={busy}
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
-              />
-              <div className="flex items-center gap-3">
-                <label className="text-sm text-gray-700 dark:text-gray-300">
-                  Max Depth:
-                </label>
-                <select
-                  value={scrapeDepth}
-                  onChange={(e) => setScrapeDepth(Number(e.target.value))}
-                  disabled={busy}
-                  className="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
-                >
-                  <option value="0">0 (current page only)</option>
-                  <option value="1">1 (+ direct links)</option>
-                  <option value="2">2 (+ 2nd level links)</option>
-                  <option value="3">3 (+ 3rd level links)</option>
-                </select>
-              </div>
-              <p className="text-xs text-gray-500 dark:text-gray-400">
-                ⚠️ Higher depths may take longer and scrape many pages. Only
-                same-domain links are followed.
-              </p>
-              <button
-                onClick={onScrapeUrl}
-                disabled={busy || !url.trim()}
-                className="w-full px-6 py-3 rounded-lg bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700 disabled:from-gray-400 disabled:to-gray-400 dark:disabled:from-gray-600 dark:disabled:to-gray-600 text-white font-medium transition-all disabled:cursor-not-allowed shadow-md hover:shadow-lg inline-flex items-center justify-center gap-2"
-              >
-                <Globe size={18} />
-                {busy ? t("rag.ingest.loading") : "Scrape Website"}
-              </button>
-            </div>
-          )}
         </div>
       )}
 
