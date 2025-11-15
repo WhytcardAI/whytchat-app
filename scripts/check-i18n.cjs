@@ -1,24 +1,36 @@
 #!/usr/bin/env node
+/* eslint-env node */
 // i18n key parity check for WhytChat desktop app
 // Canonical locale: en; Supported: en, fr, es, de, it, pt, nl, pl
 
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
-const localesRoot = path.resolve(__dirname, '..', 'src', 'locales');
-const canonical = 'en';
+// Using process.cwd() instead of __dirname to avoid no-undef lint issues when __dirname is not defined.
+const localesRoot = path.resolve(process.cwd(), "src", "locales");
+const canonical = "en";
 
 function readJson(fp) {
-  return JSON.parse(fs.readFileSync(fp, 'utf8'));
+  let raw;
+  try {
+    raw = fs.readFileSync(fp, "utf8");
+  } catch (e) {
+    throw new Error(`Cannot read file '${fp}': ${e.message}`);
+  }
+  try {
+    return JSON.parse(raw);
+  } catch (e) {
+    throw new Error(`Invalid JSON in '${fp}': ${e.message}`);
+  }
 }
 
-function collectKeys(obj, prefix = '') {
+function collectKeys(obj, prefix = "") {
   const keys = new Map();
-  if (obj && typeof obj === 'object' && !Array.isArray(obj)) {
+  if (obj && typeof obj === "object" && !Array.isArray(obj)) {
     for (const [k, v] of Object.entries(obj)) {
       const p = prefix ? `${prefix}.${k}` : k;
-      keys.set(p, Array.isArray(v) ? 'array' : typeof v);
-      if (v && typeof v === 'object' && !Array.isArray(v)) {
+      keys.set(p, Array.isArray(v) ? "array" : typeof v);
+      if (v && typeof v === "object" && !Array.isArray(v)) {
         for (const [childK, t] of collectKeys(v, p)) keys.set(childK, t);
       }
     }
@@ -32,7 +44,8 @@ function diffKeys(baseKeys, otherKeys) {
   const mismatchedTypes = [];
   for (const [k, t] of baseKeys.entries()) {
     if (!otherKeys.has(k)) missing.push(k);
-    else if (otherKeys.get(k) !== t) mismatchedTypes.push([k, t, otherKeys.get(k)]);
+    else if (otherKeys.get(k) !== t)
+      mismatchedTypes.push([k, t, otherKeys.get(k)]);
   }
   for (const k of otherKeys.keys()) {
     if (!baseKeys.has(k)) extra.push(k);
@@ -47,8 +60,8 @@ function getLocales() {
   }
   return fs
     .readdirSync(localesRoot, { withFileTypes: true })
-    .filter(d => d.isFile() && d.name.endsWith('.json'))
-    .map(d => path.basename(d.name, '.json'))
+    .filter((d) => d.isFile() && d.name.endsWith(".json"))
+    .map((d) => path.basename(d.name, ".json"))
     .sort();
 }
 
@@ -63,7 +76,9 @@ function loadLocale(locale) {
 function main() {
   const locales = getLocales();
   if (!locales.includes(canonical)) {
-    console.error(`Canonical locale '${canonical}' not found in ${localesRoot}`);
+    console.error(
+      `Canonical locale '${canonical}' not found in ${localesRoot}`
+    );
     process.exit(2);
   }
 
@@ -79,12 +94,18 @@ function main() {
       if (missing.length || extra.length || mismatchedTypes.length) {
         hasErrors = true;
         console.error(`\nLocale '${locale}' differs from '${canonical}':`);
-        if (missing.length) console.error(`  Missing keys (${missing.length}):\n    - ${missing.join('\n    - ')}`);
-        if (extra.length) console.error(`  Extra keys (${extra.length}):\n    - ${extra.join('\n    - ')}`);
+        if (missing.length)
+          console.error(
+            `  Missing keys (${missing.length}):\n    - ${missing.join("\n    - ")}`
+          );
+        if (extra.length)
+          console.error(
+            `  Extra keys (${extra.length}):\n    - ${extra.join("\n    - ")}`
+          );
         if (mismatchedTypes.length) {
-          console.error('  Type mismatches:');
+          console.error("  Type mismatches:");
           for (const [k, expected, got] of mismatchedTypes) {
-            console.error(`    - ${k}: ${got} != ${expected}`);
+            console.error(`    - ${k}: expected ${expected}, got ${got}`);
           }
         }
       } else {
@@ -97,10 +118,10 @@ function main() {
   }
 
   if (hasErrors) {
-    console.error('\n❌ i18n parity check failed');
+    console.error("\n❌ i18n parity check failed");
     process.exit(1);
   } else {
-    console.log('\n✅ i18n parity check passed');
+    console.log("\n✅ i18n parity check passed");
   }
 }
 

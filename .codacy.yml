@@ -1,0 +1,52 @@
+---
+# Codacy Configuration File
+# https://docs.codacy.com/repositories-configure/codacy-configuration-file/
+
+engines:
+  eslint:
+    enabled: true
+    exclude_paths:
+      - "node_modules/**"
+      - "dist/**"
+      - ".tauri-target/**"
+      - "src-tauri/target/**"
+  
+  stylelint:
+    enabled: true
+    exclude_paths:
+      - "node_modules/**"
+      - "dist/**"
+  
+  markdownlint:
+    enabled: true
+    exclude_paths:
+      - "node_modules/**"
+      - "CHANGELOG.md"
+
+exclude_paths:
+  - "node_modules/**"
+  - "dist/**"
+  - ".tauri-target/**"
+  - "src-tauri/target/**"
+  - "llama-bin/**"
+  - "models/**"
+  - "downloads/**"
+  - "data/**"
+  - "*.lock"
+  - "*.min.js"
+  - "*.min.css"
+
+# Duplication detection settings
+duplication:
+  exclude_paths:
+    - "node_modules/**"
+    - "dist/**"
+    - "src-tauri/target/**"
+
+# Coverage settings
+coverage:
+  exclude_paths:
+    - "**/*.test.ts"
+    - "**/*.test.tsx"
+    - "**/*.spec.ts"
+    - "**/*.spec.tsx"

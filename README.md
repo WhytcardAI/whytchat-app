@@ -1,15 +1,24 @@
-# WhytChat v0.2.1
+# WhytChat v0.2.9
 
 **🔒 100% Private AI Chat Desktop Application**
 
 WhytChat est une application de chat IA sécurisée et hors ligne, construite avec Tauri v2, React et llama.cpp. Toutes vos conversations restent sur votre machine—aucune donnée n'est jamais envoyée à des serveurs externes.
 
-[![Download Latest Release](https://img.shields.io/badge/Download-Latest%20Release-blue?style=for-the-badge)](https://github.com/WhytcardAI/WhytChat02/releases/latest)
+[![Download Latest Release](https://img.shields.io/badge/Download-Latest%20Release-blue?style=for-the-badge)](https://github.com/WhytcardAI/whytchat-app/releases/latest)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/YOUR_PROJECT_ID)](https://www.codacy.com/gh/WhytcardAI/whytchat-app)
+[![Quality Gate](https://img.shields.io/badge/code%20quality-automated-brightgreen)](https://github.com/WhytcardAI/whytchat-app)
 
 ---
 
-## ✨ Nouvelles Fonctionnalités v0.2.1
+## ✨ Nouvelles Fonctionnalités v0.2.9
+
+### 🛍️ Support & Donations
+- **Boutique intégrée** avec 3 niveaux de don (Coffee ☕, Happiness 🌟, Hope 🚀)
+- Support du projet via Stripe sécurisé
+- Page dédiée accessible depuis le menu principal
+
+## 🎯 Fonctionnalités v0.2.1
 
 ### 🎯 Système de Paramètres Dynamiques
 - **6 types de conversation** avec paramètres personnalisés :
@@ -34,10 +43,12 @@ WhytChat est une application de chat IA sécurisée et hors ligne, construite av
 
 ### Télécharger l'Application
 
-**Option 1 : Téléchargement Direct**
-```
-https://github.com/WhytcardAI/WhytChat02/releases/latest
-```
+**Windows** (3 options disponibles)
+- **[EXE Installer](https://github.com/WhytcardAI/whytchat-app/releases/latest/download/WhytChat_0.2.9_x64-setup.exe)** - Installation classique (recommandé)
+- **[MSI Installer](https://github.com/WhytcardAI/whytchat-app/releases/latest/download/WhytChat_0.2.9_x64_en-US.msi)** - Déploiement entreprise
+- **[ZIP Portable](https://github.com/WhytcardAI/whytchat-app/releases/tag/v0.2.9)** - Version portable
+
+Ou visitez la [page des releases](https://github.com/WhytcardAI/whytchat-app/releases/latest) pour toutes les versions
 
 ### Build for Production
 
@@ -171,25 +182,33 @@ CREATE TABLE messages (
 
 ## 📝 License
 
-MIT License - See [LICENSE.txt](LICENSE.txt)
+MIT License - See [LICENSE](LICENSE)
 
 ## 📚 Documentation
 
 Comprehensive guides for developers and contributors:
 
-- **[Branch Policy](docs/branch-policy.md)** - Branch management, CI triggers, and release process
-- **[CI/CD Strategy](docs/ci-strategy.md)** - Workflow details, cost optimization, and troubleshooting
-- **[Contributing Guide](CONTRIBUTING.md)** - How to contribute to WhytChat02
+- **[Architecture](ARCHITECTURE.md)** - Technical architecture and design decisions
+- **[Contributing Guide](CONTRIBUTING.md)** - How to contribute to WhytChat
 - **[Security Policy](SECURITY.md)** - Security practices and reporting
+- **[Changelog](CHANGELOG.md)** - Version history and release notes
 
 ## 🤝 Contributing
 
 Contributions welcome! Please:
-1. Read the [Branch Policy](docs/branch-policy.md) and [Contributing Guide](CONTRIBUTING.md)
+1. Read the [Contributing Guide](CONTRIBUTING.md) and [Architecture](ARCHITECTURE.md)
 2. Fork the repository
-3. Create a feature branch (see branch naming conventions)
-4. Run `npm run check:lint` before committing
+3. Create a feature branch (`feat/...`, `fix/...`, `docs/...`)
+4. Run `npm run check:lint` and `npm run check:i18n` before committing
 5. Submit a pull request targeting `main`
+
+### Code Quality
+
+We use automated code quality tools:
+- **Codacy**: Automated code review and quality analysis
+- **Sourcery**: AI-powered code refactoring suggestions
+- **ESLint**: JavaScript/TypeScript linting
+- **Prettier**: Code formatting
 
 ## 🙏 Acknowledgments
 
