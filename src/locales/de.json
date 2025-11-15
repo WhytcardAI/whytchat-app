@@ -403,7 +403,18 @@
   },
   "rag": {
     "title": "Datasets (RAG)",
-    "createDataset": { "label": "Dataset erstellen" },
+    "help": {
+      "title": "Wie funktioniert es?",
+      "description": "Das RAG-System ermöglicht es Ihnen, Wissensbasen aus Ihren Dokumenten zu erstellen.",
+      "step1": "Erstellen Sie ein Dataset mit einem eindeutigen Namen",
+      "step2": "Wählen Sie das Dataset und einen Aufnahme-Modus",
+      "step3": "Fügen Sie Text, Dateien (PDF, DOCX, TXT...) oder URLs hinzu"
+    },
+    "createDataset": {
+      "title": "Dataset Erstellen",
+      "label": "Dataset erstellen",
+      "success": "Dataset erfolgreich erstellt!"
+    },
     "datasetName": { "placeholder": "Dataset-Name" },
     "select": { "label": "Dataset wählen", "none": "Keins" },
     "ingest": {
@@ -415,6 +426,7 @@
       "fetchUrl": "URL abrufen",
       "loading": "Verarbeitung...",
       "success": "{count} Abschnitte indiziert",
+      "fileDescription": "Unterstützte Formate: TXT, MD, JSON, CSV, LOG, HTML, PDF, DOCX",
       "mode": {
         "text": "Text",
         "file": "Datei",

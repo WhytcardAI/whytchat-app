@@ -401,7 +401,18 @@
   },
   "rag": {
     "title": "Jeux de données (RAG)",
-    "createDataset": { "label": "Créer un dataset" },
+    "help": {
+      "title": "Comment ça marche ?",
+      "description": "Le système RAG vous permet de créer des bases de connaissances à partir de vos documents.",
+      "step1": "Créez un dataset avec un nom unique",
+      "step2": "Sélectionnez le dataset et choisissez un mode d'ingestion",
+      "step3": "Ajoutez du texte, des fichiers (PDF, DOCX, TXT...) ou des URLs"
+    },
+    "createDataset": {
+      "title": "Créer un Dataset",
+      "label": "Créer un dataset",
+      "success": "Dataset créé avec succès !"
+    },
     "datasetName": { "placeholder": "Nom du dataset" },
     "select": { "label": "Sélectionner un dataset", "none": "Aucun" },
     "ingest": {
@@ -413,6 +424,7 @@
       "fetchUrl": "Récupérer l'URL",
       "loading": "Traitement...",
       "success": "{count} segments indexés",
+      "fileDescription": "Formats supportés : TXT, MD, JSON, CSV, LOG, HTML, PDF, DOCX",
       "mode": {
         "text": "Texte",
         "file": "Fichier",

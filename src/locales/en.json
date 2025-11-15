@@ -401,7 +401,18 @@
   },
   "rag": {
     "title": "Datasets (RAG)",
-    "createDataset": { "label": "Create dataset" },
+    "help": {
+      "title": "How does it work?",
+      "description": "The RAG system allows you to create knowledge bases from your documents.",
+      "step1": "Create a dataset with a unique name",
+      "step2": "Select the dataset and choose an ingestion mode",
+      "step3": "Add text, files (PDF, DOCX, TXT...) or URLs"
+    },
+    "createDataset": {
+      "title": "Create a Dataset",
+      "label": "Create dataset",
+      "success": "Dataset created successfully!"
+    },
     "datasetName": { "placeholder": "Dataset name" },
     "select": { "label": "Select dataset", "none": "None" },
     "ingest": {
@@ -413,6 +424,7 @@
       "fetchUrl": "Fetch URL",
       "loading": "Processing...",
       "success": "Ingested {count} chunks",
+      "fileDescription": "Supported formats: TXT, MD, JSON, CSV, LOG, HTML, PDF, DOCX",
       "mode": {
         "text": "Text",
         "file": "File",

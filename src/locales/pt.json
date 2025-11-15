@@ -402,7 +402,18 @@
   },
   "rag": {
     "title": "Conjuntos de dados (RAG)",
-    "createDataset": { "label": "Criar dataset" },
+    "help": {
+      "title": "Como funciona?",
+      "description": "O sistema RAG permite criar bases de conhecimento a partir dos seus documentos.",
+      "step1": "Crie um dataset com um nome único",
+      "step2": "Selecione o dataset e escolha um modo de ingesta",
+      "step3": "Adicione texto, arquivos (PDF, DOCX, TXT...) ou URLs"
+    },
+    "createDataset": {
+      "title": "Criar um Dataset",
+      "label": "Criar dataset",
+      "success": "Dataset criado com sucesso!"
+    },
     "datasetName": { "placeholder": "Nome do dataset" },
     "select": { "label": "Selecionar dataset", "none": "Nenhum" },
     "ingest": {
@@ -413,7 +424,8 @@
       "chooseFile": "Escolher arquivo",
       "fetchUrl": "Buscar URL",
       "loading": "Processando...",
-      "success": "{count} trechos indexados",
+      "success": "{count} fragmentos indexados",
+      "fileDescription": "Formatos suportados: TXT, MD, JSON, CSV, LOG, HTML, PDF, DOCX",
       "mode": {
         "text": "Texto",
         "file": "Arquivo",

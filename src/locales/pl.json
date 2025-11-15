@@ -402,7 +402,18 @@
   },
   "rag": {
     "title": "Zbiory danych (RAG)",
-    "createDataset": { "label": "Utwórz zbiór danych" },
+    "help": {
+      "title": "Jak to działa?",
+      "description": "System RAG pozwala tworzyć bazy wiedzy z Twoich dokumentów.",
+      "step1": "Stwórz dataset z unikalną nazwą",
+      "step2": "Wybierz dataset i tryb pozyskiwania",
+      "step3": "Dodaj tekst, pliki (PDF, DOCX, TXT...) lub adresy URL"
+    },
+    "createDataset": {
+      "title": "Stwórz Dataset",
+      "label": "Utwórz zbiór danych",
+      "success": "Dataset utworzony pomyślnie!"
+    },
     "datasetName": { "placeholder": "Nazwa zbioru danych" },
     "select": { "label": "Wybierz zbiór danych", "none": "Brak" },
     "ingest": {
@@ -414,6 +425,7 @@
       "fetchUrl": "Pobierz URL",
       "loading": "Przetwarzanie...",
       "success": "Zindeksowano {count} fragmentów",
+      "fileDescription": "Obsługiwane formaty: TXT, MD, JSON, CSV, LOG, HTML, PDF, DOCX",
       "mode": {
         "text": "Tekst",
         "file": "Plik",

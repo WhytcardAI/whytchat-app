@@ -402,7 +402,18 @@
   },
   "rag": {
     "title": "Datasets (RAG)",
-    "createDataset": { "label": "Dataset aanmaken" },
+    "help": {
+      "title": "Hoe werkt het?",
+      "description": "Het RAG-systeem stelt je in staat om kennisbanken te creëren vanuit je documenten.",
+      "step1": "Maak een dataset met een unieke naam",
+      "step2": "Selecteer de dataset en kies een opname-modus",
+      "step3": "Voeg tekst, bestanden (PDF, DOCX, TXT...) of URLs toe"
+    },
+    "createDataset": {
+      "title": "Dataset Maken",
+      "label": "Dataset aanmaken",
+      "success": "Dataset succesvol aangemaakt!"
+    },
     "datasetName": { "placeholder": "Naam van dataset" },
     "select": { "label": "Dataset selecteren", "none": "Geen" },
     "ingest": {
@@ -414,6 +425,7 @@
       "fetchUrl": "URL ophalen",
       "loading": "Bezig met verwerken...",
       "success": "{count} fragmenten geïndexeerd",
+      "fileDescription": "Ondersteunde formaten: TXT, MD, JSON, CSV, LOG, HTML, PDF, DOCX",
       "mode": {
         "text": "Tekst",
         "file": "Bestand",

@@ -402,8 +402,19 @@
   },
   "rag": {
     "title": "Dataset (RAG)",
-    "createDataset": { "label": "Crea dataset" },
-    "datasetName": { "placeholder": "Nome dataset" },
+    "help": {
+      "title": "Come funziona?",
+      "description": "Il sistema RAG ti permette di creare basi di conoscenza dai tuoi documenti.",
+      "step1": "Crea un dataset con un nome unico",
+      "step2": "Seleziona il dataset e scegli una modalità di acquisizione",
+      "step3": "Aggiungi testo, file (PDF, DOCX, TXT...) o URL"
+    },
+    "createDataset": {
+      "title": "Crea un Dataset",
+      "label": "Crea dataset",
+      "success": "Dataset creato con successo!"
+    },
+    "datasetName": { "placeholder": "Nome del dataset" },
     "select": { "label": "Seleziona dataset", "none": "Nessuno" },
     "ingest": {
       "pasteText": "Incolla testo da indicizzare",
@@ -414,6 +425,7 @@
       "fetchUrl": "Recupera URL",
       "loading": "Elaborazione...",
       "success": "{count} frammenti indicizzati",
+      "fileDescription": "Formati supportati: TXT, MD, JSON, CSV, LOG, HTML, PDF, DOCX",
       "mode": {
         "text": "Testo",
         "file": "File",
