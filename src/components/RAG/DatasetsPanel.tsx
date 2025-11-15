@@ -1,15 +1,32 @@
 import { useEffect, useState } from "react";
 import { i18n } from "../../i18n";
-import { createDataset, ingestText, ingestFile, ingestUrl, listDatasets } from "../../rag/api";
+import {
+  createDataset,
+  ingestText,
+  ingestFile,
+  ingestUrl,
+  listDatasets,
+} from "../../rag/api";
 import type { DatasetInfo } from "../../rag/types";
 import { open } from "@tauri-apps/plugin-dialog";
-import { Database, FileText, Link, Type, HelpCircle, CheckCircle, XCircle } from "lucide-react";
+import {
+  Database,
+  FileText,
+  Link,
+  Type,
+  HelpCircle,
+  CheckCircle,
+  XCircle,
+} from "lucide-react";
 
 export default function DatasetsPanel() {
   const t = (key: string, params?: Record<string, any>) => {
     const translation = i18n.t(key);
     if (!params) return translation;
-    return Object.entries(params).reduce((acc, [k, v]) => acc.replace(`{${k}}`, String(v)), translation);
+    return Object.entries(params).reduce(
+      (acc, [k, v]) => acc.replace(`{${k}}`, String(v)),
+      translation
+    );
   };
   const [datasets, setDatasets] = useState<DatasetInfo[]>([]);
   const [name, setName] = useState("");
@@ -81,13 +98,26 @@ export default function DatasetsPanel() {
       const files = await open({
         multiple: false,
         filters: [
-          { name: "Documents", extensions: ["txt", "md", "pdf", "html", "htm", "json", "csv", "log", "docx"] },
+          {
+            name: "Documents",
+            extensions: [
+              "txt",
+              "md",
+              "pdf",
+              "html",
+              "htm",
+              "json",
+              "csv",
+              "log",
+              "docx",
+            ],
+          },
           { name: "All Files", extensions: ["*"] },
         ],
       });
-      
+
       if (!files) return;
-      
+
       const filePath = Array.isArray(files) ? files[0] : files;
       const res = await ingestFile(selected, filePath);
       setMsg(t("rag.ingest.success", { count: res.chunks }));
@@ -280,7 +310,10 @@ export default function DatasetsPanel() {
           {ingestMode === "file" && (
             <div className="space-y-3">
               <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center">
-                <FileText size={48} className="mx-auto text-gray-400 dark:text-gray-500 mb-3" />
+                <FileText
+                  size={48}
+                  className="mx-auto text-gray-400 dark:text-gray-500 mb-3"
+                />
                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
                   {t("rag.ingest.fileDescription")}
                 </p>
@@ -331,9 +364,15 @@ export default function DatasetsPanel() {
           }`}
         >
           {msgType === "success" ? (
-            <CheckCircle size={20} className="text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
+            <CheckCircle
+              size={20}
+              className="text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5"
+            />
           ) : (
-            <XCircle size={20} className="text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
+            <XCircle
+              size={20}
+              className="text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5"
+            />
           )}
           <p
             className={`text-sm ${

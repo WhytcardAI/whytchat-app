@@ -8,6 +8,16 @@
   "home": {
     "title": "WhytChat",
     "poweredBy": "unterstützt von WhytCard",
+    "shop": "Laden",
+    "shopTitle": "Das Projekt unterstützen",
+    "shopDescription": "Ihre Unterstützung hilft, datenschutzfreundliche Tools zu entwickeln.",
+    "shopCoffeeTitle": "Kauf mir einen Kaffee",
+    "shopCoffeeDesc": "Ein kleiner Kaffee für lange Entwicklungsnrnächte",
+    "shopHappinessTitle": "Kauf mir Glück",
+    "shopHappinessDesc": "Ein Moment der Freude und Motivation",
+    "shopHopeTitle": "Kauf mir Hoffnung",
+    "shopHopeDesc": "Hoffnung auf eine Zukunft, in der KI der Menschheit dient",
+    "shopGift": "Kauf mir ein Geschenk",
     "continue": "Weiter",
     "new": "Neu",
     "knowledge": "Wissensbasis",
@@ -31,7 +41,10 @@
     "aboutDiscordButton": "Discord beitreten",
     "aboutDonation": "Entwicklung unterstützen",
     "aboutDonationDesc": "WhytChat wird von einem Einzelentwickler entwickelt. Ihre Unterstützung hilft, die Anwendung zu verbessern.",
-    "aboutDonationButton": "Spenden"
+    "aboutDonationButton": "Spenden",
+    "aboutDonationCoffee": "Kauf mir einen Kaffee",
+    "aboutDonationHappiness": "Kauf mir Glück",
+    "aboutDonationHope": "Kauf mir Hoffnung"
   },
   "conversationsList": {
     "title": "Meine Gespräche",
@@ -299,7 +312,6 @@
     "promptWriting": "Sie sind ein Schreibassistent. Verbessern Sie Klarheit, Kohärenz und Wirkung von Texten. Respektieren Sie den gewünschten Ton und Stil. Schlagen Sie Umformulierungen vor und identifizieren Sie argumentative Schwächen.",
     "promptAnalysis": "Sie sind ein rigoroser Analyst. Fassen Sie Informationen strukturiert zusammen, identifizieren Sie Trends und Inkonsistenzen. Präsentieren Sie faktische Schlussfolgerungen mit ihren Grenzen. Bevorzugen Sie überprüfbare Daten."
   },
-
 
   "serverStatus": {
     "ready": "KI-Server betriebsbereit und empfangsbereit.",

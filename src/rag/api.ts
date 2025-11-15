@@ -15,29 +15,37 @@ export async function deleteDataset(id: string): Promise<void> {
 
 export async function ingestText(
   datasetId: string,
-  text: string,
+  text: string
 ): Promise<IngestResult> {
-  return invoke<IngestResult>("rag_ingest_text", { args: { dataset_id: datasetId, text } });
+  return invoke<IngestResult>("rag_ingest_text", {
+    args: { dataset_id: datasetId, text },
+  });
 }
 
 export async function ingestFile(
   datasetId: string,
-  filePath: string,
+  filePath: string
 ): Promise<IngestResult> {
-  return invoke<IngestResult>("rag_ingest_file", { args: { dataset_id: datasetId, file_path: filePath } });
+  return invoke<IngestResult>("rag_ingest_file", {
+    args: { dataset_id: datasetId, file_path: filePath },
+  });
 }
 
 export async function ingestUrl(
   datasetId: string,
-  url: string,
+  url: string
 ): Promise<IngestResult> {
-  return invoke<IngestResult>("rag_ingest_url", { args: { dataset_id: datasetId, url } });
+  return invoke<IngestResult>("rag_ingest_url", {
+    args: { dataset_id: datasetId, url },
+  });
 }
 
 export async function ragQuery(
   datasetId: string,
   query: string,
-  k = 5,
+  k = 5
 ): Promise<RagHit[]> {
-  return invoke<RagHit[]>("rag_query", { args: { dataset_id: datasetId, query, k } });
+  return invoke<RagHit[]>("rag_query", {
+    args: { dataset_id: datasetId, query, k },
+  });
 }

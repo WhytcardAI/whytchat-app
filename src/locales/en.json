@@ -8,6 +8,16 @@
   "home": {
     "title": "WhytChat",
     "poweredBy": "powered by WhytCard",
+    "shop": "Shop",
+    "shopTitle": "Support the project",
+    "shopDescription": "Your support helps develop privacy-respecting tools.",
+    "shopCoffeeTitle": "Buy me a coffee",
+    "shopCoffeeDesc": "A small coffee for long development nights",
+    "shopHappinessTitle": "Buy me happiness",
+    "shopHappinessDesc": "A moment of joy and motivation",
+    "shopHopeTitle": "Buy me hope",
+    "shopHopeDesc": "Hope for a future where AI serves humanity",
+    "shopGift": "Buy me a gift",
     "continue": "Continue",
     "new": "New",
     "knowledge": "Knowledge Base",
@@ -31,7 +41,10 @@
     "aboutDiscordButton": "Join Discord",
     "aboutDonation": "Support Development",
     "aboutDonationDesc": "WhytChat is developed by a solo developer. Your support helps improve the application.",
-    "aboutDonationButton": "Make a Donation"
+    "aboutDonationButton": "Make a Donation",
+    "aboutDonationCoffee": "Buy me a coffee",
+    "aboutDonationHappiness": "Buy me happiness",
+    "aboutDonationHope": "Buy me hope"
   },
   "conversationsList": {
     "title": "My conversations",

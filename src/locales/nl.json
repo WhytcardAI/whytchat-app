@@ -8,6 +8,16 @@
   "home": {
     "title": "WhytChat",
     "poweredBy": "powered by WhytCard",
+    "shop": "Winkel",
+    "shopTitle": "Steun het project",
+    "shopDescription": "Uw steun helpt bij het ontwikkelen van privacy-respecterende tools.",
+    "shopCoffeeTitle": "Koop me een koffie",
+    "shopCoffeeDesc": "Een kleine koffie voor lange ontwikkelingsnachten",
+    "shopHappinessTitle": "Koop me geluk",
+    "shopHappinessDesc": "Een moment van vreugde en motivatie",
+    "shopHopeTitle": "Koop me hoop",
+    "shopHopeDesc": "Hoop op een toekomst waarin AI de mensheid dient",
+    "shopGift": "Koop me een cadeau",
     "continue": "Doorgaan",
     "new": "Nieuw",
     "knowledge": "Kennisbasis",
@@ -31,7 +41,10 @@
     "aboutDiscordButton": "Doe mee met Discord",
     "aboutDonation": "Ondersteun ontwikkeling",
     "aboutDonationDesc": "WhytChat wordt ontwikkeld door een solo-ontwikkelaar. Jouw steun helpt de applicatie te verbeteren.",
-    "aboutDonationButton": "Doe een donatie"
+    "aboutDonationButton": "Doe een donatie",
+    "aboutDonationCoffee": "Koop me een koffie",
+    "aboutDonationHappiness": "Koop me geluk",
+    "aboutDonationHope": "Koop me hoop"
   },
   "conversationsList": {
     "title": "Mijn Gesprekken",

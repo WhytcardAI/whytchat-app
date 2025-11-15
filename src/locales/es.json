@@ -8,6 +8,16 @@
   "home": {
     "title": "WhytChat",
     "poweredBy": "desarrollado por WhytCard",
+    "shop": "Tienda",
+    "shopTitle": "Apoyar el proyecto",
+    "shopDescription": "Tu apoyo ayuda a desarrollar herramientas que respetan tu privacidad.",
+    "shopCoffeeTitle": "Cómprame un café",
+    "shopCoffeeDesc": "Un pequeño café para las largas noches de desarrollo",
+    "shopHappinessTitle": "Cómprame felicidad",
+    "shopHappinessDesc": "Un momento de alegría y motivación",
+    "shopHopeTitle": "Cómprame esperanza",
+    "shopHopeDesc": "Esperanza de un futuro donde la IA sirve a la humanidad",
+    "shopGift": "Cómprame un regalo",
     "continue": "Continuar",
     "new": "Nuevo",
     "knowledge": "Base de Conocimiento",
@@ -31,7 +41,10 @@
     "aboutDiscordButton": "Unirse a Discord",
     "aboutDonation": "Apoyar el desarrollo",
     "aboutDonationDesc": "WhytChat es desarrollado por un desarrollador solitario. Tu apoyo ayuda a mejorar la aplicación.",
-    "aboutDonationButton": "Hacer una donación"
+    "aboutDonationButton": "Hacer una donación",
+    "aboutDonationCoffee": "Cómprame un café",
+    "aboutDonationHappiness": "Cómprame felicidad",
+    "aboutDonationHope": "Cómprame esperanza"
   },
   "conversationsList": {
     "title": "Mis Conversaciones",

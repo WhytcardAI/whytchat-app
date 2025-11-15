@@ -20,6 +20,9 @@ import {
   Heart,
   ExternalLink,
   Database,
+  Coffee,
+  Sparkles,
+  ShoppingBag,
 } from "lucide-react";
 
 type HomeProps = {
@@ -34,6 +37,7 @@ export function Home({ onNavigate }: HomeProps) {
   const [showInstallModal, setShowInstallModal] = useState(false);
   const [serverInstalled, setServerInstalled] = useState(true);
   const [showAbout, setShowAbout] = useState(false);
+  const [showShop, setShowShop] = useState(false);
 
   useEffect(() => {
     const handleLocaleChange = () => {
@@ -48,7 +52,7 @@ export function Home({ onNavigate }: HomeProps) {
       try {
         const conversations =
           await invoke<Array<{ id: number; name: string }>>(
-            "list_conversations",
+            "list_conversations"
           );
         setHasConversations(conversations.length > 0);
       } catch (error) {
@@ -64,7 +68,7 @@ export function Home({ onNavigate }: HomeProps) {
     (async () => {
       try {
         const status = await invoke<{ installed: boolean }>(
-          "check_llama_server",
+          "check_llama_server"
         );
         setServerInstalled(status.installed);
         if (!status.installed) {
@@ -112,7 +116,7 @@ export function Home({ onNavigate }: HomeProps) {
           </select>
         </div>
 
-        {!showAbout ? (
+        {!showAbout && !showShop ? (
           /* Main Content */
           <div className="text-center space-y-8">
             {/* Logo / Title */}
@@ -158,13 +162,19 @@ export function Home({ onNavigate }: HomeProps) {
               </button>
             </div>
 
-            {/* Settings & About links */}
+            {/* Settings, Shop & About links */}
             <div className="pt-2 flex items-center justify-center gap-6">
               <button
                 onClick={() => setShowAbout(true)}
                 className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 font-medium flex items-center gap-2 transition-colors"
               >
                 <Info size={16} /> {i18n.t("home.about")}
+              </button>
+              <button
+                onClick={() => setShowShop(true)}
+                className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 font-medium flex items-center gap-2 transition-colors"
+              >
+                <ShoppingBag size={16} /> {i18n.t("home.shop")}
               </button>
               <button
                 onClick={() => onNavigate("settings")}
@@ -181,7 +191,7 @@ export function Home({ onNavigate }: HomeProps) {
               </p>
             </div>
           </div>
-        ) : (
+        ) : showAbout ? (
           /* About Section */
           <div className="space-y-6">
             {/* Back button */}
@@ -343,19 +353,171 @@ export function Home({ onNavigate }: HomeProps) {
                     <h3 className="font-semibold text-gray-900 dark:text-white mb-1">
                       {i18n.t("home.aboutDonation")}
                     </h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
                       {i18n.t("home.aboutDonationDesc")}
                     </p>
-                    <a
-                      href="https://donate.stripe.com/14AdRa6u90dI5G42LS9k400"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-lg transition-colors"
-                    >
-                      {i18n.t("home.aboutDonationButton")}
-                      <ExternalLink size={14} />
-                    </a>
+                    <div className="flex gap-2">
+                      <a
+                        href="https://donate.stripe.com/5kQ3cw8Ch7GafgEfyE9k401"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white text-sm font-medium rounded-lg transition-all"
+                        title={i18n.t("home.aboutDonationCoffee")}
+                      >
+                        <Coffee size={14} />
+                        <span className="hidden sm:inline">
+                          {i18n.t("home.aboutDonationCoffee")}
+                        </span>
+                      </a>
+                      <a
+                        href="https://donate.stripe.com/28E6oI05LgcG8Sg1HO9k402"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-600 hover:to-rose-700 text-white text-sm font-medium rounded-lg transition-all"
+                        title={i18n.t("home.aboutDonationHappiness")}
+                      >
+                        <Heart size={14} />
+                        <span className="hidden sm:inline">
+                          {i18n.t("home.aboutDonationHappiness")}
+                        </span>
+                      </a>
+                      <a
+                        href="https://donate.stripe.com/aFafZi7ydaSm9Wk86c9k403"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white text-sm font-medium rounded-lg transition-all"
+                        title={i18n.t("home.aboutDonationHope")}
+                      >
+                        <Sparkles size={14} />
+                        <span className="hidden sm:inline">
+                          {i18n.t("home.aboutDonationHope")}
+                        </span>
+                      </a>
+                    </div>
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : (
+          /* Shop Section */
+          <div className="space-y-6">
+            {/* Back button */}
+            <button
+              onClick={() => setShowShop(false)}
+              className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 font-medium flex items-center gap-2 transition-colors"
+            >
+              ← {i18n.t("home.title")}
+            </button>
+
+            {/* Shop Card */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-700">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
+                <ShoppingBag size={24} />
+                {i18n.t("home.shopTitle")}
+              </h2>
+
+              <div className="space-y-6">
+                {/* Shop Description */}
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  {i18n.t("home.shopDescription")}
+                </p>
+
+                {/* Donation Options */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  {/* Coffee */}
+                  <a
+                    href="https://donate.stripe.com/5kQ3cw8Ch7GafgEfyE9k401"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group relative overflow-hidden rounded-xl p-6 flex flex-col items-center bg-white dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600 hover:border-transparent hover:shadow-xl transition-all duration-300"
+                  >
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br from-amber-500 to-orange-600" />
+                    
+                    <div className="relative z-10 w-full flex flex-col items-center">
+                      <div className="flex items-center gap-4 mb-4">
+                        <div className="w-16 h-16 rounded-full flex items-center justify-center bg-gradient-to-br from-amber-500 to-orange-600 text-white transition-all duration-300 group-hover:scale-110">
+                          <Coffee size={24} />
+                        </div>
+                        <div className="text-3xl font-bold bg-gradient-to-r from-amber-500 to-orange-600 bg-clip-text text-transparent">
+                          5€
+                        </div>
+                      </div>
+                      <h3 className="text-lg font-semibold mb-2 bg-gradient-to-r from-amber-500 to-orange-600 bg-clip-text text-transparent group-hover:text-white transition-all duration-300">
+                        {i18n.t("home.shopCoffeeTitle")}
+                      </h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 group-hover:text-white/90 text-center transition-colors">
+                        {i18n.t("home.shopCoffeeDesc")}
+                      </p>
+                    </div>
+                  </a>
+
+                  {/* Happiness */}
+                  <a
+                    href="https://donate.stripe.com/28E6oI05LgcG8Sg1HO9k402"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group relative overflow-hidden rounded-xl p-6 flex flex-col items-center bg-white dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600 hover:border-transparent hover:shadow-xl transition-all duration-300"
+                  >
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br from-pink-500 to-rose-600" />
+                    
+                    <div className="relative z-10 w-full flex flex-col items-center">
+                      <div className="flex items-center gap-4 mb-4">
+                        <div className="w-16 h-16 rounded-full flex items-center justify-center bg-gradient-to-br from-pink-500 to-rose-600 text-white transition-all duration-300 group-hover:scale-110">
+                          <Heart size={24} />
+                        </div>
+                        <div className="text-3xl font-bold bg-gradient-to-r from-pink-500 to-rose-600 bg-clip-text text-transparent">
+                          50€
+                        </div>
+                      </div>
+                      <h3 className="text-lg font-semibold mb-2 bg-gradient-to-r from-pink-500 to-rose-600 bg-clip-text text-transparent group-hover:text-white transition-all duration-300">
+                        {i18n.t("home.shopHappinessTitle")}
+                      </h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 group-hover:text-white/90 text-center transition-colors">
+                        {i18n.t("home.shopHappinessDesc")}
+                      </p>
+                    </div>
+                  </a>
+
+                  {/* Hope */}
+                  <a
+                    href="https://donate.stripe.com/aFafZi7ydaSm9Wk86c9k403"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group relative overflow-hidden rounded-xl p-6 flex flex-col items-center bg-white dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600 hover:border-transparent hover:shadow-xl transition-all duration-300"
+                  >
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br from-blue-500 to-indigo-600" />
+                    
+                    <div className="relative z-10 w-full flex flex-col items-center">
+                      <div className="flex items-center gap-4 mb-4">
+                        <div className="w-16 h-16 rounded-full flex items-center justify-center bg-gradient-to-br from-blue-500 to-indigo-600 text-white transition-all duration-300 group-hover:scale-110">
+                          <Sparkles size={24} />
+                        </div>
+                        <div className="text-3xl font-bold bg-gradient-to-r from-blue-500 to-indigo-600 bg-clip-text text-transparent">
+                          200€
+                        </div>
+                      </div>
+                      <h3 className="text-lg font-semibold mb-2 bg-gradient-to-r from-blue-500 to-indigo-600 bg-clip-text text-transparent group-hover:text-white transition-all duration-300">
+                        {i18n.t("home.shopHopeTitle")}
+                      </h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 group-hover:text-white/90 text-center transition-colors">
+                        {i18n.t("home.shopHopeDesc")}
+                      </p>
+                    </div>
+                  </a>
+                </div>
+
+                {/* Buy me a gift button */}
+                <div className="flex justify-center pt-4">
+                  <a
+                    href="https://donate.stripe.com/dR66oI8Ch7Ga0fKbII"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white text-lg font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all"
+                  >
+                    <Heart size={20} />
+                    {i18n.t("home.shopGift")}
+                  </a>
                 </div>
               </div>
             </div>
