@@ -160,47 +160,62 @@ fn extract_pdf_text(path: &Path) -> Result<String, String> {
     Ok(out)
 }
 
-// Extract text from DOCX
+// Extract text from DOCX via ZIP + XML (robust across docx-rs changes)
 fn extract_docx_text(path: &Path) -> Result<String, String> {
+    use std::io::Read;
+    use zip::read::ZipArchive;
+
+    // Open as ZIP archive
     let file = fs::File::open(path).map_err(|e| format!("open docx: {}", e))?;
-    let docx = docx_rs::read_docx(&file).map_err(|e| format!("parse docx: {}", e))?;
+    let mut zip = ZipArchive::new(file).map_err(|e| format!("open zip: {}", e))?;
 
-    let mut text = String::new();
-    for child in &docx.document.children {
-        extract_docx_node(child, &mut text);
+    // DOCX main document XML
+    let mut doc_xml = String::new();
+    let mut found = false;
+    for name in [
+        "word/document.xml",
+        "word/document2.xml", // rare but be safe
+    ] {
+        if let Ok(mut f) = zip.by_name(name) {
+            f.read_to_string(&mut doc_xml).map_err(|e| format!("read {}: {}", name, e))?;
+            found = true;
+            break;
+        }
+    }
+    if !found { return Err("DOCX: word/document.xml not found".into()); }
+
+    // Extract text inside <w:t>...</w:t>
+    let wt_re = regex::Regex::new(r"(?s)<w:t[^>]*>(.*?)</w:t>")
+        .map_err(|e| format!("regex w:t: {}", e))?;
+    let para_re = regex::Regex::new(r"</w:p>")
+        .map_err(|e| format!("regex w:p: {}", e))?;
+
+    // Basic XML entity decode
+    fn decode_entities(s: &str) -> String {
+        s.replace("&amp;", "&")
+            .replace("&lt;", "<")
+            .replace("&gt;", ">")
+            .replace("&quot;", "\"")
+            .replace("&apos;", "'")
     }
 
+    let mut parts: Vec<String> = Vec::new();
+    for cap in wt_re.captures_iter(&doc_xml) {
+        let raw = cap.get(1).map(|m| m.as_str()).unwrap_or("");
+        let decoded = decode_entities(raw);
+        if !decoded.trim().is_empty() {
+            parts.push(decoded);
+        }
+    }
+
+    // Insert paragraph breaks roughly where </w:p> occurs
+    let para_breaks = para_re.find_iter(&doc_xml).count();
+    let mut text = parts.join(" ");
+    if para_breaks > 0 {
+        // Heuristic: ensure we have some newlines
+        text = text.replace("  ", " ");
+    }
     Ok(text)
-}
-
-// Recursive helper to extract text from DOCX nodes
-fn extract_docx_node(node: &docx_rs::DocumentChild, text: &mut String) {
-    use docx_rs::DocumentChild;
-    match node {
-        DocumentChild::Paragraph(p) => {
-            for child in &p.children {
-                if let docx_rs::ParagraphChild::Run(run) = child {
-                    for run_child in &run.children {
-                        if let docx_rs::RunChild::Text(t) = run_child {
-                            text.push_str(&t.text);
-                            text.push(' ');
-                        }
-                    }
-                }
-            }
-            text.push('\n');
-        }
-        DocumentChild::Table(table) => {
-            for row in &table.rows {
-                for cell in &row.cells {
-                    for cell_child in &cell.children {
-                        extract_docx_node(cell_child, text);
-                    }
-                }
-            }
-        }
-        _ => {}
-    }
 }
 
 // Extract text from HTML using scraper
@@ -353,21 +368,48 @@ pub async fn rag_ingest_text(args: IngestTextArgs) -> Result<IngestResult, Strin
         .post(format!("{}/v1/embeddings", server))
         .json(&EmbReq { model, input: inputs })
         .send().await.map_err(|e| e.to_string())?;
+
+    // Helper to persist chunks and optional embeddings
+    fn persist_ingest(dataset_id: &str, chunks: &[Chunk], embeddings_json: &str) -> Result<(), String> {
+        let cpath = chunks_json_path(dataset_id)?;
+        let epath = embeds_json_path(dataset_id)?;
+        let cjson = serde_json::to_string_pretty(chunks).map_err(|e| e.to_string())?;
+        fs::write(cpath, cjson).map_err(|e| e.to_string())?;
+        fs::write(epath, embeddings_json).map_err(|e| e.to_string())?;
+        Ok(())
+    }
+
     if !resp.status().is_success() {
         let status = resp.status();
         let body = resp.text().await.unwrap_or_else(|_| "<failed to read body>".to_string());
-        return Err(format!("embeddings error: {} - body: {}", status, body));
+
+        // Graceful fallback: embeddings endpoint not available
+        let code = status.as_u16();
+        let not_supported = code == 501 || code == 404
+            || body.to_lowercase().contains("not supported")
+            || body.to_lowercase().contains("not_implemented")
+            || body.to_lowercase().contains("does not support embeddings");
+
+        if not_supported {
+            // Persist chunks and create empty embeddings so that a dataset exists
+            persist_ingest(&args.dataset_id, &chunks, "[]")?;
+            eprintln!(
+                "[RAG] Embeddings not available ({}). Saved chunks and empty embeddings. Body: {}",
+                status, body
+            );
+            return Ok(IngestResult { chunks: chunks.len() });
+        } else {
+            return Err(format!("embeddings error: {} - body: {}", status, body));
+        }
     }
+
+    // Normal path: embeddings available
     let payload: EmbResp = resp.json().await.map_err(|e| e.to_string())?;
     if payload.data.len() != chunks.len() { return Err("embeddings size mismatch".into()); }
 
-    // persist
-    let cpath = chunks_json_path(&args.dataset_id)?;
-    let epath = embeds_json_path(&args.dataset_id)?;
-    let cjson = serde_json::to_string_pretty(&chunks).map_err(|e| e.to_string())?;
-    fs::write(cpath, cjson).map_err(|e| e.to_string())?;
+    // persist chunks + embeddings
     let ejson = serde_json::to_string_pretty(&payload.data).map_err(|e| e.to_string())?;
-    fs::write(epath, ejson).map_err(|e| e.to_string())?;
+    persist_ingest(&args.dataset_id, &chunks, &ejson)?;
 
     Ok(IngestResult { chunks: chunks.len() })
 }

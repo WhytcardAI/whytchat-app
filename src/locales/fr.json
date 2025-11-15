@@ -79,7 +79,9 @@
     "group": "Groupe",
     "serverChecking": "Vérification du statut du serveur IA...",
     "serverStarting": "Démarrage du serveur IA (cela peut prendre 5-10 secondes)...",
-    "serverError": "Échec du démarrage du serveur IA"
+    "serverError": "Échec du démarrage du serveur IA",
+    "initializing": "Initialisation en cours...",
+    "loadingModel": "Chargement du modèle IA et démarrage du serveur"
   },
   "shortcuts": {
     "title": "Raccourcis clavier",

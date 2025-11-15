@@ -63,23 +63,25 @@
     "daysAgo": "{0}d temu"
   },
   "chat": {
-    "title": "Czat",
-    "placeholder": "Wpisz swoją wiadomość...",
+    "title": "Chat",
+    "placeholder": "Napisz wiadomość...",
     "send": "Wyślij",
-    "thinking": "Myślenie...",
+    "thinking": "Myślę...",
     "newChat": "Nowa rozmowa",
-    "clearChat": "Wyczyść rozmowę",
+    "clearChat": "Wyczyść czat",
     "copyMessage": "Kopiuj",
-    "regenerate": "Wygeneruj ponownie",
+    "regenerate": "Regeneruj",
     "stop": "Zatrzymaj",
     "you": "Ty",
     "assistant": "Asystent",
-    "emptyState": "Rozpocznij rozmowę wysyłając wiadomość",
+    "emptyState": "Rozpocznij rozmowę, wysyłając wiadomość",
     "model": "Model",
     "group": "Grupa",
     "serverChecking": "Sprawdzanie statusu serwera AI...",
-    "serverStarting": "Uruchamianie serwera AI (może zająć 5-10 sekund)...",
-    "serverError": "Nie udało się uruchomić serwera AI"
+    "serverStarting": "Uruchamianie serwera AI (może to potrwać 5-10 sekund)...",
+    "serverError": "Nie udało się uruchomić serwera AI",
+    "initializing": "Inicjalizacja...",
+    "loadingModel": "Ładowanie modelu AI i uruchamianie serwera"
   },
   "shortcuts": {
     "title": "Skróty klawiszowe",

@@ -50,10 +50,15 @@ type ChatProps = {
 };
 
 export function Chat({ conversationId, onNavigate }: ChatProps) {
-  const { isReady: serverReady, startForConversation } = useServer();
+  const {
+    isReady: serverReady,
+    startForConversation,
+    stopServer,
+  } = useServer();
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isInitializing, setIsInitializing] = useState(false);
   const [conversationName, setConversationName] = useState("");
   const [conversationGroup, setConversationGroup] = useState<string | null>(
     null
@@ -98,6 +103,7 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
   const [isUserAtBottom, setIsUserAtBottom] = useState<boolean>(true);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
+  const serverStartedRef = useRef<boolean>(false);
 
   // Chat-specific keyboard shortcuts
   useKeyboardShortcuts([
@@ -198,19 +204,47 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
     })();
   }, [conversationId]);
 
-  // Ensure server is started for this conversation when entering the view
+  // Start server when entering conversation, stop when leaving
   useEffect(() => {
     if (!conversationId) return;
-    if (!serverReady) {
+
+    // Start server for this conversation if not already started
+    if (!serverStartedRef.current) {
+      serverStartedRef.current = true;
+      setIsInitializing(true);
       (async () => {
         try {
           await startForConversation(parseInt(conversationId));
         } catch (e) {
-          console.error("Failed to start server for conversation:", e);
+          console.error("[Chat] Failed to start server for conversation:", e);
+          serverStartedRef.current = false;
+          setIsInitializing(false);
         }
       })();
     }
-  }, [conversationId, serverReady, startForConversation]);
+
+    // Cleanup: stop server when leaving conversation (unmount only)
+    return () => {
+      if (serverStartedRef.current) {
+        serverStartedRef.current = false;
+        setIsInitializing(false);
+        stopServer().catch((e) => {
+          console.error(
+            "[Chat] Failed to stop server on conversation exit:",
+            e
+          );
+        });
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [conversationId]);
+
+  // Hide loading when server becomes ready
+  useEffect(() => {
+    if (serverReady) {
+      setIsInitializing(false);
+    }
+  }, [serverReady]);
 
   const handleSend = async () => {
     if (!input.trim() || isLoading || !conversationId || !serverReady) return;
@@ -587,7 +621,21 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
         ref={messagesContainerRef}
         className={`flex-1 overflow-y-auto ${overlayEnabled ? "px-3 py-3 space-y-3" : "px-6 py-6 space-y-4"}`}
       >
-        {messages.length === 0 ? (
+        {isInitializing ? (
+          <div className="h-full flex items-center justify-center">
+            <div className="text-center text-gray-500 dark:text-gray-400">
+              <div className="inline-block p-6 bg-gray-100 dark:bg-gray-800 rounded-full mb-4">
+                <Loader2 size={64} className="text-blue-500 animate-spin" />
+              </div>
+              <p className="text-lg font-medium">
+                {i18n.t("chat.initializing")}
+              </p>
+              <p className="text-sm mt-2 text-gray-400">
+                {i18n.t("chat.loadingModel")}
+              </p>
+            </div>
+          </div>
+        ) : messages.length === 0 ? (
           <div className="h-full flex items-center justify-center">
             <div className="text-center text-gray-500 dark:text-gray-400">
               <div className="inline-block p-6 bg-gray-100 dark:bg-gray-800 rounded-full mb-4">

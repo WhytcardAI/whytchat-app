@@ -64,11 +64,11 @@
   },
   "chat": {
     "title": "Chat",
-    "placeholder": "Type your message...",
+    "placeholder": "Write your message...",
     "send": "Send",
     "thinking": "Thinking...",
     "newChat": "New conversation",
-    "clearChat": "Clear conversation",
+    "clearChat": "Clear chat",
     "copyMessage": "Copy",
     "regenerate": "Regenerate",
     "stop": "Stop",
@@ -79,7 +79,9 @@
     "group": "Group",
     "serverChecking": "Checking AI server status...",
     "serverStarting": "Starting AI server (this may take 5-10 seconds)...",
-    "serverError": "Failed to start AI server"
+    "serverError": "Failed to start AI server",
+    "initializing": "Initializing...",
+    "loadingModel": "Loading AI model and starting server"
   },
   "shortcuts": {
     "title": "Keyboard Shortcuts",

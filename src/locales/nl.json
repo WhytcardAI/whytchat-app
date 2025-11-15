@@ -79,7 +79,9 @@
     "group": "Groep",
     "serverChecking": "AI server status controleren...",
     "serverStarting": "AI server starten (dit kan 5-10 seconden duren)...",
-    "serverError": "Kon AI server niet starten"
+    "serverError": "Kon AI server niet starten",
+    "initializing": "Initialiseren...",
+    "loadingModel": "AI-model laden en server starten"
   },
   "shortcuts": {
     "title": "Sneltoetsen",

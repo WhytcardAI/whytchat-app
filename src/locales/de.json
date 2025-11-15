@@ -79,7 +79,9 @@
     "group": "Gruppe",
     "serverChecking": "Überprüfe KI-Serverstatus...",
     "serverStarting": "KI-Server wird gestartet (dies kann 5-10 Sekunden dauern)...",
-    "serverError": "KI-Server konnte nicht gestartet werden"
+    "serverError": "KI-Server konnte nicht gestartet werden",
+    "initializing": "Initialisierung...",
+    "loadingModel": "KI-Modell wird geladen und Server gestartet"
   },
   "shortcuts": {
     "title": "Tastenkombinationen",

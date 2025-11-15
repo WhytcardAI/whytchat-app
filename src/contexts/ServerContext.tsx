@@ -2,7 +2,6 @@ import type { ReactNode } from "react";
 import { createContext, useContext, useState, useEffect, useRef } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { getCurrentWindow } from "@tauri-apps/api/window";
-import { listen } from "@tauri-apps/api/event";
 
 type ServerStatus = "checking" | "starting" | "ready" | "stopped" | "error";
 
@@ -298,30 +297,24 @@ export function ServerProvider({ children }: { children: ReactNode }) {
 
         if (serverStatus.running) {
           console.log(
-            "[ServerContext] Server already running, checking health..."
+            "[ServerContext] Server already running from previous session, stopping it..."
           );
           try {
-            const isHealthy = await invoke<boolean>(
-              "health_check_llama_server"
+            await invoke("stop_server_process");
+            console.log(
+              "[ServerContext] Previous server instance stopped successfully"
             );
-            if (isHealthy) {
-              console.log("[ServerContext] Server is healthy!");
-              setStatus("ready");
-            } else {
-              console.warn("[ServerContext] Server running but not healthy");
-              setStatus("stopped");
-            }
-          } catch (healthErr) {
-            console.error("[ServerContext] Health check failed:", healthErr);
-            setStatus("stopped");
+          } catch (stopErr) {
+            console.error(
+              "[ServerContext] Failed to stop previous server:",
+              stopErr
+            );
           }
-          return;
+          setStatus("stopped");
         }
 
-        // Server installed but not running - check for models but DON'T auto-start
-        console.log(
-          "[ServerContext] Server installed but not running. Checking for models..."
-        );
+        // Check for models but DON'T auto-start
+        console.log("[ServerContext] Checking for installed models...");
         try {
           const pack = await invoke<{
             id: string;
@@ -406,65 +399,8 @@ export function ServerProvider({ children }: { children: ReactNode }) {
       }
     })();
 
-    // Listen for model installation completion to start server without restart
-    (async () => {
-      try {
-        const unlisten = await listen<string>(
-          "llama-server-status",
-          async (event) => {
-            if (event.payload === "installed") {
-              console.log(
-                "[ServerContext] Model installed event received -> starting server"
-              );
-              try {
-                await startServer();
-              } catch (e) {
-                console.error(
-                  "[ServerContext] Failed to auto-start after install:",
-                  e
-                );
-              }
-            }
-          }
-        );
-        cleanupModelInstalled = () => {
-          unlisten();
-        };
-      } catch (e) {
-        console.error(
-          "[ServerContext] Failed to listen for llama-server-status:",
-          e
-        );
-      }
-    })();
-
-    // Also react when a model pack finishes downloading
-    (async () => {
-      try {
-        const unlisten = await listen<string>(
-          "model-installed",
-          async (event) => {
-            console.log("[ServerContext] model-installed:", event.payload);
-            try {
-              await startServer();
-            } catch (e) {
-              console.error(
-                "[ServerContext] Failed to auto-start after model-installed:",
-                e
-              );
-            }
-          }
-        );
-        cleanupPackInstalled = () => {
-          unlisten();
-        };
-      } catch (e) {
-        console.error(
-          "[ServerContext] Failed to listen for model-installed:",
-          e
-        );
-      }
-    })();
+    // Model installation listeners removed - server starts only when entering a conversation
+    // No auto-start after download to save resources
 
     return () => {
       if (cleanupWindowListener) {
@@ -477,7 +413,7 @@ export function ServerProvider({ children }: { children: ReactNode }) {
         cleanupPackInstalled();
       }
     };
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <ServerContext.Provider

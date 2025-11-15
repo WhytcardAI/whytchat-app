@@ -64,11 +64,11 @@
   },
   "chat": {
     "title": "Chat",
-    "placeholder": "Digite sua mensagem...",
+    "placeholder": "Escreva sua mensagem...",
     "send": "Enviar",
     "thinking": "Pensando...",
     "newChat": "Nova conversa",
-    "clearChat": "Limpar conversa",
+    "clearChat": "Limpar chat",
     "copyMessage": "Copiar",
     "regenerate": "Regenerar",
     "stop": "Parar",
@@ -78,8 +78,10 @@
     "model": "Modelo",
     "group": "Grupo",
     "serverChecking": "Verificando status do servidor IA...",
-    "serverStarting": "Iniciando servidor IA (pode levar 5-10 segundos)...",
-    "serverError": "Falha ao iniciar o servidor IA"
+    "serverStarting": "Iniciando servidor IA (isso pode levar 5-10 segundos)...",
+    "serverError": "Falha ao iniciar servidor IA",
+    "initializing": "Inicializando...",
+    "loadingModel": "Carregando modelo IA e iniciando servidor"
   },
   "shortcuts": {
     "title": "Atalhos de teclado",

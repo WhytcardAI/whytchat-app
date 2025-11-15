@@ -66,9 +66,9 @@
     "title": "Chat",
     "placeholder": "Scrivi il tuo messaggio...",
     "send": "Invia",
-    "thinking": "Pensando...",
+    "thinking": "Sto pensando...",
     "newChat": "Nuova conversazione",
-    "clearChat": "Cancella conversazione",
+    "clearChat": "Cancella chat",
     "copyMessage": "Copia",
     "regenerate": "Rigenera",
     "stop": "Ferma",
@@ -77,9 +77,11 @@
     "emptyState": "Inizia una conversazione inviando un messaggio",
     "model": "Modello",
     "group": "Gruppo",
-    "serverChecking": "Verificando stato server IA...",
-    "serverStarting": "Avviando server IA (potrebbe richiedere 5-10 secondi)...",
-    "serverError": "Impossibile avviare il server IA"
+    "serverChecking": "Verifica dello stato del server IA...",
+    "serverStarting": "Avvio del server IA (potrebbe richiedere 5-10 secondi)...",
+    "serverError": "Impossibile avviare il server IA",
+    "initializing": "Inizializzazione...",
+    "loadingModel": "Caricamento modello IA e avvio server"
   },
   "shortcuts": {
     "title": "Scorciatoie da tastiera",
