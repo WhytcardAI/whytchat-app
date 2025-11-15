@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@source "../node_modules/streamdown/dist/index.js";
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  /* Transparent background so the Tauri transparent window shows through in overlay mode */
+  background: transparent;
+  @apply antialiased;
+}

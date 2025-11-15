@@ -1,0 +1,11 @@
+# Models downloaded by users
+models/
+
+# SQLite database
+data/
+
+# llama-server binaries
+bin/
+
+# Temporary download files
+temp/

@@ -1,0 +1,417 @@
+{
+  "app": {
+    "title": "WhytChat"
+  },
+  "common": {
+    "loading": "Laden..."
+  },
+  "home": {
+    "title": "WhytChat",
+    "poweredBy": "unterstützt von WhytCard",
+    "continue": "Weiter",
+    "new": "Neu",
+    "download": "Herunterladen",
+    "settings": "Einstellungen",
+    "noConversations": "Keine Gespräche verfügbar",
+    "about": "Über",
+    "aboutTitle": "Wie verwendet man WhytChat?",
+    "aboutPrivacy": "Vollständige Privatsphäre",
+    "aboutPrivacyDesc": "Alle Ihre Gespräche bleiben auf Ihrem Computer. Keine Daten werden online gesendet.",
+    "aboutLocal": "Lokale KI",
+    "aboutLocalDesc": "Die KI läuft direkt auf Ihrem Gerät dank llama.cpp.",
+    "aboutModels": "Anpassbare Modelle",
+    "aboutModelsDesc": "Laden Sie verschiedene KI-Modelle je nach Bedarf herunter (Code, Diskussion, Analyse).",
+    "aboutUsage": "Einfache Verwendung",
+    "aboutUsageDesc": "1. Erstellen Sie eine neue Konversation\n2. Wählen Sie einen Typ (Code, Lernen, usw.)\n3. Chatten Sie privat mit der KI",
+    "aboutShortcuts": "Tastenkombinationen",
+    "aboutShortcutsDesc": "Strg+N: Neue Konversation\nStrg+H: Startseite\nStrg+L: Konversationsliste\nStrg+/: Hilfe",
+    "aboutDiscord": "Discord-Community",
+    "aboutDiscordDesc": "Treten Sie unserem Discord-Server bei, um zu chatten, Hilfe zu erhalten und Ihre Ideen zu teilen.",
+    "aboutDiscordButton": "Discord beitreten",
+    "aboutDonation": "Entwicklung unterstützen",
+    "aboutDonationDesc": "WhytChat wird von einem Einzelentwickler entwickelt. Ihre Unterstützung hilft, die Anwendung zu verbessern.",
+    "aboutDonationButton": "Spenden"
+  },
+  "conversationsList": {
+    "title": "Meine Gespräche",
+    "conversationsCount": "Gespräche",
+    "new": "Neu",
+    "all": "Alle",
+    "noGroup": "Ohne Gruppe",
+    "filterByGroup": "Nach Gruppe filtern",
+    "noConversations": "Keine Gespräche",
+    "createFirst": "Erstellen Sie Ihr erstes Gespräch, um mit der KI zu chatten",
+    "delete": "Löschen",
+    "confirmDelete": "Möchten Sie dieses Gespräch wirklich löschen?",
+    "justNow": "Gerade eben",
+    "minutesAgo": "vor {0} Min",
+    "hoursAgo": "vor {0}h",
+    "daysAgo": "vor {0}T"
+  },
+  "chat": {
+    "title": "Chat",
+    "placeholder": "Schreiben Sie Ihre Nachricht...",
+    "send": "Senden",
+    "thinking": "Denkt nach...",
+    "newChat": "Neues Gespräch",
+    "clearChat": "Gespräch löschen",
+    "copyMessage": "Kopieren",
+    "regenerate": "Regenerieren",
+    "stop": "Stoppen",
+    "you": "Sie",
+    "assistant": "Assistent",
+    "emptyState": "Starten Sie ein Gespräch, indem Sie eine Nachricht senden",
+    "model": "Modell",
+    "group": "Gruppe",
+    "serverChecking": "Überprüfe KI-Serverstatus...",
+    "serverStarting": "KI-Server wird gestartet (dies kann 5-10 Sekunden dauern)...",
+    "serverError": "KI-Server konnte nicht gestartet werden"
+  },
+  "shortcuts": {
+    "title": "Tastenkombinationen",
+    "navigation": "Navigation",
+    "chat": "Chat",
+    "general": "Allgemein",
+    "goHome": "Zur Startseite",
+    "newConversation": "Neue Konversation",
+    "listConversations": "Konversationsliste",
+    "sendMessage": "Nachricht senden",
+    "newLine": "Neue Zeile",
+    "clearChat": "Chat löschen",
+    "showShortcuts": "Tastenkombinationen anzeigen",
+    "closeModal": "Modal schließen"
+  },
+  "llamaInstall": {
+    "title": "KI-Engine Installation",
+    "subtitle": "Erforderlich für lokale KI-Generierung",
+    "description": "WhytChat benötigt den Download der llama-server Engine, um KI-Antworten lokal auf Ihrem Computer zu generieren.",
+    "size": "Download-Größe",
+    "platform": "Plattform",
+    "downloading": "Lade llama-server herunter...",
+    "extracting": "Extrahiere Dateien...",
+    "installed": "Installation abgeschlossen!",
+    "ready": "Bereit zur Installation",
+    "error": "Installation fehlgeschlagen",
+    "installing": "Installiere...",
+    "pleaseWait": "Bitte warten, dies kann einige Minuten dauern..."
+  },
+  "ui": {
+    "start": "Starten",
+    "toggleOverlay": "Overlay umschalten",
+    "loading": "Laden...",
+    "continue": "Weiter",
+    "download": "Herunterladen",
+    "ready": "Bereit",
+    "downloading": "Wird heruntergeladen",
+    "running": "Läuft",
+    "offline": "Offline",
+    "importPack": "Lokales Paket importieren",
+    "selected": "Ausgewählt",
+    "cancel": "Abbrechen",
+    "initializing": "Download wird initialisiert...",
+    "error": "Fehler",
+    "canceled": "Abgebrochen",
+    "pinOverlay": "Im Vordergrund fixieren",
+    "unpinOverlay": "Fixierung aufheben",
+    "overlayOpacity": "Deckkraft",
+    "minimize": "Minimieren",
+    "close": "Schließen"
+  },
+  "settings": {
+    "debug": {
+      "title": "Fehlersuche",
+      "desc": "Llama-Server-Protokolle und technische Details anzeigen.",
+      "open": "Debug-Konsole öffnen"
+    },
+    "appearance": {
+      "title": "Darstellung",
+      "themeLabel": "Thema",
+      "themeDesc": "Zwischen hellem und dunklem Thema wechseln",
+      "dark": "Dunkler Modus",
+      "light": "Heller Modus"
+    },
+    "language": {
+      "title": "Sprache",
+      "label": "App‑Sprache",
+      "desc": "Wählen Sie die Sprache der Oberfläche"
+    },
+    "data": {
+      "title": "Daten & Speicher",
+      "conversations": "Gespräche",
+      "dbLocation": "Datenbankpfad",
+      "dbPath": "ApplicationFolder\\data\\whytchat.db",
+      "storageMode": "Speichermodus",
+      "storageLocal": "Lokal (auf diesem Gerät)"
+    },
+    "system": {
+      "title": "System",
+      "platformLabel": "Plattform",
+      "platformValue": "Windows (Tauri)",
+      "backendLabel": "Backend",
+      "backendValue": "Rust",
+      "engineLabel": "KI‑Engine",
+      "engineValue": "llama.cpp Server"
+    },
+    "about": {
+      "title": "Info",
+      "versionLabel": "Version",
+      "versionValue": "0.2.1",
+      "publisherLabel": "Herausgeber",
+      "publisherValue": "WhytCard",
+      "description": "Lokale KI‑Chat‑App basierend auf der llama.cpp‑Engine."
+    },
+    "overlay": {
+      "title": "Overlay (Spielmodus)",
+      "opacityLabel": "Standardtransparenz",
+      "opacityDesc": "Stellen Sie die Overlay-Transparenz ein (50% bis 100%).",
+      "autoPassthroughLabel": "Automatisches Durchklicken",
+      "autoPassthroughDesc": "Wenn die Maus das Overlay verlässt, gehen Klicks an das Spiel; beim Hovern kehren Klicks zum Overlay zurück.",
+      "controlsIdleLabel": "Steuerelemente ausblenden nach (s)",
+      "controlsIdleDesc": "Leerlaufverzögerung, bevor Deckkraftcursor und Steuerelemente ausgeblendet werden.",
+      "dragStripLabel": "Ziehbereich anzeigen",
+      "dragStripDesc": "Zeigt einen dünnen Streifen oben an, um das Fenster schnell zu verschieben.",
+      "toggleKeyLabel": "Overlay-Umschalter-Shortcut",
+      "toggleKeyDesc": "Drücken Sie eine Taste, um sie zu registrieren (Escape zum Löschen).",
+      "toggleKeyPlaceholder": "Drücken Sie eine Taste...",
+      "toggleKeyHelp": "Die registrierte Taste schaltet das Overlay um, wenn die App im Vordergrund ist."
+    }
+  },
+  "locales": {
+    "fr": "Français",
+    "en": "English",
+    "de": "Deutsch",
+    "es": "Español",
+    "it": "Italiano",
+    "pt": "Português",
+    "nl": "Nederlands",
+    "pl": "Polski"
+  },
+  "onboarding": {
+    "title": "Wählen Sie aus, was Sie tun möchten",
+    "privacy": "Alles bleibt auf Ihrem Computer. Es werden keine Daten online gesendet.",
+    "tip": "Sie können Ihre Nutzung jederzeit ändern.",
+    "confirm": "Los geht's"
+  },
+  "promptTemplates": {
+    "general": "Handle als hilfreicher Assistent. Ziel: {intent}. Sei klar und prägnant und frage nach fehlenden Informationen, bevor du fortfährst.",
+    "coding": "Du bist ein Senior-Softwareentwickler. Ziel: {intent}. Liefere schrittweises Denken, sauberen Code und erkläre Trade-offs. Keine Platzhalter.",
+    "writer": "Du bist ein professioneller Texter. Ziel: {intent}. Verwende eine klare Struktur und passe den Ton an die Zielgruppe an.",
+    "translator": "Du bist ein professioneller Übersetzer. Ziel: {intent}. Bewahre Bedeutung und Ton, nur die Übersetzung ausgeben.",
+    "analyst": "Du bist ein Analyse-Experte. Ziel: {intent}. Liefere eine strukturierte Analyse, Aufzählungen und eine umsetzbare Zusammenfassung."
+  },
+  "presets": {
+    "llama32_3b_light": {
+      "label": "Llama 3.2 3B — Leicht",
+      "desc": "Klein und schnell für allgemeine Diskussionen, Lernen und Schreiben (4GB RAM)"
+    },
+    "mistral_balanced": {
+      "label": "Mistral 7B — Ausgewogen",
+      "desc": "Vielseitig für hochwertige allgemeine Diskussionen (6GB RAM)"
+    },
+    "llama31_8b_heavy": {
+      "label": "Llama 3.1 8B — Leistungsstark",
+      "desc": "Robustes Modell für komplexe Diskussionen (8GB RAM)"
+    },
+    "qwen_coder_1.5b_light": {
+      "label": "Qwen Coder 1.5B — Leicht",
+      "desc": "Schnell für einfachen Code und Skripte (3GB RAM)"
+    },
+    "qwen_coder_fast": {
+      "label": "Qwen Coder 7B — Schnell",
+      "desc": "Optimiert für Entwicklung und Code (6GB RAM)"
+    },
+    "qwen_coder_14b_heavy": {
+      "label": "Qwen Coder 14B — Leistungsstark",
+      "desc": "Erweitertes Modell für komplexe Projekte (12GB RAM)"
+    },
+    "openhermes_balanced": {
+      "label": "OpenHermes 7B — Lehren",
+      "desc": "Ausgezeichneter Lehrer für das Lernen (6GB RAM)"
+    },
+    "wizardlm_heavy": {
+      "label": "WizardLM 7B — Experte",
+      "desc": "Expertenmodell für fortgeschrittenes Training (8GB RAM)"
+    },
+    "nous_hermes_balanced": {
+      "label": "Nous Hermes 7B — Kreativ",
+      "desc": "Optimiert für Schreiben und Kreativität (6GB RAM)"
+    },
+    "dolphin_heavy": {
+      "label": "Dolphin 7B — Schriftsteller",
+      "desc": "Spezialisiert auf langes und nuanciertes Schreiben (8GB RAM)"
+    }
+  },
+  "newConversation": {
+    "title": "Neues Gespräch",
+    "conversationName": "Gesprächsname",
+    "conversationNamePlaceholder": "Z.B.: WhytChat-Projekt",
+    "selectModel": "Modell auswählen",
+    "conversationType": "Gesprächstyp",
+    "simpleModeIntro": "Geführter Modus - Folgen Sie den 3 Schritten, um Ihr Gespräch zu erstellen",
+    "simpleMode": "Einfacher Modus",
+    "expertMode": "Expertenmodus",
+    "modelNotInstalled": "Modell nicht installiert",
+    "noModelsAvailable": "Keine Modelle für diesen Gesprächstyp verfügbar",
+    "systemPrompt": "Benutzerdefinierte Anweisungen",
+    "systemPromptPlaceholder": "Passen Sie die Anweisungen nach Bedarf an...",
+    "systemPromptHelp": "Definiert das Verhalten und den Antwortstil der KI während des gesamten Gesprächs",
+    "advancedParameters": "Erweiterte Parameter (optional)",
+    "parameters": "Modellparameter",
+    "temperature": "Temperatur",
+    "temperatureHelp": "Steuert Kreativität (0.1 = präzise, 2.0 = kreativ)",
+    "topP": "Top P",
+    "topPHelp": "Vokabularvielfalt (0.1 = konservativ, 1.0 = vielfältig)",
+    "maxTokens": "Max. Tokens",
+    "maxTokensHelp": "Maximale Antwortlänge",
+    "repeatPenalty": "Wiederholungsstrafe",
+    "repeatPenaltyHelp": "Vermeidet Wiederholungen (1.0 = keine, 1.5 = starke Strafe)",
+    "createButton": "Gespräch erstellen",
+    "modelRequired": "Bitte wählen Sie ein Modell",
+    "downloadFirst": "Bitte laden Sie das Modell herunter, bevor Sie ein Gespräch erstellen",
+    "importLocal": "Lokale .gguf importieren",
+    "modelAvailable": "Modell verfügbar",
+    "installedOnly": "Nur installierte",
+    "templateGeneral": "Allgemeine Diskussion",
+    "templateCoding": "Code & Entwicklung",
+    "templateLearning": "Lernen",
+    "templateBrainstorm": "Brainstorming",
+    "templateWriting": "Schreiben",
+    "templateAnalysis": "Analyse & Forschung",
+    "templateCustom": "Benutzerdefiniert",
+    "selectTone": "KI-Ton",
+    "toneDescription": "Passen Sie den Kommunikationsstil der KI nach Ihren Wünschen an",
+    "customizeAI": "KI anpassen",
+    "codingLanguage": "Programmiersprache",
+    "codingStyle": "Code-Stil",
+    "learningLevel": "Komplexitätsstufe",
+    "learningStyle": "Lehrstil",
+    "brainstormType": "Denkweise",
+    "brainstormFormat": "Ausgabeformat",
+    "writingType": "Texttyp",
+    "writingTone": "Schreibton",
+    "analysisDepth": "Analysetiefe",
+    "analysisFormat": "Analyseformat",
+    "promptGeneral": "Du bist ein vielseitiger KI-Assistent. Antworte klar, präzise und strukturiert. Passe dein Detailniveau an die Komplexität der Frage an. Nenne deine Quellen, wenn relevant.",
+    "promptCoding": "Sie sind ein Entwicklungsassistent. Analysieren Sie Code rigoros, schlagen Sie optimierte und sichere Lösungen vor. Erklären Sie Ihre technischen Entscheidungen und empfehlen Sie Best Practices. Liefern Sie kommentierten und getesteten Code.",
+    "promptLearning": "Sie sind ein Pädagoge. Erklären Sie Konzepte schrittweise, vom Einfachen zum Komplexen. Verwenden Sie konkrete Analogien, praktische Beispiele und überprüfen Sie das Verständnis, bevor Sie fortfahren. Ermutigen Sie Fragen.",
+    "promptBrainstorm": "Sie sind ein kreativer Moderator. Erkunden Sie mehrere Ansätze, schlagen Sie vielfältige und originelle Ideen vor. Hinterfragen Sie Annahmen, kombinieren Sie Konzepte und helfen Sie, Überlegungen zu strukturieren.",
+    "promptWriting": "Sie sind ein Schreibassistent. Verbessern Sie Klarheit, Kohärenz und Wirkung von Texten. Respektieren Sie den gewünschten Ton und Stil. Schlagen Sie Umformulierungen vor und identifizieren Sie argumentative Schwächen.",
+    "promptAnalysis": "Sie sind ein rigoroser Analyst. Fassen Sie Informationen strukturiert zusammen, identifizieren Sie Trends und Inkonsistenzen. Präsentieren Sie faktische Schlussfolgerungen mit ihren Grenzen. Bevorzugen Sie überprüfbare Daten."
+  },
+
+
+  "serverStatus": {
+    "ready": "KI-Server betriebsbereit und empfangsbereit.",
+    "checking": "Serverstatus prüfen...",
+    "starting": "KI-Server wird gestartet...",
+    "error": "Serverfehler",
+    "stopped": "Server gestoppt. Klicken Sie zum Starten.",
+    "technicalStatus": "Technischer Status",
+    "noError": "Kein Fehler erkannt",
+    "errorDetails": "Fehler",
+    "tips": "Tipps",
+    "checkConsole": "Entwicklerkonsole prüfen (F12)",
+    "downloadModel": "Laden Sie zuerst ein KI-Modell herunter",
+    "serverReady": "Server bereit für Gespräche",
+    "unknownError": "Unbekannter Fehler"
+  },
+  "coding": {
+    "language": {
+      "any": "Alle Sprachen",
+      "javascript": "JavaScript",
+      "typescript": "TypeScript",
+      "python": "Python",
+      "java": "Java",
+      "csharp": "C#",
+      "cpp": "C++",
+      "rust": "Rust",
+      "go": "Go",
+      "php": "PHP"
+    },
+    "style": {
+      "concise": "Prägnant - Effiziente Lösungen",
+      "detailed": "Detailliert - Mit Erklärungen",
+      "production": "Produktion - Optimierter Code",
+      "educational": "Pädagogisch - Lernfokussiert"
+    }
+  },
+  "learning": {
+    "level": {
+      "beginner": "Anfänger - Einfache Sprache",
+      "intermediate": "Fortgeschritten - Ausgewogen",
+      "advanced": "Experte - Tiefgehende Konzepte"
+    },
+    "style": {
+      "simple": "Einfach - Alltagsanalogie",
+      "detailed": "Detailliert - Umfassende Erklärungen",
+      "practical": "Praktisch - Reale Anwendungen",
+      "theoretical": "Theoretisch - Konzeptuelle Grundlagen"
+    }
+  },
+  "brainstorm": {
+    "type": {
+      "divergent": "Divergent - Mehrere Ideen",
+      "convergent": "Konvergent - Lösungen verfeinern",
+      "lateral": "Lateral - Kreatives Denken",
+      "analytical": "Analytisch - Logische Aufteilung"
+    },
+    "format": {
+      "list": "Liste - Klare Organisation",
+      "mindmap": "Mindmap - Verbindungen",
+      "structured": "Strukturiert - Frameworks (SWOT, 5W)",
+      "freeform": "Freiform - Fließende Erkundung"
+    }
+  },
+  "writing": {
+    "type": {
+      "email": "E-Mail - Professionelle Kommunikation",
+      "article": "Artikel - Ansprechender Inhalt",
+      "report": "Bericht - Formal und strukturiert",
+      "creative": "Kreativ - Narrativer Stil",
+      "technical": "Technisch - Präzise Dokumentation",
+      "marketing": "Marketing - Überzeugend"
+    },
+    "tone": {
+      "formal": "Förmlich - Professionell",
+      "casual": "Locker - Gesprächig",
+      "persuasive": "Überzeugend - Eindrucksvoll",
+      "informative": "Informativ - Klar und sachlich",
+      "creative": "Kreativ - Ausdrucksstark"
+    }
+  },
+  "analysis": {
+    "depth": {
+      "overview": "Überblick - Allgemeine Zusammenfassung",
+      "detailed": "Detailliert - Tiefgehende Analyse",
+      "comprehensive": "Umfassend - Erschöpfend"
+    },
+    "format": {
+      "summary": "Zusammenfassung",
+      "structured": "Strukturiert - Analyse-Frameworks",
+      "datadriven": "Datengesteuert - Statistischer Fokus"
+    }
+  },
+  "tones": {
+    "neutral": "Neutral - Ausgewogen und objektiv",
+    "polite": "Höflich - Zuvorkommend und respektvoll",
+    "enthusiastic": "Enthusiastisch - Energisch und motivierend",
+    "professional": "Professionell - Förmlich und präzise",
+    "casual": "Locker - Freundlich und ungezwungen",
+    "concise": "Prägnant - Kurz und direkt",
+    "detailed": "Detailliert - Gründlich und umfassend"
+  },
+  "rag": {
+    "title": "Datasets (RAG)",
+    "createDataset": { "label": "Dataset erstellen" },
+    "datasetName": { "placeholder": "Dataset-Name" },
+    "select": { "label": "Dataset wählen", "none": "Keins" },
+    "ingest": {
+      "pasteText": "Text zum Indizieren einfügen",
+      "placeholder": "Inhalt hier einfügen oder tippen...",
+      "ingestButton": "Indizieren",
+      "success": "{count} Abschnitte indiziert"
+    },
+    "list": { "empty": "Noch keine Datasets" },
+    "error": { "generic": "Ein Fehler ist aufgetreten" }
+  }
+}

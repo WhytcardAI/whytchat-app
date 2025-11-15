@@ -1,0 +1,14 @@
+C:\Whytcard_Workspace\V2\whytchat-app\src-tauri\../.tauri-target\debug\deps\serde-20fd805c86d8d5ec.d: C:\Users\Jerome\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\lib.rs C:\Users\Jerome\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\integer128.rs C:\Users\Jerome\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\private\mod.rs C:\Users\Jerome\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\private\de.rs C:\Users\Jerome\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\private\ser.rs C:\Whytcard_Workspace\V2\whytchat-app\src-tauri\../.tauri-target\debug\build\serde-7176227cfad44f4b\out/private.rs
+
+C:\Whytcard_Workspace\V2\whytchat-app\src-tauri\../.tauri-target\debug\deps\libserde-20fd805c86d8d5ec.rlib: C:\Users\Jerome\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\lib.rs C:\Users\Jerome\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\integer128.rs C:\Users\Jerome\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\private\mod.rs C:\Users\Jerome\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\private\de.rs C:\Users\Jerome\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\private\ser.rs C:\Whytcard_Workspace\V2\whytchat-app\src-tauri\../.tauri-target\debug\build\serde-7176227cfad44f4b\out/private.rs
+
+C:\Whytcard_Workspace\V2\whytchat-app\src-tauri\../.tauri-target\debug\deps\libserde-20fd805c86d8d5ec.rmeta: C:\Users\Jerome\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\lib.rs C:\Users\Jerome\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\integer128.rs C:\Users\Jerome\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\private\mod.rs C:\Users\Jerome\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\private\de.rs C:\Users\Jerome\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\private\ser.rs C:\Whytcard_Workspace\V2\whytchat-app\src-tauri\../.tauri-target\debug\build\serde-7176227cfad44f4b\out/private.rs
+
+C:\Users\Jerome\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\lib.rs:
+C:\Users\Jerome\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\integer128.rs:
+C:\Users\Jerome\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\private\mod.rs:
+C:\Users\Jerome\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\private\de.rs:
+C:\Users\Jerome\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\private\ser.rs:
+C:\Whytcard_Workspace\V2\whytchat-app\src-tauri\../.tauri-target\debug\build\serde-7176227cfad44f4b\out/private.rs:
+
+# env-dep:OUT_DIR=C:\\Whytcard_Workspace\\V2\\whytchat-app\\src-tauri\\../.tauri-target\\debug\\build\\serde-7176227cfad44f4b\\out

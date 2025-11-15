@@ -1,0 +1,92 @@
+[
+  {
+    "id": "llama32_3b_light",
+    "labelKey": "presets.llama32_3b_light.label",
+    "descKey": "presets.llama32_3b_light.desc",
+    "engine": "llama.cpp",
+    "quant": "Q4_K_M",
+    "context": 8192,
+    "useCases": ["general", "learning", "writing", "brainstorm"]
+  },
+  {
+    "id": "mistral_balanced",
+    "labelKey": "presets.mistral_balanced.label",
+    "descKey": "presets.mistral_balanced.desc",
+    "engine": "llama.cpp",
+    "quant": "Q4_K_M",
+    "context": 8192,
+    "useCases": ["general", "analysis"]
+  },
+  {
+    "id": "llama31_8b_heavy",
+    "labelKey": "presets.llama31_8b_heavy.label",
+    "descKey": "presets.llama31_8b_heavy.desc",
+    "engine": "llama.cpp",
+    "quant": "Q5_K_M",
+    "context": 8192,
+    "useCases": ["general", "analysis"]
+  },
+  {
+    "id": "qwen_coder_1.5b_light",
+    "labelKey": "presets.qwen_coder_1.5b_light.label",
+    "descKey": "presets.qwen_coder_1.5b_light.desc",
+    "engine": "llama.cpp",
+    "quant": "Q4_K_M",
+    "context": 8192,
+    "useCases": ["coding"]
+  },
+  {
+    "id": "qwen_coder_fast",
+    "labelKey": "presets.qwen_coder_fast.label",
+    "descKey": "presets.qwen_coder_fast.desc",
+    "engine": "llama.cpp",
+    "quant": "Q4_K_M",
+    "context": 8192,
+    "useCases": ["coding"]
+  },
+  {
+    "id": "qwen_coder_14b_heavy",
+    "labelKey": "presets.qwen_coder_14b_heavy.label",
+    "descKey": "presets.qwen_coder_14b_heavy.desc",
+    "engine": "llama.cpp",
+    "quant": "Q5_K_M",
+    "context": 8192,
+    "useCases": ["coding"]
+  },
+  {
+    "id": "openhermes_balanced",
+    "labelKey": "presets.openhermes_balanced.label",
+    "descKey": "presets.openhermes_balanced.desc",
+    "engine": "llama.cpp",
+    "quant": "Q4_K_M",
+    "context": 8192,
+    "useCases": ["learning"]
+  },
+  {
+    "id": "wizardlm_heavy",
+    "labelKey": "presets.wizardlm_heavy.label",
+    "descKey": "presets.wizardlm_heavy.desc",
+    "engine": "llama.cpp",
+    "quant": "Q5_K_M",
+    "context": 8192,
+    "useCases": ["learning", "analysis"]
+  },
+  {
+    "id": "nous_hermes_balanced",
+    "labelKey": "presets.nous_hermes_balanced.label",
+    "descKey": "presets.nous_hermes_balanced.desc",
+    "engine": "llama.cpp",
+    "quant": "Q4_K_M",
+    "context": 8192,
+    "useCases": ["writing", "brainstorm"]
+  },
+  {
+    "id": "dolphin_heavy",
+    "labelKey": "presets.dolphin_heavy.label",
+    "descKey": "presets.dolphin_heavy.desc",
+    "engine": "llama.cpp",
+    "quant": "Q5_K_M",
+    "context": 8192,
+    "useCases": ["writing", "brainstorm"]
+  }
+]

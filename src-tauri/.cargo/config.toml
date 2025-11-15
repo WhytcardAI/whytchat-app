@@ -1,0 +1,7 @@
+[build]
+jobs = 1
+target-dir = "../.tauri-target"
+incremental = false
+
+[env]
+TAURI_SKIP_WINDOWS_RESOURCE = "1"

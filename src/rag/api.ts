@@ -1,0 +1,29 @@
+import { invoke } from "@tauri-apps/api/core";
+import type { DatasetInfo, IngestResult, RagHit } from "./types";
+
+export async function listDatasets(): Promise<DatasetInfo[]> {
+  return invoke<DatasetInfo[]>("rag_list_datasets");
+}
+
+export async function createDataset(name: string): Promise<DatasetInfo> {
+  return invoke<DatasetInfo>("rag_create_dataset", { name });
+}
+
+export async function deleteDataset(id: string): Promise<void> {
+  return invoke("rag_delete_dataset", { id });
+}
+
+export async function ingestText(
+  datasetId: string,
+  text: string,
+): Promise<IngestResult> {
+  return invoke<IngestResult>("rag_ingest_text", { args: { datasetId, text } });
+}
+
+export async function ragQuery(
+  datasetId: string,
+  query: string,
+  k = 5,
+): Promise<RagHit[]> {
+  return invoke<RagHit[]>("rag_query", { args: { datasetId, query, k } });
+}

@@ -1,0 +1,416 @@
+{
+  "app": {
+    "title": "WhytChat"
+  },
+  "common": {
+    "loading": "Carregando..."
+  },
+  "home": {
+    "title": "WhytChat",
+    "poweredBy": "powered by WhytCard",
+    "continue": "Continuar",
+    "new": "Novo",
+    "download": "Baixar",
+    "settings": "Configurações",
+    "noConversations": "Nenhuma conversa disponível",
+    "about": "Sobre",
+    "aboutTitle": "Como usar o WhytChat?",
+    "aboutPrivacy": "Privacidade total",
+    "aboutPrivacyDesc": "Todas as suas conversas permanecem no seu computador. Nenhum dado é enviado online.",
+    "aboutLocal": "IA local",
+    "aboutLocalDesc": "A inteligência artificial funciona diretamente na sua máquina graças ao llama.cpp.",
+    "aboutModels": "Modelos personalizáveis",
+    "aboutModelsDesc": "Baixe diferentes modelos de IA de acordo com suas necessidades (código, discussão, análise).",
+    "aboutUsage": "Uso simples",
+    "aboutUsageDesc": "1. Crie uma nova conversa\n2. Escolha um tipo (código, aprendizagem, etc.)\n3. Converse com a IA de forma privada",
+    "aboutShortcuts": "Atalhos de teclado",
+    "aboutShortcutsDesc": "Ctrl+N: Nova conversa\nCtrl+H: Início\nCtrl+L: Lista de conversas\nCtrl+/: Ajuda",
+    "aboutDiscord": "Comunidade Discord",
+    "aboutDiscordDesc": "Junte-se ao nosso servidor Discord para conversar, obter ajuda e compartilhar suas ideias.",
+    "aboutDiscordButton": "Entrar no Discord",
+    "aboutDonation": "Apoiar o desenvolvimento",
+    "aboutDonationDesc": "WhytChat é desenvolvido por um desenvolvedor solo. Seu apoio ajuda a melhorar a aplicação.",
+    "aboutDonationButton": "Fazer uma doação"
+  },
+  "conversationsList": {
+    "title": "Minhas Conversas",
+    "conversationsCount": "conversas",
+    "new": "Nova",
+    "all": "Todas",
+    "noGroup": "Sem grupo",
+    "filterByGroup": "Filtrar por grupo",
+    "noConversations": "Sem conversas",
+    "createFirst": "Crie sua primeira conversa para começar a conversar com a IA",
+    "delete": "Excluir",
+    "confirmDelete": "Tem certeza de que deseja excluir esta conversa?",
+    "justNow": "Agora mesmo",
+    "minutesAgo": "{0} min atrás",
+    "hoursAgo": "{0}h atrás",
+    "daysAgo": "{0}d atrás"
+  },
+  "chat": {
+    "title": "Chat",
+    "placeholder": "Digite sua mensagem...",
+    "send": "Enviar",
+    "thinking": "Pensando...",
+    "newChat": "Nova conversa",
+    "clearChat": "Limpar conversa",
+    "copyMessage": "Copiar",
+    "regenerate": "Regenerar",
+    "stop": "Parar",
+    "you": "Você",
+    "assistant": "Assistente",
+    "emptyState": "Inicie uma conversa enviando uma mensagem",
+    "model": "Modelo",
+    "group": "Grupo",
+    "serverChecking": "Verificando status do servidor IA...",
+    "serverStarting": "Iniciando servidor IA (pode levar 5-10 segundos)...",
+    "serverError": "Falha ao iniciar o servidor IA"
+  },
+  "shortcuts": {
+    "title": "Atalhos de teclado",
+    "navigation": "Navegação",
+    "chat": "Chat",
+    "general": "Geral",
+    "goHome": "Ir para início",
+    "newConversation": "Nova conversa",
+    "listConversations": "Lista de conversas",
+    "sendMessage": "Enviar mensagem",
+    "newLine": "Nova linha",
+    "clearChat": "Limpar chat",
+    "showShortcuts": "Mostrar atalhos",
+    "closeModal": "Fechar modal"
+  },
+  "llamaInstall": {
+    "title": "Instalação do Motor IA",
+    "subtitle": "Necessário para geração IA local",
+    "description": "WhytChat requer o download do motor llama-server para gerar respostas IA localmente no seu computador.",
+    "size": "Tamanho do download",
+    "platform": "Plataforma",
+    "downloading": "Baixando llama-server...",
+    "extracting": "Extraindo arquivos...",
+    "installed": "Instalação concluída!",
+    "ready": "Pronto para instalar",
+    "error": "Instalação falhou",
+    "installing": "Instalando...",
+    "pleaseWait": "Por favor aguarde, pode levar alguns minutos..."
+  },
+  "ui": {
+    "start": "Iniciar",
+    "toggleOverlay": "Alternar sobreposição",
+    "loading": "Carregando...",
+    "continue": "Continuar",
+    "download": "Baixar",
+    "ready": "Pronto",
+    "downloading": "Baixando",
+    "running": "Executando",
+    "offline": "Offline",
+    "importPack": "Importar pacote local",
+    "selected": "Selecionado",
+    "cancel": "Cancelar",
+    "initializing": "Inicializando download...",
+    "error": "Erro",
+    "canceled": "Cancelado",
+    "pinOverlay": "Fixar na frente",
+    "unpinOverlay": "Desafixar",
+    "overlayOpacity": "Opacidade",
+    "minimize": "Minimizar",
+    "close": "Fechar"
+  },
+  "settings": {
+    "debug": {
+      "title": "Depuração",
+      "desc": "Ver logs do servidor llama e detalhes técnicos.",
+      "open": "Abrir console de depuração"
+    },
+    "appearance": {
+      "title": "Aparência",
+      "themeLabel": "Tema",
+      "themeDesc": "Alternar entre tema claro e escuro",
+      "dark": "Modo escuro",
+      "light": "Modo claro"
+    },
+    "language": {
+      "title": "Idioma",
+      "label": "Idioma do aplicativo",
+      "desc": "Escolha o idioma da interface"
+    },
+    "data": {
+      "title": "Dados e Armazenamento",
+      "conversations": "Conversas",
+      "dbLocation": "Localização do banco de dados",
+      "dbPath": "ApplicationFolder\\data\\whytchat.db",
+      "storageMode": "Modo de armazenamento",
+      "storageLocal": "Local (neste dispositivo)"
+    },
+    "system": {
+      "title": "Sistema",
+      "platformLabel": "Plataforma",
+      "platformValue": "Windows (Tauri)",
+      "backendLabel": "Backend",
+      "backendValue": "Rust",
+      "engineLabel": "Motor IA",
+      "engineValue": "servidor llama.cpp"
+    },
+    "about": {
+      "title": "Sobre",
+      "versionLabel": "Versão",
+      "versionValue": "0.2.1",
+      "publisherLabel": "Editor",
+      "publisherValue": "WhytCard",
+      "description": "Aplicativo de chat IA local usando o motor llama.cpp."
+    },
+    "overlay": {
+      "title": "Overlay (modo jogo)",
+      "opacityLabel": "Opacidade padrão",
+      "opacityDesc": "Defina a transparência do overlay (50% a 100%).",
+      "autoPassthroughLabel": "Click-through automático",
+      "autoPassthroughDesc": "Quando o mouse sai do overlay, os cliques passam para o jogo; ao passar o mouse, os cliques retornam ao overlay.",
+      "controlsIdleLabel": "Ocultar controles após (s)",
+      "controlsIdleDesc": "Atraso de inatividade antes de ocultar o cursor de opacidade e os controles.",
+      "dragStripLabel": "Mostrar área de arrasto",
+      "dragStripDesc": "Exibe uma faixa fina no topo para mover rapidamente a janela.",
+      "toggleKeyLabel": "Atalho de alternância de overlay",
+      "toggleKeyDesc": "Pressione uma tecla para registrá-la (Escape para limpar).",
+      "toggleKeyPlaceholder": "Pressione uma tecla...",
+      "toggleKeyHelp": "A tecla registrada alterna o overlay quando o aplicativo está em primeiro plano."
+    }
+  },
+  "locales": {
+    "fr": "Français",
+    "en": "English",
+    "de": "Deutsch",
+    "es": "Español",
+    "it": "Italiano",
+    "pt": "Português",
+    "nl": "Nederlands",
+    "pl": "Polski"
+  },
+  "onboarding": {
+    "title": "Escolha o que você quer fazer",
+    "privacy": "Tudo fica no seu computador. Nenhum dado é enviado online.",
+    "tip": "Você pode mudar seu uso a qualquer momento.",
+    "confirm": "Vamos começar"
+  },
+  "promptTemplates": {
+    "general": "Atue como assistente útil. Objetivo: {intent}. Seja claro e conciso e peça as informações faltantes antes de prosseguir.",
+    "coding": "Você é um engenheiro de software sênior. Objetivo: {intent}. Forneça raciocínio passo-a-passo, código limpo e explique as compensações. Sem placeholders.",
+    "writer": "Você é um escritor profissional. Objetivo: {intent}. Use uma estrutura coerente, tom claro e adapte-se ao público.",
+    "translator": "Você é um tradutor profissional. Objetivo: {intent}. Preserve significado e tom, garanta correção. Forneça apenas a tradução.",
+    "analyst": "Você é um especialista em análise. Objetivo: {intent}. Forneça uma análise estruturada, marcadores e um resumo acionável."
+  },
+  "presets": {
+    "llama32_3b_light": {
+      "label": "Llama 3.2 3B — Leve",
+      "desc": "Pequeno e rápido para discussões gerais, aprendizado e escrita (4GB RAM)"
+    },
+    "mistral_balanced": {
+      "label": "Mistral 7B — Equilibrado",
+      "desc": "Versátil para discussões gerais de qualidade (6GB RAM)"
+    },
+    "llama31_8b_heavy": {
+      "label": "Llama 3.1 8B — Potente",
+      "desc": "Modelo robusto para discussões complexas (8GB RAM)"
+    },
+    "qwen_coder_1.5b_light": {
+      "label": "Qwen Coder 1.5B — Leve",
+      "desc": "Rápido para código simples e scripts (3GB RAM)"
+    },
+    "qwen_coder_fast": {
+      "label": "Qwen Coder 7B — Rápido",
+      "desc": "Otimizado para desenvolvimento e código (6GB RAM)"
+    },
+    "qwen_coder_14b_heavy": {
+      "label": "Qwen Coder 14B — Potente",
+      "desc": "Modelo avançado para projetos complexos (12GB RAM)"
+    },
+    "openhermes_balanced": {
+      "label": "OpenHermes 7B — Ensino",
+      "desc": "Excelente professor para aprendizado (6GB RAM)"
+    },
+    "wizardlm_heavy": {
+      "label": "WizardLM 7B — Especialista",
+      "desc": "Modelo especialista para treinamento avançado (8GB RAM)"
+    },
+    "nous_hermes_balanced": {
+      "label": "Nous Hermes 7B — Criativo",
+      "desc": "Otimizado para escrita e criatividade (6GB RAM)"
+    },
+    "dolphin_heavy": {
+      "label": "Dolphin 7B — Escritor",
+      "desc": "Especializado em escrita longa e nuanceada (8GB RAM)"
+    }
+  },
+  "newConversation": {
+    "title": "Nova Conversa",
+    "conversationName": "Nome da conversa",
+    "conversationNamePlaceholder": "Ex: Projeto WhytChat",
+    "selectModel": "Selecionar um modelo",
+    "conversationType": "Tipo de conversa",
+    "simpleModeIntro": "Modo guiado - Siga os 3 passos para criar sua conversa",
+    "simpleMode": "Modo Simples",
+    "expertMode": "Modo Especialista",
+    "modelNotInstalled": "Modelo não instalado",
+    "noModelsAvailable": "Nenhum modelo disponível para este tipo de conversação",
+    "systemPrompt": "Instruções personalizadas",
+    "systemPromptPlaceholder": "Modifique as instruções conforme necessário...",
+    "systemPromptHelp": "Define o comportamento e estilo de resposta da IA durante toda esta conversa",
+    "advancedParameters": "Parâmetros avançados (opcional)",
+    "parameters": "Parâmetros do modelo",
+    "temperature": "Temperatura",
+    "temperatureHelp": "Controla a criatividade (0.1 = preciso, 2.0 = criativo)",
+    "topP": "Top P",
+    "topPHelp": "Diversidade do vocabulário (0.1 = conservador, 1.0 = variado)",
+    "maxTokens": "Tokens máx",
+    "maxTokensHelp": "Comprimento máximo da resposta",
+    "repeatPenalty": "Penalidade repetição",
+    "repeatPenaltyHelp": "Evita repetições (1.0 = nenhuma, 1.5 = forte penalidade)",
+    "createButton": "Criar conversa",
+    "modelRequired": "Por favor selecione um modelo",
+    "downloadFirst": "Por favor baixe o modelo antes de criar uma conversa",
+    "importLocal": "Importar .gguf local",
+    "modelAvailable": "Modelo disponível",
+    "installedOnly": "Apenas instalados",
+    "templateGeneral": "Discussão geral",
+    "templateCoding": "Código e desenvolvimento",
+    "templateLearning": "Aprendizagem",
+    "templateBrainstorm": "Brainstorming",
+    "templateWriting": "Redação",
+    "templateAnalysis": "Análise e pesquisa",
+    "templateCustom": "Personalizado",
+    "selectTone": "Tom da IA",
+    "toneDescription": "Personalize o estilo de comunicação da IA de acordo com suas preferências",
+    "customizeAI": "Personalizar IA",
+    "codingLanguage": "Linguagem de programação",
+    "codingStyle": "Estilo de código",
+    "learningLevel": "Nível de complexidade",
+    "learningStyle": "Estilo pedagógico",
+    "brainstormType": "Tipo de reflexão",
+    "brainstormFormat": "Formato de saída",
+    "writingType": "Tipo de texto",
+    "writingTone": "Tom de escrita",
+    "analysisDepth": "Profundidade de análise",
+    "analysisFormat": "Formato de análise",
+    "promptGeneral": "Você é um assistente de IA versátil. Responda de forma clara, precisa e estruturada. Adapte seu nível de detalhe de acordo com a complexidade da pergunta. Cite suas fontes quando relevante.",
+    "promptCoding": "Você é um assistente de desenvolvimento. Analise rigorosamente o código, proponha soluções otimizadas e seguras. Explique suas escolhas técnicas e sugira as melhores práticas. Forneça código comentado e testado.",
+    "promptLearning": "Você é um pedagogo. Explique os conceitos progressivamente, do simples ao complexo. Use analogias concretas, exemplos práticos e verifique a compreensão antes de avançar. Encoraje perguntas.",
+    "promptBrainstorm": "Você é um facilitador criativo. Explore múltiplos ângulos de abordagem, proponha ideias diversificadas e originais. Questione as hipóteses, combine conceitos e ajude a estruturar as reflexões.",
+    "promptWriting": "Você é um assistente de redação. Melhore a clareza, coerência e impacto dos textos. Respeite o tom e estilo solicitados. Proponha reformulações e identifique fraquezas argumentativas.",
+    "promptAnalysis": "Você é um analista rigoroso. Sintetize as informações de forma estruturada, identifique tendências e inconsistências. Apresente conclusões factuais com suas limitações. Priorize dados verificáveis."
+  },
+
+  "serverStatus": {
+    "ready": "Servidor IA operacional e pronto para receber solicitações.",
+    "checking": "Verificando estado do servidor...",
+    "starting": "Iniciando servidor IA...",
+    "error": "Erro do servidor",
+    "stopped": "Servidor parado. Clique para iniciar.",
+    "technicalStatus": "Estado técnico",
+    "noError": "Nenhum erro detectado",
+    "errorDetails": "Erro",
+    "tips": "Dicas",
+    "checkConsole": "Verifique o console do desenvolvedor (F12)",
+    "downloadModel": "Baixe primeiro um modelo IA",
+    "serverReady": "Servidor pronto para conversas",
+    "unknownError": "Erro desconhecido"
+  },
+  "coding": {
+    "language": {
+      "any": "Todas as linguagens",
+      "javascript": "JavaScript",
+      "typescript": "TypeScript",
+      "python": "Python",
+      "java": "Java",
+      "csharp": "C#",
+      "cpp": "C++",
+      "rust": "Rust",
+      "go": "Go",
+      "php": "PHP"
+    },
+    "style": {
+      "concise": "Conciso - Soluções eficientes",
+      "detailed": "Detalhado - Com explicações",
+      "production": "Produção - Código otimizado",
+      "educational": "Educacional - Focado em aprendizado"
+    }
+  },
+  "learning": {
+    "level": {
+      "beginner": "Iniciante - Linguagem simples",
+      "intermediate": "Intermediário - Equilibrado",
+      "advanced": "Avançado - Conceitos profundos"
+    },
+    "style": {
+      "simple": "Simples - Analogias cotidianas",
+      "detailed": "Detalhado - Explicações completas",
+      "practical": "Prático - Aplicações concretas",
+      "theoretical": "Teórico - Fundamentos conceituais"
+    }
+  },
+  "brainstorm": {
+    "type": {
+      "divergent": "Divergente - Múltiplas ideias",
+      "convergent": "Convergente - Refinar soluções",
+      "lateral": "Lateral - Pensamento criativo",
+      "analytical": "Analítico - Decomposição lógica"
+    },
+    "format": {
+      "list": "Lista - Organização clara",
+      "mindmap": "Mapa mental - Conexões",
+      "structured": "Estruturado - Frameworks (SWOT, 5W)",
+      "freeform": "Livre - Exploração fluida"
+    }
+  },
+  "writing": {
+    "type": {
+      "email": "Email - Comunicação profissional",
+      "article": "Artigo - Conteúdo envolvente",
+      "report": "Relatório - Formal e estruturado",
+      "creative": "Criativo - Estilo narrativo",
+      "technical": "Técnico - Documentação precisa",
+      "marketing": "Marketing - Persuasivo"
+    },
+    "tone": {
+      "formal": "Formal - Profissional",
+      "casual": "Casual - Conversacional",
+      "persuasive": "Persuasivo - Convincente",
+      "informative": "Informativo - Claro e factual",
+      "creative": "Criativo - Expressivo"
+    }
+  },
+  "analysis": {
+    "depth": {
+      "overview": "Visão geral - Síntese geral",
+      "detailed": "Detalhado - Análise profunda",
+      "comprehensive": "Completo - Exaustivo"
+    },
+    "format": {
+      "summary": "Resumo executivo",
+      "structured": "Estruturado - Frameworks de análise",
+      "datadriven": "Data-driven - Foco estatístico"
+    }
+  },
+  "tones": {
+    "neutral": "Neutro - Equilibrado e objetivo",
+    "polite": "Educado - Cortês e respeitoso",
+    "enthusiastic": "Entusiasta - Energético e motivador",
+    "professional": "Profissional - Formal e preciso",
+    "casual": "Casual - Amigável e informal",
+    "concise": "Conciso - Breve e direto",
+    "detailed": "Detalhado - Completo e abrangente"
+  },
+  "rag": {
+    "title": "Conjuntos de dados (RAG)",
+    "createDataset": { "label": "Criar dataset" },
+    "datasetName": { "placeholder": "Nome do dataset" },
+    "select": { "label": "Selecionar dataset", "none": "Nenhum" },
+    "ingest": {
+      "pasteText": "Cole texto para indexar",
+      "placeholder": "Cole ou escreva o conteúdo aqui...",
+      "ingestButton": "Indexar",
+      "success": "{count} trechos indexados"
+    },
+    "list": { "empty": "Nenhum dataset por enquanto" },
+    "error": { "generic": "Ocorreu um erro" }
+  }
+}

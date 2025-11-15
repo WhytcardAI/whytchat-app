@@ -1,0 +1,64 @@
+# Tauri / Rust / Node .gitignore
+
+# Node
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Tauri
+src-tauri/target/
+src-tauri/Cargo.lock
+src-tauri/bin/
+src-tauri/build/
+src-tauri/gen/
+src-tauri/downloads/
+src-tauri/api/
+src-tauri/assets/
+
+# Build artifacts
+*.msi
+*.msi.zip
+*.AppImage
+*.AppImage.tar.gz
+*.deb
+*.dmg
+*.app
+*.app.tar.gz
+*.exe
+*.zip
+*.7z
+*.tar.gz
+*.nsis.zip
+*.wix
+/out/
+
+# Environment variables
+.env
+.env.*
+!.env.example

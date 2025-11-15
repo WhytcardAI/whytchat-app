@@ -1,0 +1,416 @@
+{
+  "app": {
+    "title": "WhytChat"
+  },
+  "common": {
+    "loading": "Laden..."
+  },
+  "home": {
+    "title": "WhytChat",
+    "poweredBy": "powered by WhytCard",
+    "continue": "Doorgaan",
+    "new": "Nieuw",
+    "download": "Downloaden",
+    "settings": "Instellingen",
+    "noConversations": "Geen gesprekken beschikbaar",
+    "about": "Over",
+    "aboutTitle": "Hoe gebruik je WhytChat?",
+    "aboutPrivacy": "Totale privacy",
+    "aboutPrivacyDesc": "Alle gesprekken blijven op je computer. Er worden geen gegevens online verzonden.",
+    "aboutLocal": "Lokale AI",
+    "aboutLocalDesc": "De kunstmatige intelligentie werkt rechtstreeks op je computer dankzij llama.cpp.",
+    "aboutModels": "Aanpasbare modellen",
+    "aboutModelsDesc": "Download verschillende AI-modellen volgens je behoeften (code, discussie, analyse).",
+    "aboutUsage": "Eenvoudig gebruik",
+    "aboutUsageDesc": "1. Maak een nieuw gesprek\n2. Kies een type (code, leren, enz.)\n3. Chat privé met de AI",
+    "aboutShortcuts": "Sneltoetsen",
+    "aboutShortcutsDesc": "Ctrl+N: Nieuw gesprek\nCtrl+H: Home\nCtrl+L: Gesprekslijst\nCtrl+/: Hulp",
+    "aboutDiscord": "Discord Gemeenschap",
+    "aboutDiscordDesc": "Sluit je aan bij onze Discord-server om te chatten, hulp te krijgen en je ideeën te delen.",
+    "aboutDiscordButton": "Doe mee met Discord",
+    "aboutDonation": "Ondersteun ontwikkeling",
+    "aboutDonationDesc": "WhytChat wordt ontwikkeld door een solo-ontwikkelaar. Jouw steun helpt de applicatie te verbeteren.",
+    "aboutDonationButton": "Doe een donatie"
+  },
+  "conversationsList": {
+    "title": "Mijn Gesprekken",
+    "conversationsCount": "gesprekken",
+    "new": "Nieuw",
+    "all": "Alle",
+    "noGroup": "Geen groep",
+    "filterByGroup": "Filter op groep",
+    "noConversations": "Geen gesprekken",
+    "createFirst": "Maak je eerste gesprek om te beginnen met chatten met AI",
+    "delete": "Verwijderen",
+    "confirmDelete": "Weet je zeker dat je dit gesprek wilt verwijderen?",
+    "justNow": "Zojuist",
+    "minutesAgo": "{0} min geleden",
+    "hoursAgo": "{0}u geleden",
+    "daysAgo": "{0}d geleden"
+  },
+  "chat": {
+    "title": "Chat",
+    "placeholder": "Typ je bericht...",
+    "send": "Verstuur",
+    "thinking": "Denken...",
+    "newChat": "Nieuw gesprek",
+    "clearChat": "Gesprek wissen",
+    "copyMessage": "Kopiëren",
+    "regenerate": "Regenereren",
+    "stop": "Stoppen",
+    "you": "Jij",
+    "assistant": "Assistent",
+    "emptyState": "Start een gesprek door een bericht te sturen",
+    "model": "Model",
+    "group": "Groep",
+    "serverChecking": "AI server status controleren...",
+    "serverStarting": "AI server starten (dit kan 5-10 seconden duren)...",
+    "serverError": "Kon AI server niet starten"
+  },
+  "shortcuts": {
+    "title": "Sneltoetsen",
+    "navigation": "Navigatie",
+    "chat": "Chat",
+    "general": "Algemeen",
+    "goHome": "Ga naar home",
+    "newConversation": "Nieuw gesprek",
+    "listConversations": "Gesprekslijst",
+    "sendMessage": "Bericht versturen",
+    "newLine": "Nieuwe regel",
+    "clearChat": "Chat wissen",
+    "showShortcuts": "Sneltoetsen tonen",
+    "closeModal": "Sluit modal"
+  },
+  "llamaInstall": {
+    "title": "AI Motor Installatie",
+    "subtitle": "Vereist voor lokale AI generatie",
+    "description": "WhytChat vereist het downloaden van de llama-server motor om AI antwoorden lokaal op je computer te genereren.",
+    "size": "Download grootte",
+    "platform": "Platform",
+    "downloading": "Llama-server downloaden...",
+    "extracting": "Bestanden uitpakken...",
+    "installed": "Installatie voltooid!",
+    "ready": "Klaar om te installeren",
+    "error": "Installatie mislukt",
+    "installing": "Installeren...",
+    "pleaseWait": "Even geduld, dit kan enkele minuten duren..."
+  },
+  "ui": {
+    "start": "Start",
+    "toggleOverlay": "Toggle overlay",
+    "loading": "Laden...",
+    "continue": "Doorgaan",
+    "download": "Downloaden",
+    "ready": "Klaar",
+    "downloading": "Downloaden",
+    "running": "Actief",
+    "offline": "Offline",
+    "importPack": "Lokaal pakket importeren",
+    "selected": "Geselecteerd",
+    "cancel": "Annuleren",
+    "initializing": "Download initialiseren...",
+    "error": "Fout",
+    "canceled": "Geannuleerd",
+    "pinOverlay": "Voorop vastzetten",
+    "unpinOverlay": "Losmaken",
+    "overlayOpacity": "Dekking",
+    "minimize": "Minimaliseren",
+    "close": "Sluiten"
+  },
+  "settings": {
+    "debug": {
+      "title": "Debuggen",
+      "desc": "Llama-serverlogboeken en technische details bekijken.",
+      "open": "Debugconsole openen"
+    },
+    "appearance": {
+      "title": "Uiterlijk",
+      "themeLabel": "Thema",
+      "themeDesc": "Schakel tussen licht en donker thema",
+      "dark": "Donkere modus",
+      "light": "Lichte modus"
+    },
+    "language": {
+      "title": "Taal",
+      "label": "App taal",
+      "desc": "Kies de taal van de interface"
+    },
+    "data": {
+      "title": "Gegevens & Opslag",
+      "conversations": "Gesprekken",
+      "dbLocation": "Database locatie",
+      "dbPath": "ApplicationFolder\\data\\whytchat.db",
+      "storageMode": "Opslagmodus",
+      "storageLocal": "Lokaal (op dit apparaat)"
+    },
+    "system": {
+      "title": "Systeem",
+      "platformLabel": "Platform",
+      "platformValue": "Windows (Tauri)",
+      "backendLabel": "Backend",
+      "backendValue": "Rust",
+      "engineLabel": "AI motor",
+      "engineValue": "llama.cpp server"
+    },
+    "about": {
+      "title": "Over",
+      "versionLabel": "Versie",
+      "versionValue": "0.2.1",
+      "publisherLabel": "Uitgever",
+      "publisherValue": "WhytCard",
+      "description": "Lokale AI chat applicatie die gebruik maakt van de llama.cpp engine."
+    },
+    "overlay": {
+      "title": "Overlay (spelmodus)",
+      "opacityLabel": "Standaard dekking",
+      "opacityDesc": "Stel de transparantie van de overlay in (50% tot 100%).",
+      "autoPassthroughLabel": "Automatisch doorklikken",
+      "autoPassthroughDesc": "Wanneer de muis de overlay verlaat, gaan klikken naar het spel; bij zweven keren klikken terug naar de overlay.",
+      "controlsIdleLabel": "Verberg bedieningselementen na (s)",
+      "controlsIdleDesc": "Inactiviteitsvertraging voordat de dekkingscursor en bedieningselementen worden verborgen.",
+      "dragStripLabel": "Sleepgebied weergeven",
+      "dragStripDesc": "Toont een dunne strook bovenaan om het venster snel te verplaatsen.",
+      "toggleKeyLabel": "Overlay-schakelsneltoets",
+      "toggleKeyDesc": "Druk op een toets om deze te registreren (Escape om te wissen).",
+      "toggleKeyPlaceholder": "Druk op een toets...",
+      "toggleKeyHelp": "De geregistreerde toets schakelt de overlay in wanneer de app op de voorgrond is."
+    }
+  },
+  "locales": {
+    "fr": "Français",
+    "en": "English",
+    "de": "Deutsch",
+    "es": "Español",
+    "it": "Italiano",
+    "pt": "Português",
+    "nl": "Nederlands",
+    "pl": "Polski"
+  },
+  "onboarding": {
+    "title": "Kies wat je wilt doen",
+    "privacy": "Alles blijft op je computer. Er worden geen gegevens online verzonden.",
+    "tip": "Je kunt je gebruik op elk moment wijzigen.",
+    "confirm": "Laten we beginnen"
+  },
+  "promptTemplates": {
+    "general": "Handel als nuttige assistent. Doel: {intent}. Wees duidelijk en beknopt en vraag naar ontbrekende informatie voordat je verder gaat.",
+    "coding": "Je bent een senior software engineer. Doel: {intent}. Bied stapsgewijs redeneren, schone code en leg compromissen uit. Geen placeholders.",
+    "writer": "Je bent een professionele schrijver. Doel: {intent}. Gebruik een coherente structuur, duidelijke toon en pas je aan bij het publiek.",
+    "translator": "Je bent een professionele vertaler. Doel: {intent}. Bewaar betekenis en toon, verzeker juistheid. Geef alleen de vertaling.",
+    "analyst": "Je bent een analyse expert. Doel: {intent}. Bied een gestructureerde analyse, opsommingstekens en een uitvoerbare samenvatting."
+  },
+  "presets": {
+    "llama32_3b_light": {
+      "label": "Llama 3.2 3B — Licht",
+      "desc": "Klein en snel voor algemene gesprekken, leren en schrijven (4GB RAM)"
+    },
+    "mistral_balanced": {
+      "label": "Mistral 7B — Evenwichtig",
+      "desc": "Veelzijdig voor kwaliteitsgesprekken (6GB RAM)"
+    },
+    "llama31_8b_heavy": {
+      "label": "Llama 3.1 8B — Krachtig",
+      "desc": "Robuust model voor complexe gesprekken (8GB RAM)"
+    },
+    "qwen_coder_1.5b_light": {
+      "label": "Qwen Coder 1.5B — Licht",
+      "desc": "Snel voor eenvoudige code en scripts (3GB RAM)"
+    },
+    "qwen_coder_fast": {
+      "label": "Qwen Coder 7B — Snel",
+      "desc": "Geoptimaliseerd voor ontwikkeling en code (6GB RAM)"
+    },
+    "qwen_coder_14b_heavy": {
+      "label": "Qwen Coder 14B — Krachtig",
+      "desc": "Geavanceerd model voor complexe projecten (12GB RAM)"
+    },
+    "openhermes_balanced": {
+      "label": "OpenHermes 7B — Onderwijs",
+      "desc": "Uitstekende leraar voor leren (6GB RAM)"
+    },
+    "wizardlm_heavy": {
+      "label": "WizardLM 7B — Expert",
+      "desc": "Expertmodel voor geavanceerde training (8GB RAM)"
+    },
+    "nous_hermes_balanced": {
+      "label": "Nous Hermes 7B — Creatief",
+      "desc": "Geoptimaliseerd voor schrijven en creativiteit (6GB RAM)"
+    },
+    "dolphin_heavy": {
+      "label": "Dolphin 7B — Schrijver",
+      "desc": "Gespecialiseerd in lang en genuanceerd schrijven (8GB RAM)"
+    }
+  },
+  "newConversation": {
+    "title": "Nieuw Gesprek",
+    "conversationName": "Gespreksnaam",
+    "conversationNamePlaceholder": "Bijv: WhytChat Project",
+    "selectModel": "Selecteer een model",
+    "conversationType": "Gesprekstype",
+    "simpleModeIntro": "Begeleide modus - Volg de 3 stappen om je gesprek te maken",
+    "simpleMode": "Eenvoudige Modus",
+    "expertMode": "Expertmodus",
+    "modelNotInstalled": "Model niet geïnstalleerd",
+    "noModelsAvailable": "Geen modellen beschikbaar voor dit gesprekstype",
+    "systemPrompt": "Aangepaste instructies",
+    "systemPromptPlaceholder": "Pas de instructies aan naar behoefte...",
+    "systemPromptHelp": "Definieert het gedrag en de antwoordstijl van de AI gedurende dit hele gesprek",
+    "advancedParameters": "Geavanceerde parameters (optioneel)",
+    "parameters": "Modelparameters",
+    "temperature": "Temperatuur",
+    "temperatureHelp": "Regelt creativiteit (0.1 = nauwkeurig, 2.0 = creatief)",
+    "topP": "Top P",
+    "topPHelp": "Vocabulaire diversiteit (0.1 = conservatief, 1.0 = gevarieerd)",
+    "maxTokens": "Max tokens",
+    "maxTokensHelp": "Maximale antwoordlengte",
+    "repeatPenalty": "Herhalingsboete",
+    "repeatPenaltyHelp": "Voorkomt herhalingen (1.0 = geen, 1.5 = sterke boete)",
+    "createButton": "Gesprek aanmaken",
+    "modelRequired": "Selecteer een model",
+    "downloadFirst": "Download eerst het model voordat u een gesprek aanmaakt",
+    "importLocal": "Lokale .gguf importeren",
+    "modelAvailable": "Model beschikbaar",
+    "installedOnly": "Alleen geïnstalleerd",
+    "templateGeneral": "Algemene discussie",
+    "templateCoding": "Code en ontwikkeling",
+    "templateLearning": "Leren",
+    "templateBrainstorm": "Brainstormen",
+    "templateWriting": "Schrijven",
+    "templateAnalysis": "Analyse en onderzoek",
+    "templateCustom": "Aangepast",
+    "selectTone": "AI-toon",
+    "toneDescription": "Pas de communicatiestijl van de AI aan volgens uw voorkeuren",
+    "customizeAI": "AI aanpassen",
+    "codingLanguage": "Programmeertaal",
+    "codingStyle": "Codestijl",
+    "learningLevel": "Complexiteitsniveau",
+    "learningStyle": "Lesstijl",
+    "brainstormType": "Denkwijze",
+    "brainstormFormat": "Uitvoerformaat",
+    "writingType": "Teksttype",
+    "writingTone": "Schrijftoon",
+    "analysisDepth": "Analysediepte",
+    "analysisFormat": "Analyseformaat",
+    "promptGeneral": "Je bent een veelzijdige AI-assistent. Reageer duidelijk, nauwkeurig en gestructureerd. Pas je detailniveau aan op basis van de complexiteit van de vraag. Vermeld je bronnen wanneer relevant.",
+    "promptCoding": "Je bent een ontwikkelingsassistent. Analyseer code rigoureus, stel geoptimaliseerde en veilige oplossingen voor. Leg je technische keuzes uit en stel best practices voor. Lever gecommentarieerde en geteste code.",
+    "promptLearning": "Je bent een pedagoog. Leg concepten progressief uit, van eenvoudig naar complex. Gebruik concrete analogiën, praktische voorbeelden en controleer begrip voordat je verdergaat. Moedig vragen aan.",
+    "promptBrainstorm": "Je bent een creatieve facilitator. Verken meerdere invalshoeken, stel diverse en originele ideeën voor. Bevraag aannames, combineer concepten en help bij het structureren van reflecties.",
+    "promptWriting": "Je bent een schrijfassistent. Verbeter de helderheid, coherentie en impact van teksten. Respecteer de gevraagde toon en stijl. Stel herformuleringen voor en identificeer argumentatieve zwaktes.",
+    "promptAnalysis": "Je bent een rigoureuze analist. Synthetiseer informatie op gestructureerde wijze, identificeer trends en inconsistenties. Presenteer feitelijke conclusies met hun beperkingen. Geef prioriteit aan verifieerbare gegevens."
+  },
+
+  "serverStatus": {
+    "ready": "AI-server operationeel en klaar om verzoeken te ontvangen.",
+    "checking": "Serverstatus controleren...",
+    "starting": "AI-server starten...",
+    "error": "Serverfout",
+    "stopped": "Server gestopt. Klik om te starten.",
+    "technicalStatus": "Technische status",
+    "noError": "Geen fout gedetecteerd",
+    "errorDetails": "Fout",
+    "tips": "Tips",
+    "checkConsole": "Controleer ontwikkelaarsconsole (F12)",
+    "downloadModel": "Download eerst een AI-model",
+    "serverReady": "Server klaar voor gesprekken",
+    "unknownError": "Onbekende fout"
+  },
+  "coding": {
+    "language": {
+      "any": "Alle talen",
+      "javascript": "JavaScript",
+      "typescript": "TypeScript",
+      "python": "Python",
+      "java": "Java",
+      "csharp": "C#",
+      "cpp": "C++",
+      "rust": "Rust",
+      "go": "Go",
+      "php": "PHP"
+    },
+    "style": {
+      "concise": "Beknopt - Efficiënte oplossingen",
+      "detailed": "Gedetailleerd - Met uitleg",
+      "production": "Productie - Geoptimaliseerde code",
+      "educational": "Educatief - Leergericht"
+    }
+  },
+  "learning": {
+    "level": {
+      "beginner": "Beginner - Eenvoudige taal",
+      "intermediate": "Gemiddeld - Evenwichtig",
+      "advanced": "Gevorderd - Diepgaande concepten"
+    },
+    "style": {
+      "simple": "Eenvoudig - Alledaagse analogieën",
+      "detailed": "Gedetailleerd - Uitgebreide uitleg",
+      "practical": "Praktisch - Praktijktoepassingen",
+      "theoretical": "Theoretisch - Conceptuele grondslagen"
+    }
+  },
+  "brainstorm": {
+    "type": {
+      "divergent": "Divergent - Meerdere ideeën",
+      "convergent": "Convergent - Oplossingen verfijnen",
+      "lateral": "Lateraal - Creatief denken",
+      "analytical": "Analytisch - Logische opsplitsing"
+    },
+    "format": {
+      "list": "Lijst - Duidelijke organisatie",
+      "mindmap": "Mindmap - Verbindingen",
+      "structured": "Gestructureerd - Frameworks (SWOT, 5W)",
+      "freeform": "Vrije vorm - Vloeiende verkenning"
+    }
+  },
+  "writing": {
+    "type": {
+      "email": "E-mail - Professionele communicatie",
+      "article": "Artikel - Boeiende inhoud",
+      "report": "Rapport - Formeel en gestructureerd",
+      "creative": "Creatief - Verhalende stijl",
+      "technical": "Technisch - Precieze documentatie",
+      "marketing": "Marketing - Overtuigend"
+    },
+    "tone": {
+      "formal": "Formeel - Professioneel",
+      "casual": "Informeel - Gespreksvorm",
+      "persuasive": "Overtuigend - Indrukwekkend",
+      "informative": "Informatief - Helder en feitelijk",
+      "creative": "Creatief - Expressief"
+    }
+  },
+  "analysis": {
+    "depth": {
+      "overview": "Overzicht - Algemene samenvatting",
+      "detailed": "Gedetailleerd - Diepgaande analyse",
+      "comprehensive": "Uitgebreid - Grondig"
+    },
+    "format": {
+      "summary": "Managementsamenvatting",
+      "structured": "Gestructureerd - Analysekaders",
+      "datadriven": "Datagedreven - Statistische focus"
+    }
+  },
+  "tones": {
+    "neutral": "Neutraal - Evenwichtig en objectief",
+    "polite": "Beleefd - Hoffelijk en respectvol",
+    "enthusiastic": "Enthousiast - Energiek en motiverend",
+    "professional": "Professioneel - Formeel en nauwkeurig",
+    "casual": "Informeel - Vriendelijk en ontspannen",
+    "concise": "Beknopt - Kort en direct",
+    "detailed": "Gedetailleerd - Grondig en uitgebreid"
+  },
+  "rag": {
+    "title": "Datasets (RAG)",
+    "createDataset": { "label": "Dataset aanmaken" },
+    "datasetName": { "placeholder": "Naam van dataset" },
+    "select": { "label": "Dataset selecteren", "none": "Geen" },
+    "ingest": {
+      "pasteText": "Plak tekst om te indexeren",
+      "placeholder": "Plak of typ hier de inhoud...",
+      "ingestButton": "Indexeren",
+      "success": "{count} fragmenten geïndexeerd"
+    },
+    "list": { "empty": "Nog geen datasets" },
+    "error": { "generic": "Er is een fout opgetreden" }
+  }
+}
