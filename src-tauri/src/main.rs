@@ -276,7 +276,11 @@ fn main() {
             rag::rag_list_datasets,
             rag::rag_create_dataset,
             rag::rag_delete_dataset,
-            rag::rag_ingest_text
+            rag::rag_ingest_text,
+            // RAG Dataset Linking
+            link_dataset_to_conversation,
+            unlink_dataset_from_conversation,
+            list_datasets_for_conversation
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
@@ -521,6 +525,37 @@ async fn add_message(
 ) -> Result<i64, String> {
     let mut conn = db.0.lock().map_err(|e| e.to_string())?;
     db::add_message(&mut conn, conversation_id, &role, &content).map_err(|e| e.to_string())
+}
+
+// ===== RAG Dataset Linking Commands =====
+
+#[tauri::command]
+async fn link_dataset_to_conversation(
+    conversation_id: i64,
+    dataset_id: String,
+    db: State<'_, DbState>
+) -> Result<(), String> {
+    let conn = db.0.lock().map_err(|e| e.to_string())?;
+    db::link_dataset_to_conversation(&conn, conversation_id, &dataset_id).map_err(|e| e.to_string())
+}
+
+#[tauri::command]
+async fn unlink_dataset_from_conversation(
+    conversation_id: i64,
+    dataset_id: String,
+    db: State<'_, DbState>
+) -> Result<(), String> {
+    let conn = db.0.lock().map_err(|e| e.to_string())?;
+    db::unlink_dataset_from_conversation(&conn, conversation_id, &dataset_id).map_err(|e| e.to_string())
+}
+
+#[tauri::command]
+async fn list_datasets_for_conversation(
+    conversation_id: i64,
+    db: State<'_, DbState>
+) -> Result<Vec<String>, String> {
+    let conn = db.0.lock().map_err(|e| e.to_string())?;
+    db::list_datasets_for_conversation(&conn, conversation_id).map_err(|e| e.to_string())
 }
 
 #[tauri::command]
