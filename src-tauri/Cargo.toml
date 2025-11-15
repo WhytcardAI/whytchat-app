@@ -22,8 +22,6 @@ futures-util = "0.3"
 rusqlite = { version = "0.31", features = ["bundled"] }
 chrono = "0.4"
 zip = "0.6"
-
-<<<<<<< HEAD
 # Document parsing for RAG (commented out - not yet implemented)
 # pdf-extract = "0.7"
 # docx-rs = "0.4"  # DOCX parsing
@@ -31,12 +29,14 @@ zip = "0.6"
 # scraper = "0.21"  # HTML parsing and web scraping
 # regex = "1.10"
 # url = "2.5"  # URL parsing and validation
-=======
-# Document parsing for RAG
-pdf-extract = "0.7"
-docx-rs = "0.4"  # DOCX parsing
-xml-rs = "0.8"
-scraper = "0.21"  # HTML parsing and web scraping
-regex = "1.10"
-url = "2.5"  # URL parsing and validation
->>>>>>> f1d3a2dd6f5a94e4a34ac0cc814a923dee7644e7
+rusqlite = { version = "0.31", features = ["bundled"] }
+chrono = "0.4"
+zip = "0.6"
+
+# Document parsing for RAG (commented out - not yet implemented)
+# pdf-extract = "0.7"
+# docx-rs = "0.4"  # DOCX parsing
+# xml-rs = "0.8"
+# scraper = "0.21"  # HTML parsing and web scraping
+# regex = "1.10"
+# url = "2.5"  # URL parsing and validation
