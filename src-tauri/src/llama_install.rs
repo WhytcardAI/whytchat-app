@@ -192,8 +192,12 @@ pub async fn download_server_binary(window: Window) -> Result<PathBuf, String> {
 
     while let Some(chunk) = stream.next().await {
         let chunk = chunk.map_err(|e| format!("Error reading chunk: {}", e))?;
+<<<<<<< HEAD
         file.write_all(&chunk)
             .map_err(|e| format!("Error writing to file: {}", e))?;
+=======
+        file.write_all(&chunk).map_err(|e| format!("Error writing to file: {}", e))?;
+>>>>>>> f1d3a2dd6f5a94e4a34ac0cc814a923dee7644e7
 
         downloaded += chunk.len() as u64;
 
@@ -212,8 +216,12 @@ pub async fn download_server_binary(window: Window) -> Result<PathBuf, String> {
         window.emit("llama-download-progress", &progress).ok();
     }
 
+<<<<<<< HEAD
     file.flush()
         .map_err(|e| format!("Failed to flush file: {}", e))?;
+=======
+    file.flush().map_err(|e| format!("Failed to flush file: {}", e))?;
+>>>>>>> f1d3a2dd6f5a94e4a34ac0cc814a923dee7644e7
 
     window.emit("llama-server-status", "extracting").ok();
 
@@ -226,8 +234,12 @@ pub fn extract_server_binary(
     app_handle: &tauri::AppHandle,
 ) -> Result<PathBuf, String> {
     let file = File::open(zip_path).map_err(|e| format!("Failed to open ZIP: {}", e))?;
+<<<<<<< HEAD
     let mut archive =
         zip::ZipArchive::new(file).map_err(|e| format!("Failed to read ZIP archive: {}", e))?;
+=======
+    let mut archive = zip::ZipArchive::new(file).map_err(|e| format!("Failed to read ZIP archive: {}", e))?;
+>>>>>>> f1d3a2dd6f5a94e4a34ac0cc814a923dee7644e7
 
     // Create bin directory within program folder
     let base = get_base_dir()?;
@@ -494,9 +506,13 @@ pub fn start_server_process(
 pub fn stop_server_process(window: Window) -> Result<(), String> {
     eprintln!("[llama_install] ====== STOP SERVER REQUESTED ======");
 
+<<<<<<< HEAD
     let mut guard = LLAMA_PROCESS
         .lock()
         .map_err(|e| format!("Lock error: {}", e))?;
+=======
+    let mut guard = LLAMA_PROCESS.lock().map_err(|e| format!("Lock error: {}", e))?;
+>>>>>>> f1d3a2dd6f5a94e4a34ac0cc814a923dee7644e7
 
     if let Some(mut child) = guard.take() {
         let pid = child.id();
