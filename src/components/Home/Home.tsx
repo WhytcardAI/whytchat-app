@@ -433,7 +433,7 @@ export function Home({ onNavigate }: HomeProps) {
                     className="group relative overflow-hidden rounded-xl p-6 flex flex-col items-center bg-white dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600 hover:border-transparent hover:shadow-xl transition-all duration-300"
                   >
                     <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br from-amber-500 to-orange-600" />
-                    
+
                     <div className="relative z-10 w-full flex flex-col items-center">
                       <div className="flex items-center gap-4 mb-4">
                         <div className="w-16 h-16 rounded-full flex items-center justify-center bg-gradient-to-br from-amber-500 to-orange-600 text-white transition-all duration-300 group-hover:scale-110">
@@ -460,7 +460,7 @@ export function Home({ onNavigate }: HomeProps) {
                     className="group relative overflow-hidden rounded-xl p-6 flex flex-col items-center bg-white dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600 hover:border-transparent hover:shadow-xl transition-all duration-300"
                   >
                     <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br from-pink-500 to-rose-600" />
-                    
+
                     <div className="relative z-10 w-full flex flex-col items-center">
                       <div className="flex items-center gap-4 mb-4">
                         <div className="w-16 h-16 rounded-full flex items-center justify-center bg-gradient-to-br from-pink-500 to-rose-600 text-white transition-all duration-300 group-hover:scale-110">
@@ -487,7 +487,7 @@ export function Home({ onNavigate }: HomeProps) {
                     className="group relative overflow-hidden rounded-xl p-6 flex flex-col items-center bg-white dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600 hover:border-transparent hover:shadow-xl transition-all duration-300"
                   >
                     <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br from-blue-500 to-indigo-600" />
-                    
+
                     <div className="relative z-10 w-full flex flex-col items-center">
                       <div className="flex items-center gap-4 mb-4">
                         <div className="w-16 h-16 rounded-full flex items-center justify-center bg-gradient-to-br from-blue-500 to-indigo-600 text-white transition-all duration-300 group-hover:scale-110">
