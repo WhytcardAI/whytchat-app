@@ -33,29 +33,12 @@ import {
   Send,
   Lightbulb,
   StopCircle,
-<<<<<<< HEAD
   FileText,
-=======
-  Database,
-  Link,
->>>>>>> f1d3a2dd6f5a94e4a34ac0cc814a923dee7644e7
   X,
 } from "lucide-react";
 import { useKeyboardShortcuts } from "../../hooks/useKeyboardShortcuts";
 import { MessageBubble } from "./components/MessageBubble";
-<<<<<<< HEAD
 import { FileImport } from "./components/FileImport";
-=======
-import {
-  listDatasets,
-  listDatasetsForConversation,
-  linkDatasetToConversation,
-  unlinkDatasetFromConversation,
-  createDataset,
-  deleteDataset,
-  ingestText,
-} from "../../rag/api";
->>>>>>> f1d3a2dd6f5a94e4a34ac0cc814a923dee7644e7
 
 type Message = {
   id: string;
@@ -125,7 +108,6 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
   const abortControllerRef = useRef<AbortController | null>(null);
   const serverStartedRef = useRef<boolean>(false);
 
-<<<<<<< HEAD
   // File import state
   const [importedFiles, setImportedFiles] = useState<
     Array<{
@@ -135,19 +117,6 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
     }>
   >([]);
   const [showFileImport, setShowFileImport] = useState(false);
-=======
-  // Dataset state
-  const [linkedDatasets, setLinkedDatasets] = useState<string[]>([]);
-  const [availableDatasets, setAvailableDatasets] = useState<
-    Array<{ id: string; name: string; created_at: string }>
-  >([]);
-  const [showDatasetModal, setShowDatasetModal] = useState(false);
-  const [newDatasetName, setNewDatasetName] = useState("");
-  const [ingestTextContent, setIngestTextContent] = useState("");
-  const [selectedDatasetForIngest, setSelectedDatasetForIngest] = useState("");
-  const [isCreatingDataset, setIsCreatingDataset] = useState(false);
-  const [isIngestingText, setIsIngestingText] = useState(false);
->>>>>>> f1d3a2dd6f5a94e4a34ac0cc814a923dee7644e7
 
   // Chat-specific keyboard shortcuts
   useKeyboardShortcuts([
@@ -291,7 +260,6 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
   }, [serverReady]);
 
   // Load datasets when conversation changes
-<<<<<<< HEAD
   // File import handler
   const handleFileImported = (file: {
     name: string;
@@ -312,95 +280,6 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
 
   const handleRemoveFile = (fileName: string) => {
     setImportedFiles((prev) => prev.filter((f) => f.name !== fileName));
-=======
-  useEffect(() => {
-    if (!conversationId) return;
-
-    (async () => {
-      try {
-        // Load all available datasets
-        const datasets = await listDatasets();
-        setAvailableDatasets(datasets);
-
-        // Load datasets linked to this conversation
-        const linked = await listDatasetsForConversation(
-          parseInt(conversationId)
-        );
-        setLinkedDatasets(linked);
-      } catch (err) {
-        console.error("[RAG] Failed to load datasets:", err);
-      }
-    })();
-  }, [conversationId]);
-
-  // Dataset handlers
-  const handleLinkDataset = async (datasetId: string) => {
-    if (!conversationId) return;
-    try {
-      await linkDatasetToConversation(parseInt(conversationId), datasetId);
-      setLinkedDatasets((prev) => [...prev, datasetId]);
-    } catch (err) {
-      console.error("[RAG] Failed to link dataset:", err);
-      alert(`Failed to link dataset: ${err}`);
-    }
-  };
-
-  const handleUnlinkDataset = async (datasetId: string) => {
-    if (!conversationId) return;
-    try {
-      await unlinkDatasetFromConversation(parseInt(conversationId), datasetId);
-      setLinkedDatasets((prev) => prev.filter((id) => id !== datasetId));
-    } catch (err) {
-      console.error("[RAG] Failed to unlink dataset:", err);
-      alert(`Failed to unlink dataset: ${err}`);
-    }
-  };
-
-  const handleCreateDataset = async () => {
-    if (!newDatasetName.trim()) return;
-    setIsCreatingDataset(true);
-    try {
-      const dataset = await createDataset(newDatasetName.trim());
-      setAvailableDatasets((prev) => [...prev, dataset]);
-      setNewDatasetName("");
-      alert(`Dataset "${dataset.name}" created successfully!`);
-    } catch (err) {
-      console.error("[RAG] Failed to create dataset:", err);
-      alert(`Failed to create dataset: ${err}`);
-    } finally {
-      setIsCreatingDataset(false);
-    }
-  };
-
-  const handleDeleteDataset = async (datasetId: string) => {
-    if (!confirm("Are you sure you want to delete this dataset?")) return;
-    try {
-      await deleteDataset(datasetId);
-      setAvailableDatasets((prev) => prev.filter((d) => d.id !== datasetId));
-      setLinkedDatasets((prev) => prev.filter((id) => id !== datasetId));
-    } catch (err) {
-      console.error("[RAG] Failed to delete dataset:", err);
-      alert(`Failed to delete dataset: ${err}`);
-    }
-  };
-
-  const handleIngestText = async () => {
-    if (!selectedDatasetForIngest || !ingestTextContent.trim()) return;
-    setIsIngestingText(true);
-    try {
-      const result = await ingestText(
-        selectedDatasetForIngest,
-        ingestTextContent.trim()
-      );
-      alert(`Ingested ${result.chunks} chunks successfully!`);
-      setIngestTextContent("");
-    } catch (err) {
-      console.error("[RAG] Failed to ingest text:", err);
-      alert(`Failed to ingest text: ${err}`);
-    } finally {
-      setIsIngestingText(false);
-    }
->>>>>>> f1d3a2dd6f5a94e4a34ac0cc814a923dee7644e7
   };
 
   const handleSend = async () => {
@@ -734,15 +613,9 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
                     {conversationGroup}
                   </span>
                 )}
-<<<<<<< HEAD
                 {importedFiles.length > 0 && (
                   <span className="flex items-center gap-1">
                     <FileText size={14} /> Files: {importedFiles.length}
-=======
-                {linkedDatasets.length > 0 && (
-                  <span className="flex items-center gap-1">
-                    <Database size={14} /> Datasets: {linkedDatasets.length}
->>>>>>> f1d3a2dd6f5a94e4a34ac0cc814a923dee7644e7
                   </span>
                 )}
               </div>
@@ -751,18 +624,11 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
 
           <div className="flex items-center gap-2">
             <button
-<<<<<<< HEAD
               onClick={() => setShowFileImport(true)}
               className="px-4 py-2 text-sm rounded-lg bg-blue-600 dark:bg-blue-700 text-white hover:bg-blue-700 dark:hover:bg-blue-800 shadow-sm hover:shadow-md transition-all flex items-center gap-2"
               title={i18n.t("chat.importFile.button")}
             >
               <FileText size={14} /> {i18n.t("chat.importFile.button")}
-=======
-              onClick={() => setShowDatasetModal(true)}
-              className="px-4 py-2 text-sm rounded-lg bg-blue-600 dark:bg-blue-700 text-white hover:bg-blue-700 dark:hover:bg-blue-800 shadow-sm hover:shadow-md transition-all flex items-center gap-2"
-            >
-              <Database size={14} /> Datasets
->>>>>>> f1d3a2dd6f5a94e4a34ac0cc814a923dee7644e7
             </button>
             <button
               onClick={() => onNavigate("newConversation")}
@@ -932,7 +798,6 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
         </div>
       </div>
 
-<<<<<<< HEAD
       {/* File Import Modal */}
       {showFileImport && (
         <FileImport
@@ -965,155 +830,6 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
                 </button>
               </div>
             ))}
-=======
-      {/* Dataset Management Modal */}
-      {showDatasetModal && (
-        <div
-          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
-          onClick={() => setShowDatasetModal(false)}
-        >
-          <div
-            className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-3xl w-full mx-4 max-h-[80vh] overflow-y-auto"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                <Database size={24} /> Dataset Management
-              </h2>
-              <button
-                onClick={() => setShowDatasetModal(false)}
-                className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
-              >
-                <X size={20} />
-              </button>
-            </div>
-
-            {/* Create Dataset */}
-            <div className="mb-6 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-              <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-2">
-                Create New Dataset
-              </h3>
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  value={newDatasetName}
-                  onChange={(e) => setNewDatasetName(e.target.value)}
-                  placeholder="Dataset name..."
-                  className="flex-1 px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") handleCreateDataset();
-                  }}
-                />
-                <button
-                  onClick={handleCreateDataset}
-                  disabled={!newDatasetName.trim() || isCreatingDataset}
-                  className="px-4 py-2 text-sm rounded-lg bg-blue-600 text-white hover:bg-blue-700 disabled:bg-gray-300 dark:disabled:bg-gray-600 disabled:cursor-not-allowed"
-                >
-                  {isCreatingDataset ? "Creating..." : "Create"}
-                </button>
-              </div>
-            </div>
-
-            {/* Ingest Text */}
-            <div className="mb-6 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-              <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-2">
-                Ingest Text into Dataset
-              </h3>
-              <select
-                value={selectedDatasetForIngest}
-                onChange={(e) => setSelectedDatasetForIngest(e.target.value)}
-                className="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 mb-2"
-              >
-                <option value="">Select dataset...</option>
-                {availableDatasets.map((dataset) => (
-                  <option key={dataset.id} value={dataset.id}>
-                    {dataset.name}
-                  </option>
-                ))}
-              </select>
-              <textarea
-                value={ingestTextContent}
-                onChange={(e) => setIngestTextContent(e.target.value)}
-                placeholder="Paste your text here to ingest into the selected dataset..."
-                rows={4}
-                className="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none mb-2"
-              />
-              <button
-                onClick={handleIngestText}
-                disabled={
-                  !selectedDatasetForIngest ||
-                  !ingestTextContent.trim() ||
-                  isIngestingText
-                }
-                className="px-4 py-2 text-sm rounded-lg bg-green-600 text-white hover:bg-green-700 disabled:bg-gray-300 dark:disabled:bg-gray-600 disabled:cursor-not-allowed"
-              >
-                {isIngestingText ? "Ingesting..." : "Ingest Text"}
-              </button>
-            </div>
-
-            {/* Dataset List */}
-            <div>
-              <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
-                Available Datasets
-              </h3>
-              {availableDatasets.length === 0 ? (
-                <p className="text-sm text-gray-500 dark:text-gray-400 text-center py-4">
-                  No datasets yet. Create one above to get started.
-                </p>
-              ) : (
-                <div className="space-y-2">
-                  {availableDatasets.map((dataset) => {
-                    const isLinked = linkedDatasets.includes(dataset.id);
-                    return (
-                      <div
-                        key={dataset.id}
-                        className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg"
-                      >
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2">
-                            <h4 className="text-sm font-medium text-gray-900 dark:text-white">
-                              {dataset.name}
-                            </h4>
-                            {isLinked && (
-                              <span className="px-2 py-0.5 text-xs rounded-full bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 flex items-center gap-1">
-                                <Link size={10} /> Linked
-                              </span>
-                            )}
-                          </div>
-                          <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-                            Created: {new Date(dataset.created_at).toLocaleDateString()}
-                          </p>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          {isLinked ? (
-                            <button
-                              onClick={() => handleUnlinkDataset(dataset.id)}
-                              className="px-3 py-1.5 text-xs rounded-lg bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 hover:bg-yellow-200 dark:hover:bg-yellow-800"
-                            >
-                              Unlink
-                            </button>
-                          ) : (
-                            <button
-                              onClick={() => handleLinkDataset(dataset.id)}
-                              className="px-3 py-1.5 text-xs rounded-lg bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 hover:bg-blue-200 dark:hover:bg-blue-800"
-                            >
-                              Link
-                            </button>
-                          )}
-                          <button
-                            onClick={() => handleDeleteDataset(dataset.id)}
-                            className="px-3 py-1.5 text-xs rounded-lg bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 hover:bg-red-200 dark:hover:bg-red-800"
-                          >
-                            Delete
-                          </button>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
->>>>>>> f1d3a2dd6f5a94e4a34ac0cc814a923dee7644e7
           </div>
         </div>
       )}

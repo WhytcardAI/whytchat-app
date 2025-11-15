@@ -13,16 +13,7 @@ import { TitleBar } from "./components/TitleBar";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { useKeyboardShortcuts } from "./hooks/useKeyboardShortcuts";
 
-<<<<<<< HEAD
 type View = "home" | "chat" | "settings" | "newConversation" | "conversations";
-=======
-type View =
-  | "home"
-  | "chat"
-  | "settings"
-  | "newConversation"
-  | "conversations";
->>>>>>> f1d3a2dd6f5a94e4a34ac0cc814a923dee7644e7
 
 export function App() {
   const [currentView, setCurrentView] = useState<View>("home");

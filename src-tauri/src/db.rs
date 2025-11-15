@@ -117,11 +117,7 @@ pub fn init_db(app_handle: &tauri::AppHandle) -> Result<Connection> {
         )",
         [],
     )?;
-<<<<<<< HEAD
 
-=======
-    
->>>>>>> f1d3a2dd6f5a94e4a34ac0cc814a923dee7644e7
     // Table N-N pour lier conversations et datasets RAG
     conn.execute(
         "CREATE TABLE IF NOT EXISTS conversation_datasets (
@@ -133,11 +129,7 @@ pub fn init_db(app_handle: &tauri::AppHandle) -> Result<Connection> {
         )",
         [],
     )?;
-<<<<<<< HEAD
 
-=======
-    
->>>>>>> f1d3a2dd6f5a94e4a34ac0cc814a923dee7644e7
     // Create indexes
     conn.execute(
         "CREATE INDEX IF NOT EXISTS idx_conversations_group_id ON conversations(group_id)",
@@ -148,29 +140,14 @@ pub fn init_db(app_handle: &tauri::AppHandle) -> Result<Connection> {
         "CREATE INDEX IF NOT EXISTS idx_messages_conversation_id ON messages(conversation_id)",
         [],
     )?;
-<<<<<<< HEAD
-
-=======
-    
->>>>>>> f1d3a2dd6f5a94e4a34ac0cc814a923dee7644e7
     conn.execute(
         "CREATE INDEX IF NOT EXISTS idx_conversation_datasets_conversation ON conversation_datasets(conversation_id)",
         [],
     )?;
-<<<<<<< HEAD
-
-=======
-    
->>>>>>> f1d3a2dd6f5a94e4a34ac0cc814a923dee7644e7
     conn.execute(
         "CREATE INDEX IF NOT EXISTS idx_conversation_datasets_dataset ON conversation_datasets(dataset_id)",
         [],
     )?;
-<<<<<<< HEAD
-
-=======
-    
->>>>>>> f1d3a2dd6f5a94e4a34ac0cc814a923dee7644e7
     Ok(conn)
 }
 
@@ -363,19 +340,8 @@ pub fn list_datasets_for_conversation(
     let mut stmt = conn.prepare(
         "SELECT dataset_id FROM conversation_datasets WHERE conversation_id = ?1 ORDER BY created_at"
     )?;
-<<<<<<< HEAD
-
     let dataset_ids = stmt
         .query_map([conversation_id], |row| row.get::<_, String>(0))?
         .collect::<Result<Vec<_>>>()?;
-
-=======
-    
-    let dataset_ids = stmt.query_map([conversation_id], |row| {
-        row.get::<_, String>(0)
-    })?
-    .collect::<Result<Vec<_>>>()?;
-    
->>>>>>> f1d3a2dd6f5a94e4a34ac0cc814a923dee7644e7
     Ok(dataset_ids)
 }

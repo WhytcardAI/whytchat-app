@@ -165,13 +165,9 @@ async fn start_llama(args: StartArgs, _app: AppHandle) -> Result<StartResult, St
     eprintln!("[start_llama] File exists: {}", !need);
     eprintln!("[start_llama] Current dir: {:?}", std::env::current_dir());
 
-<<<<<<< HEAD
     Ok(StartResult {
         need_download: need,
     })
-=======
-    Ok(StartResult { need_download: need })
->>>>>>> f1d3a2dd6f5a94e4a34ac0cc814a923dee7644e7
 }
 
 #[derive(Serialize, Deserialize)]
@@ -202,13 +198,8 @@ struct PresetPublic {
 #[tauri::command]
 async fn get_presets() -> Result<Vec<PresetPublic>, String> {
     const PRESETS_JSON: &str = include_str!("../presets.json");
-<<<<<<< HEAD
     let data: Vec<PresetInternal> =
         serde_json::from_str(PRESETS_JSON).map_err(|e| e.to_string())?;
-=======
-    let data: Vec<PresetInternal> = serde_json::from_str(PRESETS_JSON)
-        .map_err(|e| e.to_string())?;
->>>>>>> f1d3a2dd6f5a94e4a34ac0cc814a923dee7644e7
 
     let list: Vec<PresetPublic> = data
         .into_iter()
@@ -363,7 +354,6 @@ async fn download_pack(
         if final_path.exists() {
             // Model already present, mark as done immediately
             let mut map = dm.inner.lock().unwrap();
-<<<<<<< HEAD
             map.insert(
                 args.preset_id.clone(),
                 DownloadEntry {
@@ -375,15 +365,6 @@ async fn download_pack(
                         error: None,
                     },
                     cancel: Arc::new(AtomicBool::new(false)),
-=======
-            map.insert(args.preset_id.clone(), DownloadEntry {
-                state: DownloadState {
-                    filename: pack.filename.clone(),
-                    total: pack.size_bytes,
-                    written: pack.size_bytes.unwrap_or(0),
-                    status: "done".into(),
-                    error: None
->>>>>>> f1d3a2dd6f5a94e4a34ac0cc814a923dee7644e7
                 },
             );
             return Ok("already_installed".into());
@@ -573,7 +554,6 @@ struct CreateConversationArgs {
 }
 
 #[tauri::command]
-<<<<<<< HEAD
 async fn create_conversation(
     args: CreateConversationArgs,
     db: State<'_, DbState>,
@@ -592,18 +572,6 @@ async fn create_conversation(
                 } else {
                     Some(db::create_group(&conn, group_name).map_err(|e| e.to_string())?)
                 }
-=======
-async fn create_conversation(args: CreateConversationArgs, db: State<'_, DbState>) -> Result<i64, String> {
-    let conn = db.0.lock().map_err(|e| e.to_string())?;
-
-    // Get or create group if specified
-    let group_id = if let Some(group_name) = args.group_name {
-        if !group_name.is_empty() {
-            // Try to find existing group or create new one
-            let groups = db::list_groups(&conn).map_err(|e| e.to_string())?;
-            if let Some(group) = groups.iter().find(|g| g.name == group_name) {
-                Some(group.id)
->>>>>>> f1d3a2dd6f5a94e4a34ac0cc814a923dee7644e7
             } else {
                 None
             }
@@ -649,7 +617,6 @@ async fn create_conversation(args: CreateConversationArgs, db: State<'_, DbState
                 );
             }
         }
-<<<<<<< HEAD
     }
 
     // Auto-create dataset if requested (name or text provided)
@@ -706,36 +673,6 @@ async fn create_conversation(args: CreateConversationArgs, db: State<'_, DbState
     }
 
     Ok(conversation_id)
-=======
-    } else {
-        None
-    };
-
-    let system_prompt_opt = if args.system_prompt.is_empty() {
-        None
-    } else {
-        Some(args.system_prompt)
-    };
-
-    // Convert dataset_ids Vec to JSON string
-    let dataset_ids_json = args.dataset_ids
-        .map(|ids| serde_json::to_string(&ids).ok())
-        .flatten();
-
-    let params = db::ConversationParams {
-        name: args.name,
-        group_id,
-        preset_id: args.preset_id,
-        system_prompt: system_prompt_opt,
-        temperature: args.parameters.temperature,
-        top_p: args.parameters.top_p,
-        max_tokens: args.parameters.max_tokens,
-        repeat_penalty: args.parameters.repeat_penalty,
-        dataset_ids: dataset_ids_json,
-    };
-
-    db::create_conversation(&conn, params).map_err(|e| e.to_string())
->>>>>>> f1d3a2dd6f5a94e4a34ac0cc814a923dee7644e7
 }
 
 #[tauri::command]
@@ -782,11 +719,7 @@ async fn add_message(
 async fn link_dataset_to_conversation(
     conversation_id: i64,
     dataset_id: String,
-<<<<<<< HEAD
     db: State<'_, DbState>,
-=======
-    db: State<'_, DbState>
->>>>>>> f1d3a2dd6f5a94e4a34ac0cc814a923dee7644e7
 ) -> Result<(), String> {
     let conn = db.0.lock().map_err(|e| e.to_string())?;
     db::link_dataset_to_conversation(&conn, conversation_id, &dataset_id).map_err(|e| e.to_string())
@@ -796,28 +729,17 @@ async fn link_dataset_to_conversation(
 async fn unlink_dataset_from_conversation(
     conversation_id: i64,
     dataset_id: String,
-<<<<<<< HEAD
     db: State<'_, DbState>,
 ) -> Result<(), String> {
     let conn = db.0.lock().map_err(|e| e.to_string())?;
     db::unlink_dataset_from_conversation(&conn, conversation_id, &dataset_id)
         .map_err(|e| e.to_string())
-=======
-    db: State<'_, DbState>
-) -> Result<(), String> {
-    let conn = db.0.lock().map_err(|e| e.to_string())?;
-    db::unlink_dataset_from_conversation(&conn, conversation_id, &dataset_id).map_err(|e| e.to_string())
->>>>>>> f1d3a2dd6f5a94e4a34ac0cc814a923dee7644e7
 }
 
 #[tauri::command]
 async fn list_datasets_for_conversation(
     conversation_id: i64,
-<<<<<<< HEAD
     db: State<'_, DbState>,
-=======
-    db: State<'_, DbState>
->>>>>>> f1d3a2dd6f5a94e4a34ac0cc814a923dee7644e7
 ) -> Result<Vec<String>, String> {
     let conn = db.0.lock().map_err(|e| e.to_string())?;
     db::list_datasets_for_conversation(&conn, conversation_id).map_err(|e| e.to_string())
@@ -843,14 +765,10 @@ async fn load_rag_context(conversation_id: i64, db: &State<'_, DbState>) -> Resu
                 all_chunks.extend(chunks);
             }
             Err(e) => {
-<<<<<<< HEAD
                 eprintln!(
                     "[RAG] Failed to load chunks for dataset {}: {}",
                     dataset_id, e
                 );
-=======
-                eprintln!("[RAG] Failed to load chunks for dataset {}: {}", dataset_id, e);
->>>>>>> f1d3a2dd6f5a94e4a34ac0cc814a923dee7644e7
                 // Continue with other datasets
             }
         }
@@ -949,14 +867,11 @@ async fn generate_text(
         repeat_penalty: conversation.repeat_penalty,
     };
 
-<<<<<<< HEAD
     eprintln!(
         "[generate_text] Parameters: temp={}, top_p={}, max_tokens={}, repeat_penalty={}",
         payload.temperature, payload.top_p, payload.max_tokens, payload.repeat_penalty
     );
 
-=======
->>>>>>> f1d3a2dd6f5a94e4a34ac0cc814a923dee7644e7
     // Send request to llama-server
     let server_url = llama::get_server_url();
     let client = reqwest::Client::builder()
@@ -1009,10 +924,6 @@ async fn generate_text(
             println!("[generate_text] Raw SSE line: {}", line);
 
             if let Some(json_str) = line.strip_prefix("data: ") {
-<<<<<<< HEAD
-=======
-
->>>>>>> f1d3a2dd6f5a94e4a34ac0cc814a923dee7644e7
                 if json_str == "[DONE]" {
                     println!("[generate_text] Received [DONE], finishing stream");
                     finished = true;
@@ -1060,14 +971,10 @@ async fn generate_text(
         }
     }
 
-<<<<<<< HEAD
     println!(
         "[generate_text] Streaming complete. Total accumulated: {} chars",
         accumulated.len()
     );
-=======
-    println!("[generate_text] Streaming complete. Total accumulated: {} chars", accumulated.len());
->>>>>>> f1d3a2dd6f5a94e4a34ac0cc814a923dee7644e7
 
     // Save assistant message to DB
     {
@@ -1134,12 +1041,7 @@ async fn start_llama_for_conversation(
 ) -> Result<u32, String> {
     // Get conversation preset_id from database
     let conn = db.0.lock().map_err(|e| e.to_string())?;
-<<<<<<< HEAD
     let conversation = db::get_conversation(&conn, conversation_id).map_err(|e| e.to_string())?;
-=======
-    let conversation = db::get_conversation(&conn, conversation_id)
-        .map_err(|e| e.to_string())?;
->>>>>>> f1d3a2dd6f5a94e4a34ac0cc814a923dee7644e7
 
     // Load pack info
     const PACKS_JSON: &str = include_str!("../pack-sources.json");
@@ -1239,13 +1141,9 @@ async fn generate_prompt_ai_dialogue(
     };
 
     let mut strict = String::new();
-<<<<<<< HEAD
     if args.strict_mode {
         strict.push_str("RÈGLES STRICTES - ZÉRO INVENTION\n1) Suivre uniquement les instructions explicites\n2) Aucune extrapolation\n3) Si une info manque, poser jusqu'à 3 questions concises\n4) Respecter langue/format demandés\n\n");
     }
-=======
-    if args.strict_mode { strict.push_str("RÈGLES STRICTES - ZÉRO INVENTION\n1) Suivre uniquement les instructions explicites\n2) Aucune extrapolation\n3) Si une info manque, poser jusqu'à 3 questions concises\n4) Respecter langue/format demandés\n\n"); }
->>>>>>> f1d3a2dd6f5a94e4a34ac0cc814a923dee7644e7
 
     // Protocol for iterative prompting
     let system_proto = format!(
