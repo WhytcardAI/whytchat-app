@@ -37,11 +37,11 @@ fn get_base_dir() -> Result<PathBuf, String> {
 const LLAMA_VERSION: &str = "b6940";
 const WIN_X64_URL: &str =
     "https://github.com/ggml-org/llama.cpp/releases/download/b6940/llama-b6940-bin-win-cpu-x64.zip";
-const LINUX_X64_URL: &str = 
+const LINUX_X64_URL: &str =
     "https://github.com/ggml-org/llama.cpp/releases/download/b6940/llama-b6940-bin-ubuntu-x64.zip";
-const MACOS_ARM_URL: &str = 
+const MACOS_ARM_URL: &str =
     "https://github.com/ggml-org/llama.cpp/releases/download/b6940/llama-b6940-bin-macos-arm64.zip";
-const MACOS_X64_URL: &str = 
+const MACOS_X64_URL: &str =
     "https://github.com/ggml-org/llama.cpp/releases/download/b6940/llama-b6940-bin-macos-x64.zip";
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
@@ -366,15 +366,20 @@ pub fn start_server_process(
         .map(|p| p.to_path_buf())
         .unwrap_or_else(|| std::env::current_dir().unwrap_or_else(|_| PathBuf::from(".")));
     let current_path = std::env::var("PATH").unwrap_or_default();
-    
+
     // Use correct PATH separator for the platform
     #[cfg(target_os = "windows")]
     let path_separator = ";";
     #[cfg(not(target_os = "windows"))]
     let path_separator = ":";
-    
-    let injected_path = format!("{}{}{}", bin_dir.to_string_lossy(), path_separator, current_path);
-    
+
+    let injected_path = format!(
+        "{}{}{}",
+        bin_dir.to_string_lossy(),
+        path_separator,
+        current_path
+    );
+
     // SystemRoot is Windows-specific
     #[cfg(target_os = "windows")]
     let system_root = std::env::var("SystemRoot").unwrap_or_else(|_| "C:\\Windows".to_string());
@@ -390,10 +395,8 @@ pub fn start_server_process(
     // Start process and capture stdout/stderr for UI debug
     // Use bin_dir as working directory to maximize DLL resolution reliability
     let mut command = Command::new(&binary_path);
-    command
-        .current_dir(&bin_dir)
-        .env("PATH", &injected_path);
-    
+    command.current_dir(&bin_dir).env("PATH", &injected_path);
+
     // Windows-specific environment variables
     #[cfg(target_os = "windows")]
     {
@@ -401,7 +404,7 @@ pub fn start_server_process(
             .env("SystemRoot", &system_root)
             .env("WINDIR", &system_root);
     }
-    
+
     command
         .arg("-m")
         .arg(model_full_path.to_string_lossy().as_ref())

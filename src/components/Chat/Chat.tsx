@@ -305,7 +305,10 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
       let messageWithContext = userContent;
       if (importedFiles.length > 0) {
         const fileContext = importedFiles
-          .map((file) => `[REFERENCE DOCUMENT: ${file.name}]\n${file.content}\n[END DOCUMENT]`)
+          .map(
+            (file) =>
+              `[REFERENCE DOCUMENT: ${file.name}]\n${file.content}\n[END DOCUMENT]`
+          )
           .join("\n\n");
         messageWithContext = `SYSTEM: The following documents are provided as reference context. Do not repeat or summarize their content unless explicitly asked. Use them to answer questions accurately.\n\n${fileContext}\n\n---\n\nUser: ${userContent}`;
       }

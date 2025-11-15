@@ -60,7 +60,9 @@ export function FileImport({ onFileImported, onClose }: FileImportProps) {
       const fileName = filePath.split(/[\\/]/).pop() || "file";
 
       // Read file content using Tauri command
-      const content = await invoke<string>("read_file_content", { path: filePath });
+      const content = await invoke<string>("read_file_content", {
+        path: filePath,
+      });
       const sizeKB = Math.round(content.length / 1024);
 
       onFileImported({

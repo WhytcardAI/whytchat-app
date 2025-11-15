@@ -245,8 +245,7 @@ fn models_root_dir(_app: &AppHandle) -> Result<PathBuf, String> {
 
 #[tauri::command]
 async fn read_file_content(path: String) -> Result<String, String> {
-    fs::read_to_string(&path)
-        .map_err(|e| format!("Failed to read file {}: {}", path, e))
+    fs::read_to_string(&path).map_err(|e| format!("Failed to read file {}: {}", path, e))
 }
 
 fn main() {
@@ -867,6 +866,11 @@ async fn generate_text(
         max_tokens: conversation.max_tokens,
         repeat_penalty: conversation.repeat_penalty,
     };
+
+    eprintln!(
+        "[generate_text] Parameters: temp={}, top_p={}, max_tokens={}, repeat_penalty={}",
+        payload.temperature, payload.top_p, payload.max_tokens, payload.repeat_penalty
+    );
 
     // Send request to llama-server
     let server_url = llama::get_server_url();
