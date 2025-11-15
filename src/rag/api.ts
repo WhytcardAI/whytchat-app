@@ -52,4 +52,6 @@ export async function listDatasetsForConversation(
   });
 }
 
-
+export async function listChunks(datasetId: string): Promise<string[]> {
+  return invoke<string[]>("rag_list_chunks", { datasetId });
+}
