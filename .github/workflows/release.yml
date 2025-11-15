@@ -30,6 +30,11 @@ jobs:
       - name: Run i18n parity check
         run: node scripts/check-i18n.cjs
 
+      - name: Rust cache
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: './src-tauri -> target'
+
       - name: Build Tauri app (Windows)
         uses: tauri-apps/tauri-action@v0
         env:
@@ -47,3 +52,4 @@ jobs:
             See [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/CHANGELOG.md) for details.
           releaseDraft: false
           prerelease: false
+          args: --verbose

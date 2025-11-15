@@ -1,6 +1,6 @@
 {
   "productName": "whytchat-desktop",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "identifier": "ai.whytcard.whytchat",
   "build": {
     "beforeDevCommand": "npm run dev",
