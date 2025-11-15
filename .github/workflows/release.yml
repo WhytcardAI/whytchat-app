@@ -35,21 +35,29 @@ jobs:
         with:
           workspaces: './src-tauri -> target'
 
-      - name: Build Tauri app (Windows)
-        uses: tauri-apps/tauri-action@v0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install Tauri CLI
+        run: npm install -g @tauri-apps/cli@latest
+
+      - name: Build Tauri app
+        run: npm run tauri:build -- --verbose
+        
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
         with:
-          tagName: ${{ github.ref_name }}
-          releaseName: WhytChat ${{ github.ref_name }}
-          releaseBody: |
+          tag_name: ${{ github.ref_name }}
+          name: WhytChat ${{ github.ref_name }}
+          body: |
             Download and install WhytChat ${{ github.ref_name }}
 
             **Windows:**
             - `.msi` - Windows Installer (recommended)
-            - `.nsis.zip` - NSIS portable archive
+            - `.exe` - NSIS Setup
 
             See [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/CHANGELOG.md) for details.
-          releaseDraft: false
+          draft: false
           prerelease: false
-          args: --verbose
+          files: |
+            src-tauri/target/release/bundle/msi/*.msi
+            src-tauri/target/release/bundle/nsis/*.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

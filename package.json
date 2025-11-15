@@ -8,6 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "tauri": "tauri dev",
+    "tauri:build": "tauri build",
     "check:i18n": "node scripts/check-i18n.cjs",
     "check:version": "node scripts/check-version.cjs",
     "check:lint": "eslint src --ext .ts,.tsx",
