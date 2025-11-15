@@ -408,8 +408,17 @@
     "ingest": {
       "pasteText": "Text zum Indizieren einfügen",
       "placeholder": "Inhalt hier einfügen oder tippen...",
+      "urlPlaceholder": "https://beispiel.com/artikel",
       "ingestButton": "Indizieren",
-      "success": "{count} Abschnitte indiziert"
+      "chooseFile": "Datei wählen",
+      "fetchUrl": "URL abrufen",
+      "loading": "Verarbeitung...",
+      "success": "{count} Abschnitte indiziert",
+      "mode": {
+        "text": "Text",
+        "file": "Datei",
+        "url": "URL"
+      }
     },
     "list": { "empty": "Noch keine Datasets" },
     "error": { "generic": "Ein Fehler ist aufgetreten" }

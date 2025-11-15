@@ -407,8 +407,17 @@
     "ingest": {
       "pasteText": "Pega texto para indexar",
       "placeholder": "Pega o escribe el contenido aquí...",
+      "urlPlaceholder": "https://ejemplo.com/articulo",
       "ingestButton": "Indexar",
-      "success": "{count} fragmentos indexados"
+      "chooseFile": "Elegir archivo",
+      "fetchUrl": "Obtener URL",
+      "loading": "Procesando...",
+      "success": "{count} fragmentos indexados",
+      "mode": {
+        "text": "Texto",
+        "file": "Archivo",
+        "url": "URL"
+      }
     },
     "list": { "empty": "Aún no hay datasets" },
     "error": { "generic": "Ocurrió un error" }

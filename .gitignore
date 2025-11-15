@@ -33,6 +33,7 @@ Thumbs.db
 
 # Tauri
 src-tauri/target/
+.tauri-target/
 src-tauri/Cargo.lock
 src-tauri/bin/
 src-tauri/build/
@@ -40,6 +41,11 @@ src-tauri/gen/
 src-tauri/downloads/
 src-tauri/api/
 src-tauri/assets/
+
+# Large binaries and models (excluded from Git)
+llama-bin/
+models/
+data/
 
 # Build artifacts
 *.msi

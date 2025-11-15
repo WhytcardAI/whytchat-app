@@ -407,8 +407,17 @@
     "ingest": {
       "pasteText": "Plak tekst om te indexeren",
       "placeholder": "Plak of typ hier de inhoud...",
+      "urlPlaceholder": "https://voorbeeld.com/artikel",
       "ingestButton": "Indexeren",
-      "success": "{count} fragmenten geïndexeerd"
+      "chooseFile": "Bestand kiezen",
+      "fetchUrl": "URL ophalen",
+      "loading": "Bezig met verwerken...",
+      "success": "{count} fragmenten geïndexeerd",
+      "mode": {
+        "text": "Tekst",
+        "file": "Bestand",
+        "url": "URL"
+      }
     },
     "list": { "empty": "Nog geen datasets" },
     "error": { "generic": "Er is een fout opgetreden" }

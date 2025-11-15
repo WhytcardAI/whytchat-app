@@ -406,8 +406,17 @@
     "ingest": {
       "pasteText": "Collez du texte à indexer",
       "placeholder": "Collez ou saisissez le contenu ici...",
+      "urlPlaceholder": "https://exemple.com/article",
       "ingestButton": "Indexer",
-      "success": "{count} segments indexés"
+      "chooseFile": "Choisir un fichier",
+      "fetchUrl": "Récupérer l'URL",
+      "loading": "Traitement...",
+      "success": "{count} segments indexés",
+      "mode": {
+        "text": "Texte",
+        "file": "Fichier",
+        "url": "URL"
+      }
     },
     "list": { "empty": "Aucun dataset pour le moment" },
     "error": { "generic": "Une erreur est survenue" }

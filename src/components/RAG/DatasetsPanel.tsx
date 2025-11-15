@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { createDataset, ingestText, listDatasets } from "../../rag/api";
+import { createDataset, ingestText, ingestFile, ingestUrl, listDatasets } from "../../rag/api";
 import type { DatasetInfo } from "../../rag/types";
+import { open } from "@tauri-apps/plugin-dialog";
 
 export default function DatasetsPanel() {
   const { t } = useTranslation();
   const [datasets, setDatasets] = useState<DatasetInfo[]>([]);
   const [name, setName] = useState("");
   const [text, setText] = useState("");
+  const [url, setUrl] = useState("");
   const [selected, setSelected] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
+  const [ingestMode, setIngestMode] = useState<"text" | "file" | "url">("text");
 
   const reload = async () => {
     try {
@@ -55,6 +58,46 @@ export default function DatasetsPanel() {
     }
   };
 
+  const onIngestFile = async () => {
+    if (!selected) return;
+    setBusy(true);
+    setMsg(null);
+    try {
+      const files = await open({
+        multiple: false,
+        filters: [
+          { name: "Documents", extensions: ["txt", "md", "pdf", "html", "htm", "json", "csv", "log", "docx"] },
+          { name: "All Files", extensions: ["*"] },
+        ],
+      });
+      
+      if (!files) return;
+      
+      const filePath = Array.isArray(files) ? files[0] : files;
+      const res = await ingestFile(selected, filePath);
+      setMsg(t("rag.ingest.success", { count: res.chunks }));
+    } catch (e: any) {
+      setMsg(String(e));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const onIngestUrl = async () => {
+    if (!selected || !url.trim()) return;
+    setBusy(true);
+    setMsg(null);
+    try {
+      const res = await ingestUrl(selected, url.trim());
+      setMsg(t("rag.ingest.success", { count: res.chunks }));
+      setUrl("");
+    } catch (e: any) {
+      setMsg(String(e));
+    } finally {
+      setBusy(false);
+    }
+  };
+
   return (
     <div style={{ padding: 16, display: "grid", gap: 12 }}>
       <h2>{t("rag.title")}</h2>
@@ -89,16 +132,88 @@ export default function DatasetsPanel() {
 
       <div style={{ display: "grid", gap: 8 }}>
         <label>{t("rag.ingest.pasteText")}</label>
-        <textarea
-          rows={8}
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          placeholder={t("rag.ingest.placeholder")}
-          disabled={busy || !selected}
-        />
-        <button onClick={onIngest} disabled={busy || !selected || !text.trim()}>
-          {t("rag.ingest.ingestButton")}
-        </button>
+        
+        <div style={{ display: "flex", gap: 8, marginBottom: 8 }}>
+          <button
+            onClick={() => setIngestMode("text")}
+            style={{
+              padding: "6px 12px",
+              background: ingestMode === "text" ? "#2563eb" : "#e5e7eb",
+              color: ingestMode === "text" ? "white" : "#1f2937",
+              border: "none",
+              borderRadius: 4,
+              cursor: busy ? "not-allowed" : "pointer",
+            }}
+            disabled={busy}
+          >
+            {t("rag.ingest.mode.text")}
+          </button>
+          <button
+            onClick={() => setIngestMode("file")}
+            style={{
+              padding: "6px 12px",
+              background: ingestMode === "file" ? "#2563eb" : "#e5e7eb",
+              color: ingestMode === "file" ? "white" : "#1f2937",
+              border: "none",
+              borderRadius: 4,
+              cursor: busy ? "not-allowed" : "pointer",
+            }}
+            disabled={busy}
+          >
+            {t("rag.ingest.mode.file")}
+          </button>
+          <button
+            onClick={() => setIngestMode("url")}
+            style={{
+              padding: "6px 12px",
+              background: ingestMode === "url" ? "#2563eb" : "#e5e7eb",
+              color: ingestMode === "url" ? "white" : "#1f2937",
+              border: "none",
+              borderRadius: 4,
+              cursor: busy ? "not-allowed" : "pointer",
+            }}
+            disabled={busy}
+          >
+            {t("rag.ingest.mode.url")}
+          </button>
+        </div>
+
+        {ingestMode === "text" && (
+          <textarea
+            rows={8}
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            placeholder={t("rag.ingest.placeholder")}
+            disabled={busy || !selected}
+          />
+        )}
+
+        {ingestMode === "url" && (
+          <input
+            type="url"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            placeholder={t("rag.ingest.urlPlaceholder")}
+            disabled={busy || !selected}
+            style={{ padding: 8 }}
+          />
+        )}
+
+        {ingestMode === "text" && (
+          <button onClick={onIngest} disabled={busy || !selected || !text.trim()}>
+            {busy ? t("rag.ingest.loading") : t("rag.ingest.ingestButton")}
+          </button>
+        )}
+        {ingestMode === "file" && (
+          <button onClick={onIngestFile} disabled={busy || !selected}>
+            {busy ? t("rag.ingest.loading") : t("rag.ingest.chooseFile")}
+          </button>
+        )}
+        {ingestMode === "url" && (
+          <button onClick={onIngestUrl} disabled={busy || !selected || !url.trim()}>
+            {busy ? t("rag.ingest.loading") : t("rag.ingest.fetchUrl")}
+          </button>
+        )}
       </div>
 
       {msg && <div>{msg}</div>}

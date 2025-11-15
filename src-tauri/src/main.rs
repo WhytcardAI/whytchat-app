@@ -277,6 +277,8 @@ fn main() {
             rag::rag_create_dataset,
             rag::rag_delete_dataset,
             rag::rag_ingest_text,
+            rag::rag_ingest_file,
+            rag::rag_ingest_url,
             rag::rag_query
         ])
         .run(tauri::generate_context!())

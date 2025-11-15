@@ -20,6 +20,20 @@ export async function ingestText(
   return invoke<IngestResult>("rag_ingest_text", { args: { datasetId, text } });
 }
 
+export async function ingestFile(
+  datasetId: string,
+  filePath: string,
+): Promise<IngestResult> {
+  return invoke<IngestResult>("rag_ingest_file", { args: { datasetId, filePath } });
+}
+
+export async function ingestUrl(
+  datasetId: string,
+  url: string,
+): Promise<IngestResult> {
+  return invoke<IngestResult>("rag_ingest_url", { args: { datasetId, url } });
+}
+
 export async function ragQuery(
   datasetId: string,
   query: string,

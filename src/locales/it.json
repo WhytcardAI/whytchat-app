@@ -407,8 +407,17 @@
     "ingest": {
       "pasteText": "Incolla testo da indicizzare",
       "placeholder": "Incolla o scrivi il contenuto qui...",
+      "urlPlaceholder": "https://esempio.com/articolo",
       "ingestButton": "Indicizza",
-      "success": "{count} frammenti indicizzati"
+      "chooseFile": "Scegli file",
+      "fetchUrl": "Recupera URL",
+      "loading": "Elaborazione...",
+      "success": "{count} frammenti indicizzati",
+      "mode": {
+        "text": "Testo",
+        "file": "File",
+        "url": "URL"
+      }
     },
     "list": { "empty": "Nessun dataset al momento" },
     "error": { "generic": "Si è verificato un errore" }

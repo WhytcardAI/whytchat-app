@@ -406,8 +406,17 @@
     "ingest": {
       "pasteText": "Paste text to ingest",
       "placeholder": "Paste or type content here...",
+      "urlPlaceholder": "https://example.com/article",
       "ingestButton": "Ingest",
-      "success": "Ingested {count} chunks"
+      "chooseFile": "Choose File",
+      "fetchUrl": "Fetch URL",
+      "loading": "Processing...",
+      "success": "Ingested {count} chunks",
+      "mode": {
+        "text": "Text",
+        "file": "File",
+        "url": "URL"
+      }
     },
     "list": { "empty": "No dataset yet" },
     "error": { "generic": "An error occurred" }

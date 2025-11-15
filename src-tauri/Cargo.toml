@@ -1,6 +1,6 @@
 [package]
 name = "whytchat-desktop"
-version = "0.2.1"
+version = "0.2.6"
 edition = "2021"
 description = "Whytchat local desktop app"
 
@@ -22,3 +22,9 @@ futures-util = "0.3"
 rusqlite = { version = "0.31", features = ["bundled"] }
 chrono = "0.4"
 zip = "0.6"
+
+# Document parsing for RAG
+pdf-extract = "0.7"
+xml-rs = "0.8"
+scraper = "0.21"  # HTML parsing
+regex = "1.10"

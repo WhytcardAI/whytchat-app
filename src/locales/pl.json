@@ -407,8 +407,17 @@
     "ingest": {
       "pasteText": "Wklej tekst do zindeksowania",
       "placeholder": "Wklej lub wpisz treść tutaj...",
+      "urlPlaceholder": "https://przyklad.com/artykul",
       "ingestButton": "Indeksuj",
-      "success": "Zindeksowano {count} fragmentów"
+      "chooseFile": "Wybierz plik",
+      "fetchUrl": "Pobierz URL",
+      "loading": "Przetwarzanie...",
+      "success": "Zindeksowano {count} fragmentów",
+      "mode": {
+        "text": "Tekst",
+        "file": "Plik",
+        "url": "URL"
+      }
     },
     "list": { "empty": "Brak zbiorów danych" },
     "error": { "generic": "Wystąpił błąd" }
