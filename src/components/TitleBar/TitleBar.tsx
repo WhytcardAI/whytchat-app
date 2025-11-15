@@ -38,7 +38,7 @@ export function TitleBar({ title }: TitleBarProps) {
           }
         }
         window.dispatchEvent(
-          new CustomEvent("overlaychange", { detail: { enabled: next } }),
+          new CustomEvent("overlaychange", { detail: { enabled: next } })
         );
       } catch (err) {
         console.error("[TitleBar] overlay toggle via key failed:", err);

@@ -6,7 +6,7 @@ function sanitizeLLM(text: string): string {
   try {
     // Remove lines like 'Prompt système:' / 'Prompt systeme:' / 'System prompt:' (case-insensitive)
     return text.replace(
-      /(?:^|\n)\s*(?:prompt\s*(?:syst[eè]me|systeme)|system\s*prompt)\s*:/gi,
+      /(?:^|\n)\s*(?:prompt\s*(?:syst[eÃ¨]me|systeme)|system\s*prompt)\s*:/gi,
       "\n",
     );
   } catch {

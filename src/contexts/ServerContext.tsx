@@ -308,9 +308,9 @@ export function ServerProvider({ children }: { children: ReactNode }) {
           return;
         }
 
-        // Server installed but not running - auto-start if model available
+        // Server installed but not running - check for models but DON'T auto-start
         console.log(
-          "[ServerContext] Server installed but not running. Checking for auto-start...",
+          "[ServerContext] Server installed but not running. Checking for models...",
         );
         try {
           const pack = await invoke<{
@@ -320,21 +320,21 @@ export function ServerProvider({ children }: { children: ReactNode }) {
           } | null>("get_first_installed_preset");
           if (pack) {
             console.log(
-              "[ServerContext] Model available, auto-starting server...",
-            );
-            // Auto-start in background
-            setTimeout(() => {
-              startServer();
-            }, 100); // Small delay to allow UI to render
-          } else {
-            console.log(
-              "[ServerContext] No models installed, waiting for manual start.",
+              "[ServerContext] Model available (" + pack.id + "), ready to start manually.",
             );
             setStatus("stopped");
+            setError(null);
+          } else {
+            console.log(
+              "[ServerContext] No models installed. Please download a model first.",
+            );
+            setStatus("stopped");
+            setError("No models installed. Please download a model from Settings.");
           }
-        } catch (autoStartErr) {
-          console.error("[ServerContext] Auto-start failed:", autoStartErr);
+        } catch (checkErr) {
+          console.error("[ServerContext] Model check failed:", checkErr);
           setStatus("stopped");
+          setError("No models installed. Please download a model from Settings.");
         }
       } catch (err) {
         console.error("[ServerContext] FATAL ERROR during init:", err);
