@@ -22,4 +22,34 @@ export async function ingestText(
   });
 }
 
+// ===== Dataset-Conversation Linking (N-N) =====
+
+export async function linkDatasetToConversation(
+  conversationId: number,
+  datasetId: string
+): Promise<void> {
+  return invoke("link_dataset_to_conversation", {
+    conversationId,
+    datasetId,
+  });
+}
+
+export async function unlinkDatasetFromConversation(
+  conversationId: number,
+  datasetId: string
+): Promise<void> {
+  return invoke("unlink_dataset_from_conversation", {
+    conversationId,
+    datasetId,
+  });
+}
+
+export async function listDatasetsForConversation(
+  conversationId: number
+): Promise<string[]> {
+  return invoke<string[]>("list_datasets_for_conversation", {
+    conversationId,
+  });
+}
+
 
