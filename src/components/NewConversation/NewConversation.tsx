@@ -53,7 +53,7 @@ type Props = {
 export function NewConversation({ onNavigate }: Props) {
   const [presets, setPresets] = useState<PresetMeta[]>([]);
   const [installedPresets, setInstalledPresets] = useState<Set<string>>(
-    new Set(),
+    new Set()
   );
   const [selectedPreset, setSelectedPreset] = useState<string>("");
   const [conversationName, setConversationName] = useState<string>("");
@@ -111,7 +111,7 @@ export function NewConversation({ onNavigate }: Props) {
               "start_llama",
               {
                 args: { presetId: p.id },
-              },
+              }
             );
             if (!res.need_download) installed.add(p.id);
           } catch {
@@ -421,7 +421,7 @@ export function NewConversation({ onNavigate }: Props) {
                 value={conversationName}
                 onChange={(e) => setConversationName(e.target.value)}
                 placeholder={i18n.t(
-                  "newConversation.conversationNamePlaceholder",
+                  "newConversation.conversationNamePlaceholder"
                 )}
                 className="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                 disabled={busy}
@@ -455,7 +455,7 @@ export function NewConversation({ onNavigate }: Props) {
               {selectedPreset && (
                 <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">
                   {i18n.t(
-                    presets.find((p) => p.id === selectedPreset)?.descKey || "",
+                    presets.find((p) => p.id === selectedPreset)?.descKey || ""
                   )}
                 </div>
               )}

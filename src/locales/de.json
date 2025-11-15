@@ -79,7 +79,9 @@
     "group": "Gruppe",
     "serverChecking": "Überprüfe KI-Serverstatus...",
     "serverStarting": "KI-Server wird gestartet (dies kann 5-10 Sekunden dauern)...",
-    "serverError": "KI-Server konnte nicht gestartet werden"
+    "serverError": "KI-Server konnte nicht gestartet werden",
+    "initializing": "Initialisierung...",
+    "loadingModel": "KI-Modell wird geladen und Server gestartet"
   },
   "shortcuts": {
     "title": "Tastenkombinationen",
@@ -215,43 +217,43 @@
   },
   "presets": {
     "llama32_3b_light": {
-      "label": "Llama 3.2 3B — Leicht",
+      "label": "Llama 3.2 3B - Leicht",
       "desc": "Klein und schnell für allgemeine Diskussionen, Lernen und Schreiben (4GB RAM)"
     },
     "mistral_balanced": {
-      "label": "Mistral 7B — Ausgewogen",
+      "label": "Mistral 7B - Ausgewogen",
       "desc": "Vielseitig für hochwertige allgemeine Diskussionen (6GB RAM)"
     },
     "llama31_8b_heavy": {
-      "label": "Llama 3.1 8B — Leistungsstark",
+      "label": "Llama 3.1 8B - Leistungsstark",
       "desc": "Robustes Modell für komplexe Diskussionen (8GB RAM)"
     },
     "qwen_coder_1.5b_light": {
-      "label": "Qwen Coder 1.5B — Leicht",
+      "label": "Qwen Coder 1.5B - Leicht",
       "desc": "Schnell für einfachen Code und Skripte (3GB RAM)"
     },
     "qwen_coder_fast": {
-      "label": "Qwen Coder 7B — Schnell",
+      "label": "Qwen Coder 7B - Schnell",
       "desc": "Optimiert für Entwicklung und Code (6GB RAM)"
     },
     "qwen_coder_14b_heavy": {
-      "label": "Qwen Coder 14B — Leistungsstark",
+      "label": "Qwen Coder 14B - Leistungsstark",
       "desc": "Erweitertes Modell für komplexe Projekte (12GB RAM)"
     },
     "openhermes_balanced": {
-      "label": "OpenHermes 7B — Lehren",
+      "label": "OpenHermes 7B - Lehren",
       "desc": "Ausgezeichneter Lehrer für das Lernen (6GB RAM)"
     },
     "wizardlm_heavy": {
-      "label": "WizardLM 7B — Experte",
+      "label": "WizardLM 7B - Experte",
       "desc": "Expertenmodell für fortgeschrittenes Training (8GB RAM)"
     },
     "nous_hermes_balanced": {
-      "label": "Nous Hermes 7B — Kreativ",
+      "label": "Nous Hermes 7B - Kreativ",
       "desc": "Optimiert für Schreiben und Kreativität (6GB RAM)"
     },
     "dolphin_heavy": {
-      "label": "Dolphin 7B — Schriftsteller",
+      "label": "Dolphin 7B - Schriftsteller",
       "desc": "Spezialisiert auf langes und nuanciertes Schreiben (8GB RAM)"
     }
   },

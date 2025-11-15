@@ -5,7 +5,6 @@ import { Settings } from "./components/Settings";
 import { NewConversation } from "./components/NewConversation";
 import { Chat } from "./components/Chat";
 import { ConversationsList } from "./components/ConversationsList";
-import DatasetsPanel from "./components/RAG/DatasetsPanel";
 import { ServerProvider } from "./contexts/ServerContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { ServerStatusIndicator } from "./components/ServerStatusIndicator";
@@ -19,8 +18,7 @@ type View =
   | "chat"
   | "settings"
   | "newConversation"
-  | "conversations"
-  | "rag";
+  | "conversations";
 
 export function App() {
   const [currentView, setCurrentView] = useState<View>("home");
@@ -37,7 +35,6 @@ export function App() {
       "settings",
       "newConversation",
       "conversations",
-      "rag",
     ];
     if (validViews.includes(view as View)) {
       setCurrentView(view as View);
@@ -106,19 +103,6 @@ export function App() {
           )}
           {currentView === "settings" && (
             <Settings onNavigate={handleNavigate} />
-          )}
-          {currentView === "rag" && (
-            <div className="h-[calc(100vh-2.5rem)] bg-gray-50 dark:bg-gray-900 overflow-y-auto">
-              <div className="max-w-6xl mx-auto p-6">
-                <button
-                  onClick={() => handleNavigate("home")}
-                  className="mb-4 px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 font-medium flex items-center gap-2 transition-colors"
-                >
-                  ← {i18n.t("home.title")}
-                </button>
-                <DatasetsPanel />
-              </div>
-            </div>
           )}
           {currentView === "chat" && (
             <Chat

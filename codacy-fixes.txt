@@ -1,0 +1,300 @@
+diff --git a/eslint.config.js b/eslint.config.js
+--- a/eslint.config.js
++++ b/eslint.config.js
+@@ -29,1 +29,1 @@
+-      react,
++      react: react,
+diff --git a/src/components/TitleBar/TitleBar.tsx b/src/components/TitleBar/TitleBar.tsx
+--- a/src/components/TitleBar/TitleBar.tsx
++++ b/src/components/TitleBar/TitleBar.tsx
+@@ -26,1 +26,1 @@
+-        const key = (localStorage.getItem("overlayToggleKey") || "F10").trim();
++        const key = (localStorage.getItem("overlayToggleKey") ?? "F10").trim();
+diff --git a/src/utils/storage.ts b/src/utils/storage.ts
+--- a/src/utils/storage.ts
++++ b/src/utils/storage.ts
+@@ -10,1 +10,1 @@
+-    console.error(`Failed to read localStorage key "${key}":`, error);
++    console.error("Failed to read localStorage key \""+key+"\":", error);
+@@ -20,1 +20,1 @@
+-    console.error(`Failed to set localStorage key "${key}":`, error);
++    console.error("Failed to set localStorage key \""+key+"\":", error);
+@@ -30,1 +30,1 @@
+-    console.error(`Failed to remove localStorage key "${key}":`, error);
++    console.error("Failed to remove localStorage key \""+key+"\":", error);
+@@ -42,1 +42,1 @@
+-    console.error(`Failed to parse localStorage number key "${key}":`, error);
++    console.error("Failed to parse localStorage number key \""+key+"\":", error);
+@@ -51,1 +51,1 @@
+-  max: number,
++  max: number
+@@ -72,1 +72,1 @@
+-    console.error(`Failed to parse localStorage boolean key "${key}":`, error);
++    console.error("Failed to parse localStorage boolean key \""+key+"\":", error);
+diff --git a/src/contexts/ServerContext.tsx b/src/contexts/ServerContext.tsx
+--- a/src/contexts/ServerContext.tsx
++++ b/src/contexts/ServerContext.tsx
+@@ -38,1 +38,1 @@
+-          `[ServerContext] Health check ${i + 1}/${maxAttempts}: ${isHealthy}`,
++          `[ServerContext] Health check ${i + 1}/${maxAttempts}: ${isHealthy}`
+@@ -40,1 +40,1 @@
+-        if (isHealthy) {
++        if (Boolean(isHealthy)) {
+diff --git a/src/components/NewConversation/NewConversation.tsx b/src/components/NewConversation/NewConversation.tsx
+--- a/src/components/NewConversation/NewConversation.tsx
++++ b/src/components/NewConversation/NewConversation.tsx
+@@ -56,1 +56,1 @@
+-    new Set(),
++    new Set()
+diff --git a/src/hooks/useKeyboardShortcuts.ts b/src/hooks/useKeyboardShortcuts.ts
+--- a/src/hooks/useKeyboardShortcuts.ts
++++ b/src/hooks/useKeyboardShortcuts.ts
+@@ -23,1 +23,1 @@
+-        const shiftMatch = shortcut.shift ? event.shiftKey : !event.shiftKey;
++        const shiftMatch = (shortcut.shift ?? false) ? event.shiftKey : !event.shiftKey;
+@@ -24,1 +24,1 @@
+-        const altMatch = shortcut.alt ? event.altKey : !event.altKey;
++        const altMatch = (shortcut.alt ?? false) ? event.altKey : !event.altKey;
+diff --git a/src/components/Home/Home.tsx b/src/components/Home/Home.tsx
+--- a/src/components/Home/Home.tsx
++++ b/src/components/Home/Home.tsx
+@@ -47,1 +47,1 @@
+-    return () => window.removeEventListener("localechange", handleLocaleChange);
++    return function() { return window.removeEventListener("localechange", handleLocaleChange) };
+diff --git a/src/components/ServerStatusIndicator/ServerDebugModal.tsx b/src/components/ServerStatusIndicator/ServerDebugModal.tsx
+--- a/src/components/ServerStatusIndicator/ServerDebugModal.tsx
++++ b/src/components/ServerStatusIndicator/ServerDebugModal.tsx
+@@ -46,1 +46,1 @@
+-        setLogs((prev) => [...prev, e.payload]);
++        setLogs(function(prev) { return [...prev, e.payload] });
+diff --git a/src/components/RAG/DatasetsPanel.tsx b/src/components/RAG/DatasetsPanel.tsx
+--- a/src/components/RAG/DatasetsPanel.tsx
++++ b/src/components/RAG/DatasetsPanel.tsx
+@@ -23,1 +23,1 @@
+-  const t = (key: string, params?: Record<string, any>) => {
++  const t = (key: string, params?: Record<string, unknown>) => {
+@@ -27,1 +27,1 @@
+-      (acc, [k, v]) => acc.replace(`{${k}}`, String(v)),
++      (acc, [k, v]) => acc.replace("{"+k+"}", String(v)),
+diff --git a/src/components/Chat/components/MessageBubble.tsx b/src/components/Chat/components/MessageBubble.tsx
+--- a/src/components/Chat/components/MessageBubble.tsx
++++ b/src/components/Chat/components/MessageBubble.tsx
+@@ -31,1 +31,1 @@
+-    <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
++    <div className={"flex "+isUser ? "justify-end" : "justify-start"}>
+@@ -32,1 +32,1 @@
+-      <div className={`max-w-3xl ${isUser ? "w-auto" : "w-full"}`}>
++      <div className={"max-w-3xl "+isUser ? "w-auto" : "w-full"}>
+@@ -34,1 +34,1 @@
+-          {showAvatars && !isUser && (
++          {(showAvatars ?? false) && !isUser && (
+@@ -35,1 +35,1 @@
+-            <div className="flex-shrink-0 w-10 h-10 rounded-full bg-gray-800 dark:bg-gray-700 flex items-center justify-center">
++            <div className="shrink-0 w-10 h-10 rounded-full bg-gray-800 dark:bg-gray-700 flex items-center justify-center">
+@@ -52,1 +52,1 @@
+-              className={`rounded-lg ${compact ? "px-3 py-2 max-w-[92%] text-[13px]" : "px-4 py-3 max-w-[85%]"} ${
++              className={`rounded-lg ${(compact ?? false) ? "px-3 py-2 max-w-[92%] text-[13px]" : "px-4 py-3 max-w-[85%]"} ${
+@@ -54,1 +54,1 @@
+-                  ? compact
++                  ? (compact ?? false)
+@@ -57,1 +57,1 @@
+-                  : compact
++                  : (compact ?? false)
+@@ -64,1 +64,1 @@
+-                  className={`${compact ? "text-[13px] leading-relaxed" : "text-sm leading-relaxed"} whitespace-pre-wrap`}
++                  className={""+compact ? "text-[13px] leading-relaxed" : "text-sm leading-relaxed"+" whitespace-pre-wrap"}
+@@ -70,1 +70,1 @@
+-                  className={`${compact ? "text-[13px] leading-relaxed" : "text-sm leading-relaxed"} prose prose-sm dark:prose-invert max-w-none`}
++                  className={""+compact ? "text-[13px] leading-relaxed" : "text-sm leading-relaxed"+" prose prose-sm dark:prose-invert max-w-none"}
+@@ -79,1 +79,1 @@
+-                {...(onRegenerate ? { onRegenerate } : {})}
++                {...(onRegenerate ? { onRegenerate: onRegenerate } : {})}
+@@ -80,1 +80,1 @@
+-                {...(typeof compact === "boolean" ? { compact } : {})}
++                {...(typeof compact === "boolean" ? { compact: compact } : {})}
+@@ -84,1 +84,1 @@
+-          {showAvatars && isUser && (
++          {(showAvatars ?? false) && isUser && (
+@@ -85,1 +85,1 @@
+-            <div className="flex-shrink-0 w-10 h-10 rounded-full bg-gray-600 dark:bg-gray-600 flex items-center justify-center">
++            <div className="shrink-0 w-10 h-10 rounded-full bg-gray-600 dark:bg-gray-600 flex items-center justify-center">
+diff --git a/src/components/ConversationsList/ConversationsList.tsx b/src/components/ConversationsList/ConversationsList.tsx
+--- a/src/components/ConversationsList/ConversationsList.tsx
++++ b/src/components/ConversationsList/ConversationsList.tsx
+@@ -43,1 +43,1 @@
+-        new Set(convs.map((c) => c.group_name).filter((g) => g !== null)),
++        new Set(convs.map(function(c) { return c.group_name }).filter((g) => g !== null)),
+@@ -56,1 +56,1 @@
+-    loadConversations();
++    void loadConversations();
+diff --git a/src/components/InstallLlamaServer/InstallLlamaServer.tsx b/src/components/InstallLlamaServer/InstallLlamaServer.tsx
+--- a/src/components/InstallLlamaServer/InstallLlamaServer.tsx
++++ b/src/components/InstallLlamaServer/InstallLlamaServer.tsx
+@@ -35,1 +35,1 @@
+-        },
++        }
+@@ -43,1 +43,1 @@
+-    setupListeners();
++    void setupListeners();
+diff --git a/src/main.tsx b/src/main.tsx
+--- a/src/main.tsx
++++ b/src/main.tsx
+@@ -12,1 +12,1 @@
+-  </React.StrictMode>,
++  </React.StrictMode>
+diff --git a/src/components/NewConversation/SimpleModeView.tsx b/src/components/NewConversation/SimpleModeView.tsx
+--- a/src/components/NewConversation/SimpleModeView.tsx
++++ b/src/components/NewConversation/SimpleModeView.tsx
+@@ -125,1 +125,1 @@
+-      installedPresets.has(p.id),
++      installedPresets.has(p.id)
+diff --git a/src/components/Chat/Chat.tsx b/src/components/Chat/Chat.tsx
+--- a/src/components/Chat/Chat.tsx
++++ b/src/components/Chat/Chat.tsx
+@@ -9,1 +9,1 @@
+-      /(?:^|\n)\s*(?:prompt\s*(?:syst[eÃ¨]me|systeme)|system\s*prompt)\s*:/gi,
++      /(?:^|\n)\s*(?:prompt\s*(?:syst[eÃ¨]me)|system\s*prompt)\s*:/gi,
+@@ -10,1 +10,1 @@
+-      "\n",
++      "\n"
+@@ -59,1 +59,1 @@
+-    null,
++    null
+diff --git a/src/rag/api.ts b/src/rag/api.ts
+--- a/src/rag/api.ts
++++ b/src/rag/api.ts
+@@ -9,1 +9,1 @@
+-  return invoke<DatasetInfo>("rag_create_dataset", { name });
++  return invoke<DatasetInfo>("rag_create_dataset", { name: name });
+@@ -13,1 +13,1 @@
+-  return invoke("rag_delete_dataset", { id });
++  return invoke("rag_delete_dataset", { id: id });
+@@ -21,1 +21,1 @@
+-    args: { dataset_id: datasetId, text },
++    args: { dataset_id: datasetId, text: text },
+diff --git a/src/components/Chat/components/MessageToolbar.tsx b/src/components/Chat/components/MessageToolbar.tsx
+--- a/src/components/Chat/components/MessageToolbar.tsx
++++ b/src/components/Chat/components/MessageToolbar.tsx
+@@ -19,1 +19,1 @@
+-        <RefreshCw size={compact ? 10 : 12} /> {i18n.t("chat.regenerate")}
++        <RefreshCw size={(compact ?? false) ? 10 : 12} /> {i18n.t("chat.regenerate")}
+diff --git a/src/contexts/ThemeContext.tsx b/src/contexts/ThemeContext.tsx
+--- a/src/contexts/ThemeContext.tsx
++++ b/src/contexts/ThemeContext.tsx
+@@ -30,1 +30,1 @@
+-      "(prefers-color-scheme: dark)",
++      "(prefers-color-scheme: dark)"
+@@ -55,1 +55,1 @@
+-    <ThemeContext.Provider value={{ theme, toggleTheme, setTheme }}>
++    <ThemeContext.Provider value={{ theme: theme, toggleTheme, setTheme }}>
+diff --git a/src/utils/errors.ts b/src/utils/errors.ts
+--- a/src/utils/errors.ts
++++ b/src/utils/errors.ts
+@@ -14,1 +14,1 @@
+-  if (error && typeof error === "object" && "message" in error) {
++  if ((Boolean(error)) && typeof error === "object" && "message" in error) {
+@@ -27,1 +27,1 @@
+-  console.error(`[${context}] Error:`, error);
++  console.error("["+context+"] Error:", error);
+@@ -28,1 +28,1 @@
+-  console.error(`[${context}] Formatted:`, formatError(error));
++  console.error("["+context+"] Formatted:", formatError(error));
+diff --git a/src/components/ErrorBoundary/ErrorBoundary.tsx b/src/components/ErrorBoundary/ErrorBoundary.tsx
+--- a/src/components/ErrorBoundary/ErrorBoundary.tsx
++++ b/src/components/ErrorBoundary/ErrorBoundary.tsx
+@@ -29,1 +29,1 @@
+-      error,
++      error: error,
+@@ -39,1 +39,1 @@
+-      errorInfo,
++      errorInfo: errorInfo,
+@@ -97,1 +97,1 @@
+-                onClick={() => window.location.reload()}
++                onClick={() => { window.location.reload(); }}
+diff --git a/src/components/ServerStatusIndicator/ServerStatusIndicator.tsx b/src/components/ServerStatusIndicator/ServerStatusIndicator.tsx
+--- a/src/components/ServerStatusIndicator/ServerStatusIndicator.tsx
++++ b/src/components/ServerStatusIndicator/ServerStatusIndicator.tsx
+@@ -31,1 +31,1 @@
+-          title: error || "Server Error",
++          title: error ?? "Server Error",
+@@ -46,1 +46,1 @@
+-  const handleStatusClick = () => setOpen(true);
++  const handleStatusClick = () => { setOpen(true); };
+@@ -52,1 +52,1 @@
+-      className={`w-3 h-3 ${config.color} rounded-full ${config.animate} cursor-pointer`}
++      className={"w-3 h-3 "+config.color+" rounded-full "+config.animate+" cursor-pointer"}
+@@ -61,1 +61,1 @@
+-      {open && <ServerDebugModal onClose={() => setOpen(false)} />}
++      {open && <ServerDebugModal onClose={function() { return setOpen(false) }} />}
+diff --git a/src/i18n.ts b/src/i18n.ts
+--- a/src/i18n.ts
++++ b/src/i18n.ts
+@@ -10,1 +10,1 @@
+-type Dict = Record<string, any>;
++type Dict = Record<string, unknown>;
+@@ -13,1 +13,1 @@
+-  fr,
++  fr: fr,
+@@ -14,1 +14,1 @@
+-  en,
++  en: en,
+@@ -15,1 +15,1 @@
+-  de,
++  de: de,
+@@ -16,1 +16,1 @@
+-  es,
++  es: es,
+@@ -17,1 +17,1 @@
+-  it,
++  it: it,
+@@ -18,1 +18,1 @@
+-  pt,
++  pt: pt,
+@@ -19,1 +19,1 @@
+-  nl,
++  nl: nl,
+@@ -20,1 +20,1 @@
+-  pl,
++  pl: pl,
+@@ -34,1 +34,1 @@
+-let currentLocale = localStorage.getItem("locale") || "fr";
++let currentLocale = (localStorage.getItem("locale") != null) || "fr";
+@@ -45,1 +45,1 @@
+-        (acc: any, key: string) =>
++        (acc: unknown, key: string) =>
+@@ -46,1 +46,1 @@
+-          acc && acc[key] != null ? acc[key] : undefined,
++          (Boolean(acc)) && acc[key] != null ? acc[key] : undefined,
+diff --git a/src/App.tsx b/src/App.tsx
+--- a/src/App.tsx
++++ b/src/App.tsx
+@@ -49,1 +49,1 @@
+-    if (conversationId) {
++    if (conversationId != null) {
+@@ -59,1 +59,1 @@
+-      handler: () => setCurrentView("home"),
++      handler: () => { setCurrentView("home"); },
+@@ -65,1 +65,1 @@
+-      handler: () => setCurrentView("newConversation"),
++      handler: function() { return setCurrentView("newConversation") },
+@@ -71,1 +71,1 @@
+-      handler: () => setCurrentView("conversations"),
++      handler: function() { return setCurrentView("conversations") },
+@@ -77,1 +77,1 @@
+-      handler: () => setShowShortcuts(true),
++      handler: () => { setShowShortcuts(true); },
+diff --git a/src/components/Settings/Settings.tsx b/src/components/Settings/Settings.tsx
+--- a/src/components/Settings/Settings.tsx
++++ b/src/components/Settings/Settings.tsx
+@@ -36,1 +36,1 @@
+-        Math.min(1, parseFloat(localStorage.getItem("overlayOpacity") || "1")),
++        Math.min(1, parseFloat(localStorage.getItem("overlayOpacity") || "1"))
+@@ -53,1 +53,1 @@
+-    },
++    }
+@@ -62,1 +62,1 @@
+-            parseInt(localStorage.getItem("overlayControlsIdleSec") || "2", 10),
++            parseInt((localStorage.getItem("overlayControlsIdleSec") != null) || "2", 10),
+@@ -63,1 +63,1 @@
+-          ),
++          )

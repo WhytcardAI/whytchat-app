@@ -21,6 +21,15 @@
     ],
     "resources": [],
     "externalBin": [],
+    "publisher": "Whytcard AI",
+    "copyright": "Copyright © 2025 Whytcard AI",
+    "shortDescription": "100% Private AI Chat - Your conversations stay local",
+    "longDescription": "WhytChat is a secure, offline-first AI chat application built with Tauri v2, React and llama.cpp. All your conversations remain on your machine-no data is ever sent to external servers.",
+    "windows": {
+      "certificateThumbprint": null,
+      "digestAlgorithm": "sha256",
+      "timestampUrl": ""
+    },
     "linux": {
       "deb": {
         "depends": []

@@ -66,9 +66,9 @@
     "title": "Chat",
     "placeholder": "Scrivi il tuo messaggio...",
     "send": "Invia",
-    "thinking": "Pensando...",
+    "thinking": "Sto pensando...",
     "newChat": "Nuova conversazione",
-    "clearChat": "Cancella conversazione",
+    "clearChat": "Cancella chat",
     "copyMessage": "Copia",
     "regenerate": "Rigenera",
     "stop": "Ferma",
@@ -77,9 +77,11 @@
     "emptyState": "Inizia una conversazione inviando un messaggio",
     "model": "Modello",
     "group": "Gruppo",
-    "serverChecking": "Verificando stato server IA...",
-    "serverStarting": "Avviando server IA (potrebbe richiedere 5-10 secondi)...",
-    "serverError": "Impossibile avviare il server IA"
+    "serverChecking": "Verifica dello stato del server IA...",
+    "serverStarting": "Avvio del server IA (potrebbe richiedere 5-10 secondi)...",
+    "serverError": "Impossibile avviare il server IA",
+    "initializing": "Inizializzazione...",
+    "loadingModel": "Caricamento modello IA e avvio server"
   },
   "shortcuts": {
     "title": "Scorciatoie da tastiera",
@@ -215,43 +217,43 @@
   },
   "presets": {
     "llama32_3b_light": {
-      "label": "Llama 3.2 3B — Leggero",
+      "label": "Llama 3.2 3B - Leggero",
       "desc": "Piccolo e veloce per discussioni generali, apprendimento e scrittura (4GB RAM)"
     },
     "mistral_balanced": {
-      "label": "Mistral 7B — Bilanciato",
+      "label": "Mistral 7B - Bilanciato",
       "desc": "Versatile per discussioni generali di qualità (6GB RAM)"
     },
     "llama31_8b_heavy": {
-      "label": "Llama 3.1 8B — Potente",
+      "label": "Llama 3.1 8B - Potente",
       "desc": "Modello robusto per discussioni complesse (8GB RAM)"
     },
     "qwen_coder_1.5b_light": {
-      "label": "Qwen Coder 1.5B — Leggero",
+      "label": "Qwen Coder 1.5B - Leggero",
       "desc": "Veloce per codice semplice e script (3GB RAM)"
     },
     "qwen_coder_fast": {
-      "label": "Qwen Coder 7B — Veloce",
+      "label": "Qwen Coder 7B - Veloce",
       "desc": "Ottimizzato per sviluppo e codice (6GB RAM)"
     },
     "qwen_coder_14b_heavy": {
-      "label": "Qwen Coder 14B — Potente",
+      "label": "Qwen Coder 14B - Potente",
       "desc": "Modello avanzato per progetti complessi (12GB RAM)"
     },
     "openhermes_balanced": {
-      "label": "OpenHermes 7B — Insegnamento",
+      "label": "OpenHermes 7B - Insegnamento",
       "desc": "Eccellente insegnante per l'apprendimento (6GB RAM)"
     },
     "wizardlm_heavy": {
-      "label": "WizardLM 7B — Esperto",
+      "label": "WizardLM 7B - Esperto",
       "desc": "Modello esperto per formazione avanzata (8GB RAM)"
     },
     "nous_hermes_balanced": {
-      "label": "Nous Hermes 7B — Creativo",
+      "label": "Nous Hermes 7B - Creativo",
       "desc": "Ottimizzato per scrittura e creatività (6GB RAM)"
     },
     "dolphin_heavy": {
-      "label": "Dolphin 7B — Scrittore",
+      "label": "Dolphin 7B - Scrittore",
       "desc": "Specializzato in scrittura lunga e sfumata (8GB RAM)"
     }
   },

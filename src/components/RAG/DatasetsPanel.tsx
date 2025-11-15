@@ -3,8 +3,6 @@ import { i18n } from "../../i18n";
 import {
   createDataset,
   ingestText,
-  ingestFile,
-  ingestUrl,
   listDatasets,
 } from "../../rag/api";
 import type { DatasetInfo } from "../../rag/types";
@@ -12,7 +10,6 @@ import { open } from "@tauri-apps/plugin-dialog";
 import {
   Database,
   FileText,
-  Link,
   Type,
   HelpCircle,
   CheckCircle,
@@ -31,12 +28,11 @@ export default function DatasetsPanel() {
   const [datasets, setDatasets] = useState<DatasetInfo[]>([]);
   const [name, setName] = useState("");
   const [text, setText] = useState("");
-  const [url, setUrl] = useState("");
   const [selected, setSelected] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
   const [msgType, setMsgType] = useState<"success" | "error" | null>(null);
-  const [ingestMode, setIngestMode] = useState<"text" | "file" | "url">("text");
+  const [ingestMode, setIngestMode] = useState<"text" | "file">("text");
   const [showHelp, setShowHelp] = useState(false);
 
   const reload = async () => {
@@ -99,18 +95,8 @@ export default function DatasetsPanel() {
         multiple: false,
         filters: [
           {
-            name: "Documents",
-            extensions: [
-              "txt",
-              "md",
-              "pdf",
-              "html",
-              "htm",
-              "json",
-              "csv",
-              "log",
-              "docx",
-            ],
+            name: "Text Files",
+            extensions: ["txt", "md", "json", "csv", "log"],
           },
           { name: "All Files", extensions: ["*"] },
         ],
@@ -119,27 +105,12 @@ export default function DatasetsPanel() {
       if (!files) return;
 
       const filePath = Array.isArray(files) ? files[0] : files;
-      const res = await ingestFile(selected, filePath);
+      // Read file content using fetch API with file:// protocol
+      // Works for local files in Tauri without needing fs plugin
+      const content = await fetch(`file://${filePath}`).then((r) => r.text());
+      const res = await ingestText(selected, content);
       setMsg(t("rag.ingest.success", { count: res.chunks }));
       setMsgType("success");
-    } catch (e: any) {
-      setMsg(String(e));
-      setMsgType("error");
-    } finally {
-      setBusy(false);
-    }
-  };
-
-  const onIngestUrl = async () => {
-    if (!selected || !url.trim()) return;
-    setBusy(true);
-    setMsg(null);
-    setMsgType(null);
-    try {
-      const res = await ingestUrl(selected, url.trim());
-      setMsg(t("rag.ingest.success", { count: res.chunks }));
-      setMsgType("success");
-      setUrl("");
     } catch (e: any) {
       setMsg(String(e));
       setMsgType("error");
@@ -246,42 +217,30 @@ export default function DatasetsPanel() {
           </h3>
 
           {/* Mode Selector */}
-          <div className="flex gap-2 mb-4">
+          <div className="grid grid-cols-3 gap-2 mb-4">
             <button
               onClick={() => setIngestMode("text")}
               disabled={busy}
-              className={`flex-1 px-4 py-2 rounded-lg font-medium transition-all flex items-center justify-center gap-2 ${
+              className={`px-3 py-2 rounded-lg font-medium transition-all flex items-center justify-center gap-2 text-sm ${
                 ingestMode === "text"
                   ? "bg-blue-600 text-white shadow-md"
                   : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
               } disabled:opacity-50 disabled:cursor-not-allowed`}
             >
-              <Type size={18} />
+              <Type size={16} />
               {t("rag.ingest.mode.text")}
             </button>
             <button
               onClick={() => setIngestMode("file")}
               disabled={busy}
-              className={`flex-1 px-4 py-2 rounded-lg font-medium transition-all flex items-center justify-center gap-2 ${
+              className={`px-3 py-2 rounded-lg font-medium transition-all flex items-center justify-center gap-2 text-sm ${
                 ingestMode === "file"
                   ? "bg-blue-600 text-white shadow-md"
                   : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
               } disabled:opacity-50 disabled:cursor-not-allowed`}
             >
-              <FileText size={18} />
+              <FileText size={16} />
               {t("rag.ingest.mode.file")}
-            </button>
-            <button
-              onClick={() => setIngestMode("url")}
-              disabled={busy}
-              className={`flex-1 px-4 py-2 rounded-lg font-medium transition-all flex items-center justify-center gap-2 ${
-                ingestMode === "url"
-                  ? "bg-blue-600 text-white shadow-md"
-                  : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
-              } disabled:opacity-50 disabled:cursor-not-allowed`}
-            >
-              <Link size={18} />
-              {t("rag.ingest.mode.url")}
             </button>
           </div>
 
@@ -329,28 +288,7 @@ export default function DatasetsPanel() {
             </div>
           )}
 
-          {/* URL Mode */}
-          {ingestMode === "url" && (
-            <div className="space-y-3">
-              <input
-                type="url"
-                value={url}
-                onChange={(e) => setUrl(e.target.value)}
-                placeholder={t("rag.ingest.urlPlaceholder")}
-                disabled={busy}
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
-                onKeyDown={(e) => e.key === "Enter" && onIngestUrl()}
-              />
-              <button
-                onClick={onIngestUrl}
-                disabled={busy || !url.trim()}
-                className="w-full px-6 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-400 dark:disabled:from-gray-600 dark:disabled:to-gray-600 text-white font-medium transition-all disabled:cursor-not-allowed shadow-md hover:shadow-lg inline-flex items-center justify-center gap-2"
-              >
-                <Link size={18} />
-                {busy ? t("rag.ingest.loading") : t("rag.ingest.fetchUrl")}
-              </button>
-            </div>
-          )}
+
         </div>
       )}
 

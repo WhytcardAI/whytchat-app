@@ -79,7 +79,9 @@
     "group": "Groep",
     "serverChecking": "AI server status controleren...",
     "serverStarting": "AI server starten (dit kan 5-10 seconden duren)...",
-    "serverError": "Kon AI server niet starten"
+    "serverError": "Kon AI server niet starten",
+    "initializing": "Initialiseren...",
+    "loadingModel": "AI-model laden en server starten"
   },
   "shortcuts": {
     "title": "Sneltoetsen",
@@ -215,43 +217,43 @@
   },
   "presets": {
     "llama32_3b_light": {
-      "label": "Llama 3.2 3B — Licht",
+      "label": "Llama 3.2 3B - Licht",
       "desc": "Klein en snel voor algemene gesprekken, leren en schrijven (4GB RAM)"
     },
     "mistral_balanced": {
-      "label": "Mistral 7B — Evenwichtig",
+      "label": "Mistral 7B - Evenwichtig",
       "desc": "Veelzijdig voor kwaliteitsgesprekken (6GB RAM)"
     },
     "llama31_8b_heavy": {
-      "label": "Llama 3.1 8B — Krachtig",
+      "label": "Llama 3.1 8B - Krachtig",
       "desc": "Robuust model voor complexe gesprekken (8GB RAM)"
     },
     "qwen_coder_1.5b_light": {
-      "label": "Qwen Coder 1.5B — Licht",
+      "label": "Qwen Coder 1.5B - Licht",
       "desc": "Snel voor eenvoudige code en scripts (3GB RAM)"
     },
     "qwen_coder_fast": {
-      "label": "Qwen Coder 7B — Snel",
+      "label": "Qwen Coder 7B - Snel",
       "desc": "Geoptimaliseerd voor ontwikkeling en code (6GB RAM)"
     },
     "qwen_coder_14b_heavy": {
-      "label": "Qwen Coder 14B — Krachtig",
+      "label": "Qwen Coder 14B - Krachtig",
       "desc": "Geavanceerd model voor complexe projecten (12GB RAM)"
     },
     "openhermes_balanced": {
-      "label": "OpenHermes 7B — Onderwijs",
+      "label": "OpenHermes 7B - Onderwijs",
       "desc": "Uitstekende leraar voor leren (6GB RAM)"
     },
     "wizardlm_heavy": {
-      "label": "WizardLM 7B — Expert",
+      "label": "WizardLM 7B - Expert",
       "desc": "Expertmodel voor geavanceerde training (8GB RAM)"
     },
     "nous_hermes_balanced": {
-      "label": "Nous Hermes 7B — Creatief",
+      "label": "Nous Hermes 7B - Creatief",
       "desc": "Geoptimaliseerd voor schrijven en creativiteit (6GB RAM)"
     },
     "dolphin_heavy": {
-      "label": "Dolphin 7B — Schrijver",
+      "label": "Dolphin 7B - Schrijver",
       "desc": "Gespecialiseerd in lang en genuanceerd schrijven (8GB RAM)"
     }
   },
