@@ -1,15 +1,16 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 
 export default defineConfig({
-  root: 'src',
+  root: "src",
+  // @ts-ignore - Type conflict when multiple Vite projects are open in workspace
   plugins: [react()],
-  base: './',
+  base: "./",
   server: {
     port: 5173,
-    strictPort: true
+    strictPort: false,
   },
   build: {
-    outDir: '../dist'
-  }
-})
+    outDir: "../dist",
+  },
+});

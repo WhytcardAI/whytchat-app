@@ -79,7 +79,9 @@
     "group": "Gruppe",
     "serverChecking": "Überprüfe KI-Serverstatus...",
     "serverStarting": "KI-Server wird gestartet (dies kann 5-10 Sekunden dauern)...",
-    "serverError": "KI-Server konnte nicht gestartet werden"
+    "serverError": "KI-Server konnte nicht gestartet werden",
+    "initializing": "Initialisierung...",
+    "loadingModel": "KI-Modell wird geladen und Server gestartet"
   },
   "shortcuts": {
     "title": "Tastenkombinationen",
@@ -215,43 +217,43 @@
   },
   "presets": {
     "llama32_3b_light": {
-      "label": "Llama 3.2 3B — Leicht",
+      "label": "Llama 3.2 3B - Leicht",
       "desc": "Klein und schnell für allgemeine Diskussionen, Lernen und Schreiben (4GB RAM)"
     },
     "mistral_balanced": {
-      "label": "Mistral 7B — Ausgewogen",
+      "label": "Mistral 7B - Ausgewogen",
       "desc": "Vielseitig für hochwertige allgemeine Diskussionen (6GB RAM)"
     },
     "llama31_8b_heavy": {
-      "label": "Llama 3.1 8B — Leistungsstark",
+      "label": "Llama 3.1 8B - Leistungsstark",
       "desc": "Robustes Modell für komplexe Diskussionen (8GB RAM)"
     },
     "qwen_coder_1.5b_light": {
-      "label": "Qwen Coder 1.5B — Leicht",
+      "label": "Qwen Coder 1.5B - Leicht",
       "desc": "Schnell für einfachen Code und Skripte (3GB RAM)"
     },
     "qwen_coder_fast": {
-      "label": "Qwen Coder 7B — Schnell",
+      "label": "Qwen Coder 7B - Schnell",
       "desc": "Optimiert für Entwicklung und Code (6GB RAM)"
     },
     "qwen_coder_14b_heavy": {
-      "label": "Qwen Coder 14B — Leistungsstark",
+      "label": "Qwen Coder 14B - Leistungsstark",
       "desc": "Erweitertes Modell für komplexe Projekte (12GB RAM)"
     },
     "openhermes_balanced": {
-      "label": "OpenHermes 7B — Lehren",
+      "label": "OpenHermes 7B - Lehren",
       "desc": "Ausgezeichneter Lehrer für das Lernen (6GB RAM)"
     },
     "wizardlm_heavy": {
-      "label": "WizardLM 7B — Experte",
+      "label": "WizardLM 7B - Experte",
       "desc": "Expertenmodell für fortgeschrittenes Training (8GB RAM)"
     },
     "nous_hermes_balanced": {
-      "label": "Nous Hermes 7B — Kreativ",
+      "label": "Nous Hermes 7B - Kreativ",
       "desc": "Optimiert für Schreiben und Kreativität (6GB RAM)"
     },
     "dolphin_heavy": {
-      "label": "Dolphin 7B — Schriftsteller",
+      "label": "Dolphin 7B - Schriftsteller",
       "desc": "Spezialisiert auf langes und nuanciertes Schreiben (8GB RAM)"
     }
   },
@@ -310,7 +312,13 @@
     "promptLearning": "Sie sind ein Pädagoge. Erklären Sie Konzepte schrittweise, vom Einfachen zum Komplexen. Verwenden Sie konkrete Analogien, praktische Beispiele und überprüfen Sie das Verständnis, bevor Sie fortfahren. Ermutigen Sie Fragen.",
     "promptBrainstorm": "Sie sind ein kreativer Moderator. Erkunden Sie mehrere Ansätze, schlagen Sie vielfältige und originelle Ideen vor. Hinterfragen Sie Annahmen, kombinieren Sie Konzepte und helfen Sie, Überlegungen zu strukturieren.",
     "promptWriting": "Sie sind ein Schreibassistent. Verbessern Sie Klarheit, Kohärenz und Wirkung von Texten. Respektieren Sie den gewünschten Ton und Stil. Schlagen Sie Umformulierungen vor und identifizieren Sie argumentative Schwächen.",
-    "promptAnalysis": "Sie sind ein rigoroser Analyst. Fassen Sie Informationen strukturiert zusammen, identifizieren Sie Trends und Inkonsistenzen. Präsentieren Sie faktische Schlussfolgerungen mit ihren Grenzen. Bevorzugen Sie überprüfbare Daten."
+    "promptAnalysis": "Sie sind ein rigoroser Analyst. Fassen Sie Informationen strukturiert zusammen, identifizieren Sie Trends und Inkonsistenzen. Präsentieren Sie faktische Schlussfolgerungen mit ihren Grenzen. Bevorzugen Sie überprüfbare Daten.",
+    "initialDatasetEnable": "Initialen Wissens-Datensatz hinzufügen",
+    "initialDatasetNameLabel": "Dataset-Name (optional)",
+    "initialDatasetNamePlaceholder": "z.B. Projekt Notizen",
+    "initialDatasetContentLabel": "Initialer Dataset Text",
+    "initialDatasetContentPlaceholder": "Notizen, Richtlinien, Dokumentation hier einfügen...",
+    "initialDatasetHelp": "Dieser Text wird in Abschnitte geteilt und als Kontext für die ersten Nachrichten verwendet. Später können Sie mehr hinzufügen."
   },
 
   "serverStatus": {

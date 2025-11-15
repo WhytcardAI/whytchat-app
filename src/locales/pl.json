@@ -63,23 +63,25 @@
     "daysAgo": "{0}d temu"
   },
   "chat": {
-    "title": "Czat",
-    "placeholder": "Wpisz swoją wiadomość...",
+    "title": "Chat",
+    "placeholder": "Napisz wiadomość...",
     "send": "Wyślij",
-    "thinking": "Myślenie...",
+    "thinking": "Myślę...",
     "newChat": "Nowa rozmowa",
-    "clearChat": "Wyczyść rozmowę",
+    "clearChat": "Wyczyść czat",
     "copyMessage": "Kopiuj",
-    "regenerate": "Wygeneruj ponownie",
+    "regenerate": "Regeneruj",
     "stop": "Zatrzymaj",
     "you": "Ty",
     "assistant": "Asystent",
-    "emptyState": "Rozpocznij rozmowę wysyłając wiadomość",
+    "emptyState": "Rozpocznij rozmowę, wysyłając wiadomość",
     "model": "Model",
     "group": "Grupa",
     "serverChecking": "Sprawdzanie statusu serwera AI...",
-    "serverStarting": "Uruchamianie serwera AI (może zająć 5-10 sekund)...",
-    "serverError": "Nie udało się uruchomić serwera AI"
+    "serverStarting": "Uruchamianie serwera AI (może to potrwać 5-10 sekund)...",
+    "serverError": "Nie udało się uruchomić serwera AI",
+    "initializing": "Inicjalizacja...",
+    "loadingModel": "Ładowanie modelu AI i uruchamianie serwera"
   },
   "shortcuts": {
     "title": "Skróty klawiszowe",
@@ -215,43 +217,43 @@
   },
   "presets": {
     "llama32_3b_light": {
-      "label": "Llama 3.2 3B — Lekki",
+      "label": "Llama 3.2 3B - Lekki",
       "desc": "Mały i szybki do ogólnych rozmów, nauki i pisania (4GB RAM)"
     },
     "mistral_balanced": {
-      "label": "Mistral 7B — Zrównoważony",
+      "label": "Mistral 7B - Zrównoważony",
       "desc": "Wszechstronny do jakościowych rozmów (6GB RAM)"
     },
     "llama31_8b_heavy": {
-      "label": "Llama 3.1 8B — Potężny",
+      "label": "Llama 3.1 8B - Potężny",
       "desc": "Solidny model do złożonych rozmów (8GB RAM)"
     },
     "qwen_coder_1.5b_light": {
-      "label": "Qwen Coder 1.5B — Lekki",
+      "label": "Qwen Coder 1.5B - Lekki",
       "desc": "Szybki do prostego kodu i skryptów (3GB RAM)"
     },
     "qwen_coder_fast": {
-      "label": "Qwen Coder 7B — Szybki",
+      "label": "Qwen Coder 7B - Szybki",
       "desc": "Zoptymalizowany do rozwijania i kodowania (6GB RAM)"
     },
     "qwen_coder_14b_heavy": {
-      "label": "Qwen Coder 14B — Potężny",
+      "label": "Qwen Coder 14B - Potężny",
       "desc": "Zaawansowany model do złożonych projektów (12GB RAM)"
     },
     "openhermes_balanced": {
-      "label": "OpenHermes 7B — Nauczanie",
+      "label": "OpenHermes 7B - Nauczanie",
       "desc": "Doskonały nauczyciel do nauki (6GB RAM)"
     },
     "wizardlm_heavy": {
-      "label": "WizardLM 7B — Ekspert",
+      "label": "WizardLM 7B - Ekspert",
       "desc": "Model ekspercki do zaawansowanego szkolenia (8GB RAM)"
     },
     "nous_hermes_balanced": {
-      "label": "Nous Hermes 7B — Kreatywny",
+      "label": "Nous Hermes 7B - Kreatywny",
       "desc": "Zoptymalizowany do pisania i kreatywności (6GB RAM)"
     },
     "dolphin_heavy": {
-      "label": "Dolphin 7B — Pisarz",
+      "label": "Dolphin 7B - Pisarz",
       "desc": "Wyspecjalizowany w długim i niuansowanym pisaniu (8GB RAM)"
     }
   },
@@ -310,7 +312,13 @@
     "promptLearning": "Jesteś pedagogiem. Wyjaśniaj koncepcje stopniowo, od prostych do złożonych. Używaj konkretnych analogii, praktycznych przykładów i sprawdzaj zrozumienie przed kontynuacją. Zachęcaj do zadawania pytań.",
     "promptBrainstorm": "Jesteś kreatywnym facylitatorem. Eksploruj wiele kątów podejścia, proponuj zróżnicowane i oryginalne pomysły. Kwestionuj założenia, łącz koncepcje i pomagaj w strukturyzowaniu myśli.",
     "promptWriting": "Jesteś asystentem pisarskim. Popraw jasność, spójność i siłę oddziaływania tekstów. Szanuj żądany ton i styl. Proponuj przeformułowania i identyfikuj słabości argumentacyjne.",
-    "promptAnalysis": "Jesteś rygorystycznym analitykiem. Syntetyzuj informacje w uporządkowany sposób, identyfikuj trendy i niezgodności. Przedstawiaj faktyczne wnioski wraz z ich ograniczeniami. Priorytetyzuj weryfikowalne dane."
+    "promptAnalysis": "Jesteś rygorystycznym analitykiem. Syntetyzuj informacje w uporządkowany sposób, identyfikuj trendy i niezgodności. Przedstawiaj faktyczne wnioski wraz z ich ograniczeniami. Priorytetyzuj weryfikowalne dane.",
+    "initialDatasetEnable": "Utwórz początkowy dataset",
+    "initialDatasetNameLabel": "Nazwa datasetu",
+    "initialDatasetNamePlaceholder": "Np: Projekt WhytChat - wiedza",
+    "initialDatasetContentLabel": "Zawartość początkowa",
+    "initialDatasetContentPlaceholder": "Wklej lub wpisz tekst, który AI ma znać...",
+    "initialDatasetHelp": "Opcjonalnie: tworzy zbiór danych powiązany z rozmową i indeksuje ten tekst dla kontekstu (RAG)."
   },
 
   "serverStatus": {

@@ -11,10 +11,10 @@ import {
   Lightbulb,
   FileText,
   BarChart3,
-  Info,
 } from "lucide-react";
 import { open } from "@tauri-apps/plugin-dialog";
 import { SimpleModeView } from "./SimpleModeView";
+import { ParameterInput } from "./components/ParameterInput";
 import type {
   TemplateType,
   ToneType,
@@ -53,7 +53,7 @@ type Props = {
 export function NewConversation({ onNavigate }: Props) {
   const [presets, setPresets] = useState<PresetMeta[]>([]);
   const [installedPresets, setInstalledPresets] = useState<Set<string>>(
-    new Set(),
+    new Set()
   );
   const [selectedPreset, setSelectedPreset] = useState<string>("");
   const [conversationName, setConversationName] = useState<string>("");
@@ -99,6 +99,11 @@ export function NewConversation({ onNavigate }: Props) {
     repeatPenalty: 1.1,
   });
 
+  // Initial dataset (optional)
+  const [enableInitialDataset, setEnableInitialDataset] = useState(false);
+  const [initialDatasetName, setInitialDatasetName] = useState("");
+  const [initialDatasetText, setInitialDatasetText] = useState("");
+
   useEffect(() => {
     (async () => {
       try {
@@ -111,7 +116,7 @@ export function NewConversation({ onNavigate }: Props) {
               "start_llama",
               {
                 args: { presetId: p.id },
-              },
+              }
             );
             if (!res.need_download) installed.add(p.id);
           } catch {
@@ -322,6 +327,14 @@ export function NewConversation({ onNavigate }: Props) {
           presetId: selectedPreset,
           systemPrompt: systemPrompt.trim() || null,
           parameters,
+          initialDatasetName:
+            enableInitialDataset && initialDatasetName.trim()
+              ? initialDatasetName.trim()
+              : null,
+          initialDatasetText:
+            enableInitialDataset && initialDatasetText.trim()
+              ? initialDatasetText.trim()
+              : null,
         },
       });
       onNavigate("chat", String(conversationId));
@@ -421,7 +434,7 @@ export function NewConversation({ onNavigate }: Props) {
                 value={conversationName}
                 onChange={(e) => setConversationName(e.target.value)}
                 placeholder={i18n.t(
-                  "newConversation.conversationNamePlaceholder",
+                  "newConversation.conversationNamePlaceholder"
                 )}
                 className="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                 disabled={busy}
@@ -455,7 +468,7 @@ export function NewConversation({ onNavigate }: Props) {
               {selectedPreset && (
                 <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">
                   {i18n.t(
-                    presets.find((p) => p.id === selectedPreset)?.descKey || "",
+                    presets.find((p) => p.id === selectedPreset)?.descKey || ""
                   )}
                 </div>
               )}
@@ -745,130 +758,106 @@ export function NewConversation({ onNavigate }: Props) {
               {showAdvanced && (
                 <div className="mt-3 space-y-2">
                   <div className="grid grid-cols-2 gap-2">
-                    <div>
-                      <div className="flex items-center gap-1 mb-1">
-                        <label className="block text-xs text-gray-600 dark:text-gray-400">
-                          {i18n.t("newConversation.temperature")}
-                        </label>
-                        <div className="group relative">
-                          <Info
-                            size={12}
-                            className="text-gray-400 dark:text-gray-500 cursor-help"
-                          />
-                          <div className="absolute left-0 bottom-full mb-1 hidden group-hover:block w-48 p-1.5 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded shadow-lg z-10">
-                            {i18n.t("newConversation.temperatureHelp")}
-                          </div>
-                        </div>
-                      </div>
-                      <input
-                        type="number"
-                        min="0"
-                        max="2"
-                        step="0.1"
-                        value={parameters.temperature}
-                        onChange={(e) =>
-                          setParameters({
-                            ...parameters,
-                            temperature: parseFloat(e.target.value),
-                          })
-                        }
-                        className="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-                        disabled={busy}
-                      />
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-1 mb-1">
-                        <label className="block text-xs text-gray-600 dark:text-gray-400">
-                          {i18n.t("newConversation.topP")}
-                        </label>
-                        <div className="group relative">
-                          <Info
-                            size={12}
-                            className="text-gray-400 dark:text-gray-500 cursor-help"
-                          />
-                          <div className="absolute left-0 bottom-full mb-1 hidden group-hover:block w-48 p-1.5 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded shadow-lg z-10">
-                            {i18n.t("newConversation.topPHelp")}
-                          </div>
-                        </div>
-                      </div>
-                      <input
-                        type="number"
-                        min="0"
-                        max="1"
-                        step="0.1"
-                        value={parameters.topP}
-                        onChange={(e) =>
-                          setParameters({
-                            ...parameters,
-                            topP: parseFloat(e.target.value),
-                          })
-                        }
-                        className="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-                        disabled={busy}
-                      />
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-1 mb-1">
-                        <label className="block text-xs text-gray-600 dark:text-gray-400">
-                          {i18n.t("newConversation.maxTokens")}
-                        </label>
-                        <div className="group relative">
-                          <Info
-                            size={12}
-                            className="text-gray-400 dark:text-gray-500 cursor-help"
-                          />
-                          <div className="absolute left-0 bottom-full mb-1 hidden group-hover:block w-48 p-1.5 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded shadow-lg z-10">
-                            {i18n.t("newConversation.maxTokensHelp")}
-                          </div>
-                        </div>
-                      </div>
-                      <input
-                        type="number"
-                        min="1"
-                        max="4096"
-                        step="1"
-                        value={parameters.maxTokens}
-                        onChange={(e) =>
-                          setParameters({
-                            ...parameters,
-                            maxTokens: parseInt(e.target.value),
-                          })
-                        }
-                        className="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-                        disabled={busy}
-                      />
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-1 mb-1">
-                        <label className="block text-xs text-gray-600 dark:text-gray-400">
-                          {i18n.t("newConversation.repeatPenalty")}
-                        </label>
-                        <div className="group relative">
-                          <Info
-                            size={12}
-                            className="text-gray-400 dark:text-gray-500 cursor-help"
-                          />
-                          <div className="absolute left-0 bottom-full mb-1 hidden group-hover:block w-48 p-1.5 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded shadow-lg z-10">
-                            {i18n.t("newConversation.repeatPenaltyHelp")}
-                          </div>
-                        </div>
-                      </div>
-                      <input
-                        type="number"
-                        min="0"
-                        max="2"
-                        step="0.1"
-                        value={parameters.repeatPenalty}
-                        onChange={(e) =>
-                          setParameters({
-                            ...parameters,
-                            repeatPenalty: parseFloat(e.target.value),
-                          })
-                        }
-                        className="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-                        disabled={busy}
-                      />
-                    </div>
+                    <ParameterInput
+                      label={i18n.t("newConversation.temperature")}
+                      helpText={i18n.t("newConversation.temperatureHelp")}
+                      value={parameters.temperature}
+                      onChange={(val) =>
+                        setParameters({ ...parameters, temperature: val })
+                      }
+                      min={0}
+                      max={2}
+                      step={0.1}
+                      disabled={busy}
+                    />
+                    <ParameterInput
+                      label={i18n.t("newConversation.topP")}
+                      helpText={i18n.t("newConversation.topPHelp")}
+                      value={parameters.topP}
+                      onChange={(val) =>
+                        setParameters({ ...parameters, topP: val })
+                      }
+                      min={0}
+                      max={1}
+                      step={0.1}
+                      disabled={busy}
+                    />
+                    <ParameterInput
+                      label={i18n.t("newConversation.maxTokens")}
+                      helpText={i18n.t("newConversation.maxTokensHelp")}
+                      value={parameters.maxTokens}
+                      onChange={(val) =>
+                        setParameters({ ...parameters, maxTokens: val })
+                      }
+                      min={1}
+                      max={4096}
+                      step={1}
+                      disabled={busy}
+                      isInteger
+                    />
+                    <ParameterInput
+                      label={i18n.t("newConversation.repeatPenalty")}
+                      helpText={i18n.t("newConversation.repeatPenaltyHelp")}
+                      value={parameters.repeatPenalty}
+                      onChange={(val) =>
+                        setParameters({ ...parameters, repeatPenalty: val })
+                      }
+                      min={0}
+                      max={2}
+                      step={0.1}
+                      disabled={busy}
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Optional initial dataset creation section */}
+            <div className="space-y-2 mt-2 border-t border-gray-200 dark:border-gray-700 pt-3">
+              <label className="flex items-center gap-2 text-sm font-semibold">
+                <input
+                  type="checkbox"
+                  className="rounded border-gray-300 dark:border-gray-600 text-emerald-600 focus:ring-emerald-500"
+                  checked={enableInitialDataset}
+                  onChange={(e) => setEnableInitialDataset(e.target.checked)}
+                  disabled={busy}
+                />
+                {i18n.t("newConversation.initialDatasetEnable")}
+              </label>
+              {enableInitialDataset && (
+                <div className="space-y-2">
+                  <div className="space-y-1.5">
+                    <label className="block text-xs font-medium text-gray-600 dark:text-gray-400">
+                      {i18n.t("newConversation.initialDatasetNameLabel")}
+                    </label>
+                    <input
+                      type="text"
+                      value={initialDatasetName}
+                      onChange={(e) => setInitialDatasetName(e.target.value)}
+                      placeholder={i18n.t(
+                        "newConversation.initialDatasetNamePlaceholder"
+                      )}
+                      className="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                      disabled={busy}
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="block text-xs font-medium text-gray-600 dark:text-gray-400">
+                      {i18n.t("newConversation.initialDatasetContentLabel")}
+                    </label>
+                    <textarea
+                      value={initialDatasetText}
+                      onChange={(e) => setInitialDatasetText(e.target.value)}
+                      placeholder={i18n.t(
+                        "newConversation.initialDatasetContentPlaceholder"
+                      )}
+                      rows={6}
+                      className="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent resize-y"
+                      disabled={busy}
+                    />
+                    <p className="text-[11px] text-gray-500 dark:text-gray-400">
+                      {i18n.t("newConversation.initialDatasetHelp")}
+                    </p>
                   </div>
                 </div>
               )}

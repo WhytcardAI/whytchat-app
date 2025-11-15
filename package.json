@@ -13,16 +13,9 @@
     "check:version": "node scripts/check-version.cjs",
     "check:lint": "eslint src --ext .ts,.tsx",
     "check:duplicates": "jscpd src",
-    "check:quality": "node scripts/check-quality.cjs",
     "lint:fix": "eslint src --ext .ts,.tsx --fix",
     "format": "prettier \"src/**/*.{ts,tsx,css,md}\" --write",
-    "format:check": "prettier \"src/**/*.{ts,tsx,css,md}\" --check",
-    "ab:validate": "python ../.windsurf/agentBrain/breadcrumb_system/validate.py",
-    "ab:generate": "python ../.windsurf/agentBrain/breadcrumb_system/generate.py",
-    "ab:maintain": "powershell -ExecutionPolicy Bypass -File ../.windsurf/agentBrain/scripts/maintenance.ps1",
-    "test:manual": "node scripts/manual-tests-runner.js",
-    "_prebuild_disabled": "npm run check:quality && npm run ab:maintain",
-    "preversion": "npm run ab:maintain"
+    "format:check": "prettier \"src/**/*.{ts,tsx,css,md}\" --check"
   },
   "dependencies": {
     "@tauri-apps/api": "^2.0.0",

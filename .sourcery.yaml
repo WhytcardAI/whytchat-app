@@ -1,0 +1,20 @@
+# Sourcery Configuration
+# https://docs.sourcery.ai/
+
+# Refactoring rules
+rules: []
+
+github:
+  request_review: author
+  sourcery_branch: sourcery/{base_branch}
+
+# Paths to ignore
+ignore:
+  - node_modules/**
+  - dist/**
+  - .tauri-target/**
+  - src-tauri/target/**
+  - llama-bin/**
+  - models/**
+  - downloads/**
+  - data/**

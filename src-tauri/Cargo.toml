@@ -23,8 +23,10 @@ rusqlite = { version = "0.31", features = ["bundled"] }
 chrono = "0.4"
 zip = "0.6"
 
-# Document parsing for RAG
-pdf-extract = "0.7"
-xml-rs = "0.8"
-scraper = "0.21"  # HTML parsing
-regex = "1.10"
+# Document parsing for RAG (commented out - not yet implemented)
+# pdf-extract = "0.7"
+# docx-rs = "0.4"  # DOCX parsing
+# xml-rs = "0.8"
+# scraper = "0.21"  # HTML parsing and web scraping
+# regex = "1.10"
+# url = "2.5"  # URL parsing and validation

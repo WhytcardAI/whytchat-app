@@ -6,8 +6,8 @@ function sanitizeLLM(text: string): string {
   try {
     // Remove lines like 'Prompt système:' / 'Prompt systeme:' / 'System prompt:' (case-insensitive)
     return text.replace(
-      /(?:^|\n)\s*(?:prompt\s*(?:syst[eè]me|systeme)|system\s*prompt)\s*:/gi,
-      "\n",
+      /(?:^|\n)\s*(?:prompt\s*(?:syst[eÃ¨]me|systeme)|system\s*prompt)\s*:/gi,
+      "\n"
     );
   } catch {
     return text;
@@ -33,9 +33,12 @@ import {
   Send,
   Lightbulb,
   StopCircle,
+  FileText,
+  X,
 } from "lucide-react";
 import { useKeyboardShortcuts } from "../../hooks/useKeyboardShortcuts";
 import { MessageBubble } from "./components/MessageBubble";
+import { FileImport } from "./components/FileImport";
 
 type Message = {
   id: string;
@@ -50,13 +53,18 @@ type ChatProps = {
 };
 
 export function Chat({ conversationId, onNavigate }: ChatProps) {
-  const { isReady: serverReady, startForConversation } = useServer();
+  const {
+    isReady: serverReady,
+    startForConversation,
+    stopServer,
+  } = useServer();
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isInitializing, setIsInitializing] = useState(false);
   const [conversationName, setConversationName] = useState("");
   const [conversationGroup, setConversationGroup] = useState<string | null>(
-    null,
+    null
   );
   const [modelName, setModelName] = useState("");
   const [overlayEnabled, setOverlayEnabled] = useState<boolean>(() => {
@@ -71,12 +79,12 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
   const [overlayAutoPassthrough, setOverlayAutoPassthrough] = useState<boolean>(
     () => {
       return getStorageBoolean("overlayAutoPassthrough", true);
-    },
+    }
   );
   const [overlayControlsIdleSec, setOverlayControlsIdleSec] = useState<number>(
     () => {
       return getStorageNumberWithClamp("overlayControlsIdleSec", 2, 1, 5);
-    },
+    }
   );
   const [overlayToggleKey, setOverlayToggleKey] = useState<string>(() => {
     try {
@@ -88,7 +96,7 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
   const [overlayShowDragStrip, setOverlayShowDragStrip] = useState<boolean>(
     () => {
       return getStorageBoolean("overlayShowDragStrip", true);
-    },
+    }
   );
   const [showOverlayControls, setShowOverlayControls] = useState<boolean>(true);
   const [isOverlayHover, setIsOverlayHover] = useState<boolean>(false);
@@ -98,6 +106,17 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
   const [isUserAtBottom, setIsUserAtBottom] = useState<boolean>(true);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
+  const serverStartedRef = useRef<boolean>(false);
+
+  // File import state
+  const [importedFiles, setImportedFiles] = useState<
+    Array<{
+      name: string;
+      content: string;
+      size: number;
+    }>
+  >([]);
+  const [showFileImport, setShowFileImport] = useState(false);
 
   // Chat-specific keyboard shortcuts
   useKeyboardShortcuts([
@@ -190,7 +209,7 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
             content:
               m.role === "assistant" ? sanitizeLLM(m.content) : m.content,
             timestamp: new Date(m.created_at),
-          })),
+          }))
         );
       } catch (err) {
         console.error("Failed to load conversation:", err);
@@ -198,19 +217,70 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
     })();
   }, [conversationId]);
 
-  // Ensure server is started for this conversation when entering the view
+  // Start server when entering conversation, stop when leaving
   useEffect(() => {
     if (!conversationId) return;
-    if (!serverReady) {
+
+    // Start server for this conversation if not already started
+    if (!serverStartedRef.current) {
+      serverStartedRef.current = true;
+      setIsInitializing(true);
       (async () => {
         try {
           await startForConversation(parseInt(conversationId));
         } catch (e) {
-          console.error("Failed to start server for conversation:", e);
+          console.error("[Chat] Failed to start server for conversation:", e);
+          serverStartedRef.current = false;
+          setIsInitializing(false);
         }
       })();
     }
-  }, [conversationId, serverReady, startForConversation]);
+
+    // Cleanup: stop server when leaving conversation (unmount only)
+    return () => {
+      if (serverStartedRef.current) {
+        serverStartedRef.current = false;
+        setIsInitializing(false);
+        stopServer().catch((e) => {
+          console.error(
+            "[Chat] Failed to stop server on conversation exit:",
+            e
+          );
+        });
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [conversationId]);
+
+  // Hide loading when server becomes ready
+  useEffect(() => {
+    if (serverReady) {
+      setIsInitializing(false);
+    }
+  }, [serverReady]);
+
+  // Load datasets when conversation changes
+  // File import handler
+  const handleFileImported = (file: {
+    name: string;
+    content: string;
+    size: number;
+  }) => {
+    setImportedFiles((prev) => [...prev, file]);
+    // Ajouter un message système pour indiquer le fichier importé
+    const systemMessage: Message = {
+      id: `file-${Date.now()}`,
+      role: "assistant",
+      content: `📎 **File imported:** ${file.name} (${file.size} KB)\n\nI can now answer questions about this document.`,
+      timestamp: new Date(),
+    };
+    setMessages((prev) => [...prev, systemMessage]);
+    setShowFileImport(false);
+  };
+
+  const handleRemoveFile = (fileName: string) => {
+    setImportedFiles((prev) => prev.filter((f) => f.name !== fileName));
+  };
 
   const handleSend = async () => {
     if (!input.trim() || isLoading || !conversationId || !serverReady) return;
@@ -231,7 +301,19 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
     try {
       // Server is already started by useEffect
 
-      // Save user message to DB
+      // Prepare message with file context if files are imported
+      let messageWithContext = userContent;
+      if (importedFiles.length > 0) {
+        const fileContext = importedFiles
+          .map(
+            (file) =>
+              `[REFERENCE DOCUMENT: ${file.name}]\n${file.content}\n[END DOCUMENT]`
+          )
+          .join("\n\n");
+        messageWithContext = `SYSTEM: The following documents are provided as reference context. Do not repeat or summarize their content unless explicitly asked. Use them to answer questions accurately.\n\n${fileContext}\n\n---\n\nUser: ${userContent}`;
+      }
+
+      // Save user message to DB (original message without file context for UI)
       const userMsgId = await invoke<number>("add_message", {
         conversationId: parseInt(conversationId),
         role: "user",
@@ -263,8 +345,8 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
         const chunk = sanitizeLLM(event.payload || "");
         setMessages((prev) =>
           prev.map((msg) =>
-            msg.id === tempId ? { ...msg, content: msg.content + chunk } : msg,
-          ),
+            msg.id === tempId ? { ...msg, content: msg.content + chunk } : msg
+          )
         );
       });
 
@@ -302,10 +384,10 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
         abortControllerRef.current = null;
       });
 
-      // Start generation
+      // Start generation (use message with file context)
       await invoke("generate_text", {
         conversationId: parseInt(conversationId),
-        userMessage: userContent,
+        userMessage: messageWithContext,
       });
     } catch (err) {
       console.error("Failed to send message:", err);
@@ -354,7 +436,7 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
               console.debug("[Overlay] disable click-through err", err);
             }
             window.dispatchEvent(
-              new CustomEvent("overlaychange", { detail: { enabled: false } }),
+              new CustomEvent("overlaychange", { detail: { enabled: false } })
             );
           } catch (err) {
             console.error("Failed to disable overlay:", err);
@@ -381,7 +463,7 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
               console.debug("[Overlay] toggle set_click_through err", err);
             }
             window.dispatchEvent(
-              new CustomEvent("overlaychange", { detail: { enabled: next } }),
+              new CustomEvent("overlaychange", { detail: { enabled: next } })
             );
           } catch (err) {
             console.error("Failed to toggle overlay via key:", err);
@@ -434,14 +516,14 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
     const onPrefs = (_e: Event) => {
       try {
         setOverlayAutoPassthrough(
-          getStorageBoolean("overlayAutoPassthrough", true),
+          getStorageBoolean("overlayAutoPassthrough", true)
         );
         setOverlayControlsIdleSec(
-          getStorageNumberWithClamp("overlayControlsIdleSec", 2, 1, 5),
+          getStorageNumberWithClamp("overlayControlsIdleSec", 2, 1, 5)
         );
         setOverlayToggleKey(localStorage.getItem("overlayToggleKey") || "");
         setOverlayShowDragStrip(
-          getStorageBoolean("overlayShowDragStrip", true),
+          getStorageBoolean("overlayShowDragStrip", true)
         );
       } catch (err) {
         console.debug("[Overlay] prefs update err", err);
@@ -462,7 +544,7 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
       window.clearTimeout(hideControlsTimer.current);
     hideControlsTimer.current = window.setTimeout(
       () => setShowOverlayControls(false),
-      Math.max(500, Math.min(5000, overlayControlsIdleSec * 1000)) as number,
+      Math.max(500, Math.min(5000, overlayControlsIdleSec * 1000)) as number
     );
   };
 
@@ -531,11 +613,23 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
                     {conversationGroup}
                   </span>
                 )}
+                {importedFiles.length > 0 && (
+                  <span className="flex items-center gap-1">
+                    <FileText size={14} /> Files: {importedFiles.length}
+                  </span>
+                )}
               </div>
             </div>
           </div>
 
           <div className="flex items-center gap-2">
+            <button
+              onClick={() => setShowFileImport(true)}
+              className="px-4 py-2 text-sm rounded-lg bg-blue-600 dark:bg-blue-700 text-white hover:bg-blue-700 dark:hover:bg-blue-800 shadow-sm hover:shadow-md transition-all flex items-center gap-2"
+              title={i18n.t("chat.importFile.button")}
+            >
+              <FileText size={14} /> {i18n.t("chat.importFile.button")}
+            </button>
             <button
               onClick={() => onNavigate("newConversation")}
               className="px-4 py-2 text-sm rounded-lg bg-gray-800 dark:bg-gray-700 text-white hover:bg-gray-700 dark:hover:bg-gray-600 shadow-sm hover:shadow-md transition-all flex items-center gap-2"
@@ -572,7 +666,7 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
             onChange={(e) => {
               const v = Math.max(
                 50,
-                Math.min(100, parseInt(e.target.value || "100", 10)),
+                Math.min(100, parseInt(e.target.value || "100", 10))
               );
               const f = v / 100;
               setOverlayOpacity(f);
@@ -587,7 +681,21 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
         ref={messagesContainerRef}
         className={`flex-1 overflow-y-auto ${overlayEnabled ? "px-3 py-3 space-y-3" : "px-6 py-6 space-y-4"}`}
       >
-        {messages.length === 0 ? (
+        {isInitializing ? (
+          <div className="h-full flex items-center justify-center">
+            <div className="text-center text-gray-500 dark:text-gray-400">
+              <div className="inline-block p-6 bg-gray-100 dark:bg-gray-800 rounded-full mb-4">
+                <Loader2 size={64} className="text-blue-500 animate-spin" />
+              </div>
+              <p className="text-lg font-medium">
+                {i18n.t("chat.initializing")}
+              </p>
+              <p className="text-sm mt-2 text-gray-400">
+                {i18n.t("chat.loadingModel")}
+              </p>
+            </div>
+          </div>
+        ) : messages.length === 0 ? (
           <div className="h-full flex items-center justify-center">
             <div className="text-center text-gray-500 dark:text-gray-400">
               <div className="inline-block p-6 bg-gray-100 dark:bg-gray-800 rounded-full mb-4">
@@ -674,6 +782,14 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
                 <> {isLoading ? i18n.t("chat.stop") : i18n.t("chat.send")} </>
               )}
             </button>
+            <button
+              onClick={() => setShowFileImport(true)}
+              disabled={isLoading || !serverReady}
+              className="p-3 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 disabled:bg-gray-100 dark:disabled:bg-gray-800 disabled:cursor-not-allowed shadow-sm transition-all"
+              title="Import file"
+            >
+              <FileText size={20} />
+            </button>
           </div>
           <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center flex items-center justify-center gap-1">
             <Lightbulb size={12} /> {i18n.t("chat.model")}: {modelName} • 100%
@@ -681,6 +797,42 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
           </p>
         </div>
       </div>
+
+      {/* File Import Modal */}
+      {showFileImport && (
+        <FileImport
+          onFileImported={handleFileImported}
+          onClose={() => setShowFileImport(false)}
+        />
+      )}
+
+      {/* Imported Files Display */}
+      {importedFiles.length > 0 && (
+        <div className="px-6 py-2 bg-blue-50 dark:bg-blue-900/20 border-b border-blue-200 dark:border-blue-800">
+          <div className="flex items-center gap-2 flex-wrap">
+            <FileText size={16} className="text-blue-600 dark:text-blue-400" />
+            <span className="text-sm font-medium text-blue-900 dark:text-blue-100">
+              {i18n.t("chat.importFile.attached")}:
+            </span>
+            {importedFiles.map((file) => (
+              <div
+                key={file.name}
+                className="flex items-center gap-2 px-3 py-1 bg-blue-100 dark:bg-blue-900/40 rounded-full text-sm"
+              >
+                <span className="text-blue-900 dark:text-blue-100">
+                  {file.name} ({file.size} KB)
+                </span>
+                <button
+                  onClick={() => handleRemoveFile(file.name)}
+                  className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200"
+                >
+                  <X size={14} />
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

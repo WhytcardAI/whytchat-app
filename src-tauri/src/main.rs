@@ -1,16 +1,31 @@
-#![windows_subsystem = "windows"]
+// Hide console window on Windows only
+#![cfg_attr(
+    all(not(debug_assertions), target_os = "windows"),
+    windows_subsystem = "windows"
+)]
 
 mod db;
 mod llama;
 mod llama_install;
 mod rag;
 
-use std::{collections::HashMap, fs, path::PathBuf, sync::{Arc, Mutex, atomic::{AtomicBool, Ordering}}};
-use tauri::{AppHandle, Emitter, Manager, State, Window, Size, LogicalSize, Position, LogicalPosition, WindowEvent};
-use serde::{Deserialize, Serialize};
 use futures_util::StreamExt;
-use tokio::{fs as afs, io::AsyncWriteExt};
 use rusqlite::Connection;
+use serde::{Deserialize, Serialize};
+use std::{
+    collections::HashMap,
+    fs,
+    path::PathBuf,
+    sync::{
+        atomic::{AtomicBool, Ordering},
+        Arc, Mutex,
+    },
+};
+use tauri::{
+    AppHandle, Emitter, LogicalPosition, LogicalSize, Manager, Position, Size, State, Window,
+    WindowEvent,
+};
+use tokio::{fs as afs, io::AsyncWriteExt};
 
 struct OverlayState(Mutex<bool>);
 
@@ -43,7 +58,9 @@ async fn apply_overlay_bounds(
     }
     if let (Some(px), Some(py)) = (x, y) {
         window
-            .set_position(Position::Logical(LogicalPosition::new(px as f64, py as f64)))
+            .set_position(Position::Logical(LogicalPosition::new(
+                px as f64, py as f64,
+            )))
             .map_err(|e| e.to_string())?;
     }
     Ok(())
@@ -67,9 +84,7 @@ struct DownloadEntry {
 async fn toggle_overlay(window: Window, state: State<'_, OverlayState>) -> Result<(), String> {
     let mut flag = state.0.lock().map_err(|_| "lock".to_string())?;
     *flag = !*flag;
-    window
-        .set_always_on_top(*flag)
-        .map_err(|e| e.to_string())?;
+    window.set_always_on_top(*flag).map_err(|e| e.to_string())?;
     Ok(())
 }
 
@@ -89,7 +104,9 @@ async fn set_overlay_mode(
     // Keep decorations enabled for overlay mode to allow dragging
     if enabled {
         // Set a compact mini-chat size
-        window.set_size(Size::Logical(LogicalSize::new(420.0, 560.0))).map_err(|e| e.to_string())?;
+        window
+            .set_size(Size::Logical(LogicalSize::new(420.0, 560.0)))
+            .map_err(|e| e.to_string())?;
         window.set_resizable(true).map_err(|e| e.to_string())?;
     }
     Ok(())
@@ -141,14 +158,16 @@ async fn start_llama(args: StartArgs, _app: AppHandle) -> Result<StartResult, St
         .ok_or_else(|| "Unknown preset".to_string())?;
     let final_path = models_root_dir(&_app)?.join(&pack.id).join(&pack.filename);
     let need = !final_path.exists();
-    
+
     // Debug logging
     eprintln!("[start_llama] Checking preset: {}", args.preset_id);
     eprintln!("[start_llama] Expected path: {:?}", final_path);
     eprintln!("[start_llama] File exists: {}", !need);
     eprintln!("[start_llama] Current dir: {:?}", std::env::current_dir());
-    
-    Ok(StartResult { need_download: need })
+
+    Ok(StartResult {
+        need_download: need,
+    })
 }
 
 #[derive(Serialize, Deserialize)]
@@ -179,9 +198,9 @@ struct PresetPublic {
 #[tauri::command]
 async fn get_presets() -> Result<Vec<PresetPublic>, String> {
     const PRESETS_JSON: &str = include_str!("../presets.json");
-    let data: Vec<PresetInternal> = serde_json::from_str(PRESETS_JSON)
-        .map_err(|e| e.to_string())?;
-    
+    let data: Vec<PresetInternal> =
+        serde_json::from_str(PRESETS_JSON).map_err(|e| e.to_string())?;
+
     let list: Vec<PresetPublic> = data
         .into_iter()
         .filter(|p| {
@@ -192,9 +211,9 @@ async fn get_presets() -> Result<Vec<PresetPublic>, String> {
                 p.id != "phi3_local"
             }
         })
-        .map(|p| PresetPublic { 
-            id: p.id, 
-            label_key: p.label_key, 
+        .map(|p| PresetPublic {
+            id: p.id,
+            label_key: p.label_key,
             desc_key: p.desc_key,
             use_cases: p.use_cases,
         })
@@ -209,7 +228,10 @@ fn models_root_dir(_app: &AppHandle) -> Result<PathBuf, String> {
     // In prod: use executable directory
     let base = if cfg!(debug_assertions) {
         let src_tauri = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-        src_tauri.parent().ok_or("src-tauri has no parent")?.to_path_buf()
+        src_tauri
+            .parent()
+            .ok_or("src-tauri has no parent")?
+            .to_path_buf()
     } else {
         std::env::current_exe()
             .map_err(|e| format!("Failed to get exe path: {}", e))?
@@ -221,10 +243,17 @@ fn models_root_dir(_app: &AppHandle) -> Result<PathBuf, String> {
     Ok(base.join("models"))
 }
 
+#[tauri::command]
+async fn read_file_content(path: String) -> Result<String, String> {
+    fs::read_to_string(&path).map_err(|e| format!("Failed to read file {}: {}", path, e))
+}
+
 fn main() {
     tauri::Builder::default()
         .manage(OverlayState(Mutex::new(false)))
-        .manage(DownloadManager { inner: Mutex::new(HashMap::new()) })
+        .manage(DownloadManager {
+            inner: Mutex::new(HashMap::new()),
+        })
         .plugin(tauri_plugin_shell::init())
         .plugin(tauri_plugin_dialog::init())
         .setup(|app| {
@@ -272,14 +301,17 @@ fn main() {
             get_llama_logs,
             clear_llama_logs,
             get_server_diagnostics,
+            read_file_content,
             // RAG commands
             rag::rag_list_datasets,
             rag::rag_create_dataset,
             rag::rag_delete_dataset,
             rag::rag_ingest_text,
-            rag::rag_ingest_file,
-            rag::rag_ingest_url,
-            rag::rag_query
+            rag::rag_list_chunks,
+            // RAG Dataset Linking
+            link_dataset_to_conversation,
+            unlink_dataset_from_conversation,
+            list_datasets_for_conversation
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
@@ -287,7 +319,7 @@ fn main() {
 
 #[derive(Deserialize)]
 struct DownloadArgs {
-    #[serde(rename = "presetId")] 
+    #[serde(rename = "presetId")]
     preset_id: String,
 }
 
@@ -301,7 +333,11 @@ struct PackSource {
 }
 
 #[tauri::command]
-async fn download_pack(args: DownloadArgs, dm: State<'_, DownloadManager>, app: AppHandle) -> Result<String, String> {
+async fn download_pack(
+    args: DownloadArgs,
+    dm: State<'_, DownloadManager>,
+    app: AppHandle,
+) -> Result<String, String> {
     const PACKS_JSON: &str = include_str!("../pack-sources.json");
     let packs: Vec<PackSource> = serde_json::from_str(PACKS_JSON).map_err(|e| e.to_string())?;
     let pack = packs
@@ -312,35 +348,49 @@ async fn download_pack(args: DownloadArgs, dm: State<'_, DownloadManager>, app: 
     let target_dir: PathBuf = models_root_dir(&app)?.join(&args.preset_id);
     let part_path = target_dir.join(format!("{}.part", pack.filename));
     let final_path = target_dir.join(&pack.filename);
-    
+
     // Handle local models (file:// URLs or already existing files)
     if pack.url.starts_with("file://") || final_path.exists() {
         if final_path.exists() {
             // Model already present, mark as done immediately
             let mut map = dm.inner.lock().unwrap();
-            map.insert(args.preset_id.clone(), DownloadEntry {
-                state: DownloadState { 
-                    filename: pack.filename.clone(), 
-                    total: pack.size_bytes, 
-                    written: pack.size_bytes.unwrap_or(0), 
-                    status: "done".into(), 
-                    error: None 
+            map.insert(
+                args.preset_id.clone(),
+                DownloadEntry {
+                    state: DownloadState {
+                        filename: pack.filename.clone(),
+                        total: pack.size_bytes,
+                        written: pack.size_bytes.unwrap_or(0),
+                        status: "done".into(),
+                        error: None,
+                    },
+                    cancel: Arc::new(AtomicBool::new(false)),
                 },
-                cancel: Arc::new(AtomicBool::new(false)),
-            });
+            );
             return Ok("already_installed".into());
         } else {
-            return Err("Local model file not found. Please place the model file manually.".to_string());
+            return Err(
+                "Local model file not found. Please place the model file manually.".to_string(),
+            );
         }
     }
 
     let cancel_flag = Arc::new(AtomicBool::new(false));
     {
         let mut map = dm.inner.lock().unwrap();
-        map.insert(args.preset_id.clone(), DownloadEntry {
-            state: DownloadState { filename: pack.filename.clone(), total: pack.size_bytes, written: 0, status: "running".into(), error: None },
-            cancel: cancel_flag.clone(),
-        });
+        map.insert(
+            args.preset_id.clone(),
+            DownloadEntry {
+                state: DownloadState {
+                    filename: pack.filename.clone(),
+                    total: pack.size_bytes,
+                    written: 0,
+                    status: "running".into(),
+                    error: None,
+                },
+                cancel: cancel_flag.clone(),
+            },
+        );
     }
     let app_handle = app.clone();
     let preset_id = args.preset_id.clone();
@@ -350,42 +400,89 @@ async fn download_pack(args: DownloadArgs, dm: State<'_, DownloadManager>, app: 
         let client = reqwest::Client::new();
 
         let mut resume: u64 = 0;
-        if let Ok(meta) = afs::metadata(&part_path).await { resume = meta.len(); }
+        if let Ok(meta) = afs::metadata(&part_path).await {
+            resume = meta.len();
+        }
 
         let mut req = client.get(&pack.url);
-        if resume > 0 { req = req.header(reqwest::header::RANGE, format!("bytes={}-", resume)); }
+        if resume > 0 {
+            req = req.header(reqwest::header::RANGE, format!("bytes={}-", resume));
+        }
 
-        let resp = match req.send().await.and_then(|r| r.error_for_status()) { Ok(r) => r, Err(e) => {
-            let mut map = dm.inner.lock().unwrap();
-            if let Some(entry) = map.get_mut(&preset_id) { entry.state.status = "error".into(); entry.state.error = Some(e.to_string()); }
-            return;
-        }};
+        let resp = match req.send().await.and_then(|r| r.error_for_status()) {
+            Ok(r) => r,
+            Err(e) => {
+                let mut map = dm.inner.lock().unwrap();
+                if let Some(entry) = map.get_mut(&preset_id) {
+                    entry.state.status = "error".into();
+                    entry.state.error = Some(e.to_string());
+                }
+                return;
+            }
+        };
 
         let total = resp.content_length().map(|cl| cl + resume);
         {
             let mut map = dm.inner.lock().unwrap();
-            if let Some(entry) = map.get_mut(&preset_id) { entry.state.total = total; entry.state.written = resume; }
+            if let Some(entry) = map.get_mut(&preset_id) {
+                entry.state.total = total;
+                entry.state.written = resume;
+            }
         }
 
         let mut stream = resp.bytes_stream();
-        let mut file = if resume > 0 { afs::OpenOptions::new().append(true).open(&part_path).await.unwrap() } else { afs::File::create(&part_path).await.unwrap() };
+        let mut file = if resume > 0 {
+            afs::OpenOptions::new()
+                .append(true)
+                .open(&part_path)
+                .await
+                .unwrap()
+        } else {
+            afs::File::create(&part_path).await.unwrap()
+        };
 
         while let Some(chunk) = stream.next().await {
-            if cancel_flag.load(Ordering::SeqCst) { let _ = afs::remove_file(&part_path).await; let mut map = dm.inner.lock().unwrap(); if let Some(entry) = map.get_mut(&preset_id) { entry.state.status = "canceled".into(); } return; }
+            if cancel_flag.load(Ordering::SeqCst) {
+                let _ = afs::remove_file(&part_path).await;
+                let mut map = dm.inner.lock().unwrap();
+                if let Some(entry) = map.get_mut(&preset_id) {
+                    entry.state.status = "canceled".into();
+                }
+                return;
+            }
             match chunk {
                 Ok(data) => {
-                    if file.write_all(&data).await.is_err() { let mut map = dm.inner.lock().unwrap(); if let Some(entry) = map.get_mut(&preset_id) { entry.state.status = "error".into(); entry.state.error = Some("write failed".into()); } return; }
+                    if file.write_all(&data).await.is_err() {
+                        let mut map = dm.inner.lock().unwrap();
+                        if let Some(entry) = map.get_mut(&preset_id) {
+                            entry.state.status = "error".into();
+                            entry.state.error = Some("write failed".into());
+                        }
+                        return;
+                    }
                     let mut map = dm.inner.lock().unwrap();
-                    if let Some(entry) = map.get_mut(&preset_id) { entry.state.written += data.len() as u64; }
+                    if let Some(entry) = map.get_mut(&preset_id) {
+                        entry.state.written += data.len() as u64;
+                    }
                 }
-                Err(e) => { let mut map = dm.inner.lock().unwrap(); if let Some(entry) = map.get_mut(&preset_id) { entry.state.status = "error".into(); entry.state.error = Some(e.to_string()); } return; }
+                Err(e) => {
+                    let mut map = dm.inner.lock().unwrap();
+                    if let Some(entry) = map.get_mut(&preset_id) {
+                        entry.state.status = "error".into();
+                        entry.state.error = Some(e.to_string());
+                    }
+                    return;
+                }
             }
         }
 
         let _ = file.flush().await;
         let _ = afs::rename(&part_path, &final_path).await;
         let mut map = dm.inner.lock().unwrap();
-        if let Some(entry) = map.get_mut(&preset_id) { entry.state.status = "done".into(); entry.state.total = total; }
+        if let Some(entry) = map.get_mut(&preset_id) {
+            entry.state.status = "done".into();
+            entry.state.total = total;
+        }
         // Notify UI a model is now installed
         let _ = app_handle.emit("model-installed", &preset_id);
     });
@@ -394,16 +491,24 @@ async fn download_pack(args: DownloadArgs, dm: State<'_, DownloadManager>, app: 
 }
 
 #[tauri::command]
-async fn download_status(preset_id: String, dm: State<'_, DownloadManager>) -> Result<DownloadState, String> {
+async fn download_status(
+    preset_id: String,
+    dm: State<'_, DownloadManager>,
+) -> Result<DownloadState, String> {
     let map = dm.inner.lock().unwrap();
-    if let Some(entry) = map.get(&preset_id) { return Ok(entry.state.clone()); }
+    if let Some(entry) = map.get(&preset_id) {
+        return Ok(entry.state.clone());
+    }
     Err("not_found".into())
 }
 
 #[tauri::command]
 async fn cancel_download(preset_id: String, dm: State<'_, DownloadManager>) -> Result<(), String> {
     let map = dm.inner.lock().unwrap();
-    if let Some(entry) = map.get(&preset_id) { entry.cancel.store(true, Ordering::SeqCst); return Ok(()); }
+    if let Some(entry) = map.get(&preset_id) {
+        entry.cancel.store(true, Ordering::SeqCst);
+        return Ok(());
+    }
     Err("not_found".into())
 }
 
@@ -442,53 +547,132 @@ struct CreateConversationArgs {
     parameters: ModelParameters,
     #[serde(rename = "datasetIds")]
     dataset_ids: Option<Vec<String>>,
+    #[serde(rename = "initialDatasetName")]
+    initial_dataset_name: Option<String>,
+    #[serde(rename = "initialDatasetText")]
+    initial_dataset_text: Option<String>,
 }
 
 #[tauri::command]
-async fn create_conversation(args: CreateConversationArgs, db: State<'_, DbState>) -> Result<i64, String> {
-    let conn = db.0.lock().map_err(|e| e.to_string())?;
-    
-    // Get or create group if specified
-    let group_id = if let Some(group_name) = args.group_name {
-        if !group_name.is_empty() {
-            // Try to find existing group or create new one
-            let groups = db::list_groups(&conn).map_err(|e| e.to_string())?;
-            if let Some(group) = groups.iter().find(|g| g.name == group_name) {
-                Some(group.id)
+async fn create_conversation(
+    args: CreateConversationArgs,
+    db: State<'_, DbState>,
+) -> Result<i64, String> {
+    // Scope lock to avoid holding across awaits
+    let conversation_id = {
+        let conn = db.0.lock().map_err(|e| e.to_string())?;
+
+        // Get or create group if specified
+        let group_id = if let Some(group_name) = &args.group_name {
+            if !group_name.is_empty() {
+                // Try to find existing group or create new one
+                let groups = db::list_groups(&conn).map_err(|e| e.to_string())?;
+                if let Some(group) = groups.iter().find(|g| g.name == *group_name) {
+                    Some(group.id)
+                } else {
+                    Some(db::create_group(&conn, group_name).map_err(|e| e.to_string())?)
+                }
             } else {
-                Some(db::create_group(&conn, &group_name).map_err(|e| e.to_string())?)
+                None
             }
         } else {
             None
+        };
+
+        let system_prompt_opt = if args.system_prompt.is_empty() {
+            None
+        } else {
+            Some(args.system_prompt.clone())
+        };
+
+        // Convert dataset_ids Vec to JSON string (legacy field retained for backward compatibility)
+        let dataset_ids_json = args
+            .dataset_ids
+            .clone()
+            .and_then(|ids| serde_json::to_string(&ids).ok());
+
+        let params = db::ConversationParams {
+            name: args.name.clone(),
+            group_id,
+            preset_id: args.preset_id.clone(),
+            system_prompt: system_prompt_opt,
+            temperature: args.parameters.temperature,
+            top_p: args.parameters.top_p,
+            max_tokens: args.parameters.max_tokens,
+            repeat_penalty: args.parameters.repeat_penalty,
+            dataset_ids: dataset_ids_json,
+        };
+
+        db::create_conversation(&conn, params).map_err(|e| e.to_string())?
+    };
+
+    // Link any provided legacy dataset IDs via N-N table
+    if let Some(ids) = args.dataset_ids.clone() {
+        for did in ids {
+            let conn = db.0.lock().map_err(|e| e.to_string())?;
+            if let Err(e) = db::link_dataset_to_conversation(&conn, conversation_id, &did) {
+                eprintln!(
+                    "[create_conversation] Failed to link dataset {}: {}",
+                    did, e
+                );
+            }
         }
-    } else {
-        None
-    };
-    
-    let system_prompt_opt = if args.system_prompt.is_empty() {
-        None
-    } else {
-        Some(args.system_prompt)
-    };
-    
-    // Convert dataset_ids Vec to JSON string
-    let dataset_ids_json = args.dataset_ids
-        .map(|ids| serde_json::to_string(&ids).ok())
-        .flatten();
-    
-    let params = db::ConversationParams {
-        name: args.name,
-        group_id,
-        preset_id: args.preset_id,
-        system_prompt: system_prompt_opt,
-        temperature: args.parameters.temperature,
-        top_p: args.parameters.top_p,
-        max_tokens: args.parameters.max_tokens,
-        repeat_penalty: args.parameters.repeat_penalty,
-        dataset_ids: dataset_ids_json,
-    };
-    
-    db::create_conversation(&conn, params).map_err(|e| e.to_string())
+    }
+
+    // Auto-create dataset if requested (name or text provided)
+    let wants_dataset = args
+        .initial_dataset_name
+        .as_ref()
+        .map(|s| !s.trim().is_empty())
+        .unwrap_or(false)
+        || args
+            .initial_dataset_text
+            .as_ref()
+            .map(|s| !s.trim().is_empty())
+            .unwrap_or(false);
+
+    if wants_dataset {
+        // Determine dataset name
+        let ds_name = if let Some(name) = &args.initial_dataset_name {
+            if name.trim().is_empty() {
+                format!("{}-kb", args.name)
+            } else {
+                name.trim().to_string()
+            }
+        } else {
+            format!("{}-kb", args.name)
+        };
+
+        match rag::rag_create_dataset(ds_name).await {
+            Ok(info) => {
+                // Ingest initial text if provided
+                if let Some(text) = &args.initial_dataset_text {
+                    if !text.trim().is_empty() {
+                        let ingest_args = rag::IngestTextArgs {
+                            dataset_id: info.id.clone(),
+                            text: text.clone(),
+                        };
+                        if let Err(e) = rag::rag_ingest_text(ingest_args).await {
+                            eprintln!("[create_conversation] Ingestion failed: {}", e);
+                        }
+                    }
+                }
+                // Link dataset
+                let conn = db.0.lock().map_err(|e| e.to_string())?;
+                if let Err(e) = db::link_dataset_to_conversation(&conn, conversation_id, &info.id) {
+                    eprintln!(
+                        "[create_conversation] Failed to link auto dataset {}: {}",
+                        info.id, e
+                    );
+                }
+            }
+            Err(e) => {
+                eprintln!("[create_conversation] Auto dataset creation failed: {}", e);
+            }
+        }
+    }
+
+    Ok(conversation_id)
 }
 
 #[tauri::command]
@@ -504,7 +688,10 @@ async fn delete_conversation(id: i64, db: State<'_, DbState>) -> Result<(), Stri
 }
 
 #[tauri::command]
-async fn list_messages(conversation_id: i64, db: State<'_, DbState>) -> Result<Vec<db::Message>, String> {
+async fn list_messages(
+    conversation_id: i64,
+    db: State<'_, DbState>,
+) -> Result<Vec<db::Message>, String> {
     let conn = db.0.lock().map_err(|e| e.to_string())?;
     db::list_messages(&conn, conversation_id).map_err(|e| e.to_string())
 }
@@ -520,10 +707,92 @@ async fn add_message(
     conversation_id: i64,
     role: String,
     content: String,
-    db: State<'_, DbState>
+    db: State<'_, DbState>,
 ) -> Result<i64, String> {
     let mut conn = db.0.lock().map_err(|e| e.to_string())?;
     db::add_message(&mut conn, conversation_id, &role, &content).map_err(|e| e.to_string())
+}
+
+// ===== RAG Dataset Linking Commands =====
+
+#[tauri::command]
+async fn link_dataset_to_conversation(
+    conversation_id: i64,
+    dataset_id: String,
+    db: State<'_, DbState>,
+) -> Result<(), String> {
+    let conn = db.0.lock().map_err(|e| e.to_string())?;
+    db::link_dataset_to_conversation(&conn, conversation_id, &dataset_id).map_err(|e| e.to_string())
+}
+
+#[tauri::command]
+async fn unlink_dataset_from_conversation(
+    conversation_id: i64,
+    dataset_id: String,
+    db: State<'_, DbState>,
+) -> Result<(), String> {
+    let conn = db.0.lock().map_err(|e| e.to_string())?;
+    db::unlink_dataset_from_conversation(&conn, conversation_id, &dataset_id)
+        .map_err(|e| e.to_string())
+}
+
+#[tauri::command]
+async fn list_datasets_for_conversation(
+    conversation_id: i64,
+    db: State<'_, DbState>,
+) -> Result<Vec<String>, String> {
+    let conn = db.0.lock().map_err(|e| e.to_string())?;
+    db::list_datasets_for_conversation(&conn, conversation_id).map_err(|e| e.to_string())
+}
+
+/// Load RAG context from all datasets linked to a conversation
+async fn load_rag_context(conversation_id: i64, db: &State<'_, DbState>) -> Result<String, String> {
+    // Get linked datasets
+    let dataset_ids = {
+        let conn = db.0.lock().map_err(|e| e.to_string())?;
+        db::list_datasets_for_conversation(&conn, conversation_id).map_err(|e| e.to_string())?
+    };
+
+    if dataset_ids.is_empty() {
+        return Ok(String::new());
+    }
+
+    // Load chunks from each dataset
+    let mut all_chunks = Vec::new();
+    for dataset_id in dataset_ids {
+        match rag::rag_list_chunks(dataset_id.clone()).await {
+            Ok(chunks) => {
+                all_chunks.extend(chunks);
+            }
+            Err(e) => {
+                eprintln!(
+                    "[RAG] Failed to load chunks for dataset {}: {}",
+                    dataset_id, e
+                );
+                // Continue with other datasets
+            }
+        }
+    }
+
+    if all_chunks.is_empty() {
+        return Ok(String::new());
+    }
+
+    // Limit total context size (max ~3000 chars to avoid token overflow)
+    const MAX_CONTEXT_CHARS: usize = 3000;
+    let mut context = String::new();
+    let mut total_chars = 0;
+
+    for chunk in all_chunks {
+        if total_chars + chunk.len() > MAX_CONTEXT_CHARS {
+            break;
+        }
+        context.push_str(&chunk);
+        context.push_str("\n\n---\n\n");
+        total_chars += chunk.len() + 8; // 8 for separator
+    }
+
+    Ok(context.trim().to_string())
 }
 
 #[tauri::command]
@@ -531,23 +800,23 @@ async fn generate_text(
     conversation_id: i64,
     user_message: String,
     window: Window,
-    db: State<'_, DbState>
+    db: State<'_, DbState>,
 ) -> Result<(), String> {
     // Load conversation
     let conversation = {
         let conn = db.0.lock().map_err(|e| e.to_string())?;
         db::get_conversation(&conn, conversation_id).map_err(|e| e.to_string())?
     };
-    
+
     // Load message history
     let messages = {
         let conn = db.0.lock().map_err(|e| e.to_string())?;
         db::list_messages(&conn, conversation_id).map_err(|e| e.to_string())?
     };
-    
+
     // Build chat messages
     let mut chat_messages = Vec::new();
-    
+
     // Add system prompt if exists
     if let Some(system_prompt) = &conversation.system_prompt {
         if !system_prompt.is_empty() {
@@ -557,7 +826,22 @@ async fn generate_text(
             });
         }
     }
-    
+
+    // Add RAG context if datasets are linked
+    let rag_context = load_rag_context(conversation_id, &db).await?;
+    if !rag_context.is_empty() {
+        let context_message = format!(
+            "Relevant knowledge from your datasets:\n\n{}\n\n\
+            Use this information to provide accurate answers. \
+            If the question relates to this knowledge, reference it in your response.",
+            rag_context
+        );
+        chat_messages.push(llama::ChatMessage {
+            role: "system".to_string(),
+            content: context_message,
+        });
+    }
+
     // Add message history
     for msg in messages {
         chat_messages.push(llama::ChatMessage {
@@ -565,13 +849,13 @@ async fn generate_text(
             content: msg.content,
         });
     }
-    
+
     // Add new user message
     chat_messages.push(llama::ChatMessage {
         role: "user".to_string(),
         content: user_message,
     });
-    
+
     // Build payload
     let payload = llama::ChatCompletionRequest {
         model: conversation.preset_id.clone(),
@@ -582,14 +866,19 @@ async fn generate_text(
         max_tokens: conversation.max_tokens,
         repeat_penalty: conversation.repeat_penalty,
     };
-    
+
+    eprintln!(
+        "[generate_text] Parameters: temp={}, top_p={}, max_tokens={}, repeat_penalty={}",
+        payload.temperature, payload.top_p, payload.max_tokens, payload.repeat_penalty
+    );
+
     // Send request to llama-server
     let server_url = llama::get_server_url();
     let client = reqwest::Client::builder()
         .timeout(std::time::Duration::from_secs(120))
         .build()
         .map_err(|e| e.to_string())?;
-    
+
     let response = client
         .post(format!("{}/v1/chat/completions", server_url))
         .json(&payload)
@@ -602,46 +891,45 @@ async fn generate_text(
                 format!("Failed to connect to llama-server: {}", e)
             }
         })?;
-    
+
     if !response.status().is_success() {
         let error_msg = format!("llama-server returned error: {}", response.status());
         window.emit("generation-error", &error_msg).ok();
         return Err(error_msg);
     }
-    
+
     // Stream response
     let mut stream = response.bytes_stream();
     let mut buffer = String::new();
     let mut accumulated = String::new();
     let mut finished = false;
-    
+
     println!("[generate_text] Starting to stream response...");
-    
+
     while let Some(chunk) = stream.next().await {
         let bytes = chunk.map_err(|e| e.to_string())?;
         let text = String::from_utf8_lossy(&bytes);
-        
+
         buffer.push_str(&text);
-        
+
         // Process complete lines
         while let Some(pos) = buffer.find('\n') {
             let line = buffer[..pos].trim().to_string();
             buffer = buffer[pos + 1..].to_string();
-            
+
             if line.is_empty() {
                 continue;
             }
-            
+
             println!("[generate_text] Raw SSE line: {}", line);
-            
+
             if let Some(json_str) = line.strip_prefix("data: ") {
-                
                 if json_str == "[DONE]" {
                     println!("[generate_text] Received [DONE], finishing stream");
                     finished = true;
                     break;
                 }
-                
+
                 // Parse SSE chunk
                 match serde_json::from_str::<llama::SSEChunk>(json_str) {
                     Ok(sse_chunk) => {
@@ -657,7 +945,7 @@ async fn generate_text(
                                     }
                                 }
                             }
-                            
+
                             // Check if generation is complete
                             if let Some(reason) = &choice.finish_reason {
                                 if reason == "stop" || reason == "length" {
@@ -682,22 +970,25 @@ async fn generate_text(
             break;
         }
     }
-    
-    println!("[generate_text] Streaming complete. Total accumulated: {} chars", accumulated.len());
-    
+
+    println!(
+        "[generate_text] Streaming complete. Total accumulated: {} chars",
+        accumulated.len()
+    );
+
     // Save assistant message to DB
     {
         let mut conn = db.0.lock().map_err(|e| e.to_string())?;
         db::add_message(&mut conn, conversation_id, "assistant", &accumulated)
             .map_err(|e| e.to_string())?;
     }
-    
+
     // Emit completion event
     println!("[generate_text] Emitting generation-complete");
     if let Err(e) = window.emit("generation-complete", &accumulated) {
         println!("[generate_text] Failed to emit complete: {:?}", e);
     }
-    
+
     Ok(())
 }
 
@@ -714,7 +1005,7 @@ async fn health_check_llama_server() -> Result<bool, String> {
         .timeout(std::time::Duration::from_secs(3))
         .build()
         .map_err(|e| e.to_string())?;
-    
+
     // Try multiple endpoints - llama.cpp may not have /health
     let base = llama::get_server_url();
     let endpoints = vec![
@@ -722,7 +1013,7 @@ async fn health_check_llama_server() -> Result<bool, String> {
         format!("{}/v1/models", base),
         base.clone(),
     ];
-    
+
     for endpoint in endpoints {
         match client.get(&endpoint).send().await {
             Ok(response) => {
@@ -737,7 +1028,7 @@ async fn health_check_llama_server() -> Result<bool, String> {
             }
         }
     }
-    
+
     Ok(false)
 }
 
@@ -746,13 +1037,12 @@ async fn start_llama_for_conversation(
     conversation_id: i64,
     db: tauri::State<'_, DbState>,
     window: Window,
-    app: tauri::AppHandle
+    app: tauri::AppHandle,
 ) -> Result<u32, String> {
     // Get conversation preset_id from database
     let conn = db.0.lock().map_err(|e| e.to_string())?;
-    let conversation = db::get_conversation(&conn, conversation_id)
-        .map_err(|e| e.to_string())?;
-    
+    let conversation = db::get_conversation(&conn, conversation_id).map_err(|e| e.to_string())?;
+
     // Load pack info
     const PACKS_JSON: &str = include_str!("../pack-sources.json");
     let packs: Vec<PackSource> = serde_json::from_str(PACKS_JSON).map_err(|e| e.to_string())?;
@@ -760,17 +1050,17 @@ async fn start_llama_for_conversation(
         .into_iter()
         .find(|p| p.id == conversation.preset_id)
         .ok_or_else(|| "Unknown preset for this conversation".to_string())?;
-    
+
     // Build model path
     let model_path = models_root_dir(&app)?.join(&pack.id).join(&pack.filename);
-    
+
     if !model_path.exists() {
         return Err(format!(
             "Model '{}' is not downloaded. Please download it from the onboarding page first.",
             pack.id
         ));
     }
-    
+
     // Start server with this model
     let model_path_str = format!("models/{}/{}", pack.id, pack.filename);
     llama_install::start_server_process(model_path_str, 2048, window, &app)
@@ -791,33 +1081,55 @@ struct GeneratePromptAiArgs {
 }
 
 #[derive(Deserialize)]
-struct QAItem { question: String, answer: String }
+struct QAItem {
+    question: String,
+    answer: String,
+}
 
 #[derive(Deserialize)]
-struct ChatRespChoiceMessage { content: String }
+struct ChatRespChoiceMessage {
+    content: String,
+}
 #[derive(Deserialize)]
-struct ChatRespChoice { message: ChatRespChoiceMessage }
+struct ChatRespChoice {
+    message: ChatRespChoiceMessage,
+}
 #[derive(Deserialize)]
-struct ChatResp { choices: Vec<ChatRespChoice> }
+struct ChatResp {
+    choices: Vec<ChatRespChoice>,
+}
 
 #[derive(Deserialize)]
-struct DialogueMsg { role: String, content: String }
+struct DialogueMsg {
+    role: String,
+    content: String,
+}
 #[derive(Deserialize)]
 struct GenerateDialogueArgs {
-    #[serde(rename = "presetId")] preset_id: String,
-    #[serde(default)] history: Vec<DialogueMsg>,
-    #[serde(default)] strict_mode: bool,
-    #[serde(default)] locale: Option<String>,
+    #[serde(rename = "presetId")]
+    preset_id: String,
+    #[serde(default)]
+    history: Vec<DialogueMsg>,
+    #[serde(default)]
+    strict_mode: bool,
+    #[serde(default)]
+    locale: Option<String>,
 }
 #[derive(Serialize)]
 #[serde(tag = "status")]
 enum DialogueResult {
-    #[serde(rename = "questions")] Questions { questions: Vec<String> },
-    #[serde(rename = "final")] Final { prompt: String },
+    #[serde(rename = "questions")]
+    Questions { questions: Vec<String> },
+    #[serde(rename = "final")]
+    Final { prompt: String },
 }
 
 #[tauri::command]
-async fn generate_prompt_ai_dialogue(args: GenerateDialogueArgs, window: Window, app: AppHandle) -> Result<DialogueResult, String> {
+async fn generate_prompt_ai_dialogue(
+    args: GenerateDialogueArgs,
+    window: Window,
+    app: AppHandle,
+) -> Result<DialogueResult, String> {
     // Ensure server is started
     let _ = start_llama_with_preset(args.preset_id.clone(), window.clone(), app.clone()).await;
 
@@ -829,7 +1141,9 @@ async fn generate_prompt_ai_dialogue(args: GenerateDialogueArgs, window: Window,
     };
 
     let mut strict = String::new();
-    if args.strict_mode { strict.push_str("RÈGLES STRICTES — ZÉRO INVENTION\n1) Suivre uniquement les instructions explicites\n2) Aucune extrapolation\n3) Si une info manque, poser jusqu'à 3 questions concises\n4) Respecter langue/format demandés\n\n"); }
+    if args.strict_mode {
+        strict.push_str("RÈGLES STRICTES - ZÉRO INVENTION\n1) Suivre uniquement les instructions explicites\n2) Aucune extrapolation\n3) Si une info manque, poser jusqu'à 3 questions concises\n4) Respecter langue/format demandés\n\n");
+    }
 
     // Protocol for iterative prompting
     let system_proto = format!(
@@ -839,11 +1153,22 @@ async fn generate_prompt_ai_dialogue(args: GenerateDialogueArgs, window: Window,
 
     // Build messages
     let mut messages: Vec<crate::llama::ChatMessage> = Vec::new();
-    messages.push(crate::llama::ChatMessage { role: "system".into(), content: system_proto });
+    messages.push(crate::llama::ChatMessage {
+        role: "system".into(),
+        content: system_proto,
+    });
     for m in &args.history {
-        messages.push(crate::llama::ChatMessage { role: m.role.clone(), content: m.content.clone() });
+        messages.push(crate::llama::ChatMessage {
+            role: m.role.clone(),
+            content: m.content.clone(),
+        });
     }
-    if messages.len() == 1 { messages.push(crate::llama::ChatMessage { role: "user".into(), content: "Bonjour".into() }); }
+    if messages.len() == 1 {
+        messages.push(crate::llama::ChatMessage {
+            role: "user".into(),
+            content: "Bonjour".into(),
+        });
+    }
 
     let payload = crate::llama::ChatCompletionRequest {
         model: args.preset_id.clone(),
@@ -856,12 +1181,27 @@ async fn generate_prompt_ai_dialogue(args: GenerateDialogueArgs, window: Window,
     };
 
     let server_url = crate::llama::get_server_url();
-    let client = reqwest::Client::builder().timeout(std::time::Duration::from_secs(60)).build().map_err(|e| e.to_string())?;
-    let resp = client.post(format!("{}/v1/chat/completions", server_url)).json(&payload).send().await.map_err(|e| format!("Failed to connect to llama-server: {}", e))?;
-    if !resp.status().is_success() { return Err(format!("llama-server returned error: {}", resp.status())); }
+    let client = reqwest::Client::builder()
+        .timeout(std::time::Duration::from_secs(60))
+        .build()
+        .map_err(|e| e.to_string())?;
+    let resp = client
+        .post(format!("{}/v1/chat/completions", server_url))
+        .json(&payload)
+        .send()
+        .await
+        .map_err(|e| format!("Failed to connect to llama-server: {}", e))?;
+    if !resp.status().is_success() {
+        return Err(format!("llama-server returned error: {}", resp.status()));
+    }
     let txt = resp.text().await.map_err(|e| e.to_string())?;
-    let parsed: ChatResp = serde_json::from_str(&txt).map_err(|e| format!("Invalid response: {} | {}", e, txt))?;
-    let content = parsed.choices.first().map(|c| c.message.content.clone()).unwrap_or_default();
+    let parsed: ChatResp =
+        serde_json::from_str(&txt).map_err(|e| format!("Invalid response: {} | {}", e, txt))?;
+    let content = parsed
+        .choices
+        .first()
+        .map(|c| c.message.content.clone())
+        .unwrap_or_default();
 
     // Parse protocol
     let trimmed = content.trim();
@@ -880,11 +1220,17 @@ async fn generate_prompt_ai_dialogue(args: GenerateDialogueArgs, window: Window,
         return Ok(DialogueResult::Questions { questions: qs });
     }
     // Fallback: treat as assistant question in a single block
-    Ok(DialogueResult::Questions { questions: vec![trimmed.to_string()] })
+    Ok(DialogueResult::Questions {
+        questions: vec![trimmed.to_string()],
+    })
 }
 
 #[tauri::command]
-async fn generate_prompt_ai(args: GeneratePromptAiArgs, window: Window, app: AppHandle) -> Result<String, String> {
+async fn generate_prompt_ai(
+    args: GeneratePromptAiArgs,
+    window: Window,
+    app: AppHandle,
+) -> Result<String, String> {
     // Best effort: try to start server with this preset (ignore if already running)
     let _ = start_llama_with_preset(args.preset_id.clone(), window.clone(), app.clone()).await;
 
@@ -897,10 +1243,12 @@ async fn generate_prompt_ai(args: GeneratePromptAiArgs, window: Window, app: App
 
     let mut strict = String::new();
     if args.strict_mode {
-        strict.push_str("RÈGLES STRICTES — ZÉRO INVENTION\n1) Suivre uniquement les instructions explicites\n2) Aucune extrapolation\n3) Si une information critique manque, proposer 2-3 questions courtes\n4) Respect strict de la langue/format\n\n");
+        strict.push_str("RÈGLES STRICTES - ZÉRO INVENTION\n1) Suivre uniquement les instructions explicites\n2) Aucune extrapolation\n3) Si une information critique manque, proposer 2-3 questions courtes\n4) Respect strict de la langue/format\n\n");
     }
 
-    let clarif = if args.clarifications.is_empty() { String::new() } else {
+    let clarif = if args.clarifications.is_empty() {
+        String::new()
+    } else {
         let mut s = String::from("Informations complémentaires:\n");
         for qa in &args.clarifications {
             if !qa.answer.trim().is_empty() {
@@ -917,14 +1265,21 @@ async fn generate_prompt_ai(args: GeneratePromptAiArgs, window: Window, app: App
 
     let user_payload = format!(
         "Objectif utilisateur: {}\n{}\nGénère le prompt système final maintenant.",
-        args.intent.trim(), clarif
+        args.intent.trim(),
+        clarif
     );
 
     let payload = crate::llama::ChatCompletionRequest {
         model: args.preset_id.clone(),
         messages: vec![
-            crate::llama::ChatMessage { role: "system".into(), content: meta_system },
-            crate::llama::ChatMessage { role: "user".into(), content: user_payload },
+            crate::llama::ChatMessage {
+                role: "system".into(),
+                content: meta_system,
+            },
+            crate::llama::ChatMessage {
+                role: "user".into(),
+                content: user_payload,
+            },
         ],
         stream: false,
         temperature: 0.2,
@@ -949,8 +1304,13 @@ async fn generate_prompt_ai(args: GeneratePromptAiArgs, window: Window, app: App
         return Err(format!("llama-server returned error: {}", resp.status()));
     }
     let txt = resp.text().await.map_err(|e| e.to_string())?;
-    let parsed: ChatResp = serde_json::from_str(&txt).map_err(|e| format!("Invalid response: {} | {}", e, txt))?;
-    if let Some(first) = parsed.choices.first() { Ok(first.message.content.clone()) } else { Err("Empty AI response".into()) }
+    let parsed: ChatResp =
+        serde_json::from_str(&txt).map_err(|e| format!("Invalid response: {} | {}", e, txt))?;
+    if let Some(first) = parsed.choices.first() {
+        Ok(first.message.content.clone())
+    } else {
+        Err("Empty AI response".into())
+    }
 }
 
 #[tauri::command]
@@ -970,7 +1330,7 @@ async fn get_first_installed_preset(app: tauri::AppHandle) -> Result<Option<Pack
 async fn start_llama_with_preset(
     preset_id: String,
     window: Window,
-    app: tauri::AppHandle
+    app: tauri::AppHandle,
 ) -> Result<u32, String> {
     const PACKS_JSON: &str = include_str!("../pack-sources.json");
     let packs: Vec<PackSource> = serde_json::from_str(PACKS_JSON).map_err(|e| e.to_string())?;
@@ -991,12 +1351,12 @@ async fn start_llama_with_preset(
 async fn download_llama_server(window: Window, app: tauri::AppHandle) -> Result<String, String> {
     // Download binary
     let zip_path = llama_install::download_server_binary(window.clone()).await?;
-    
+
     // Extract binary
     let binary_path = llama_install::extract_server_binary(&zip_path, &app)?;
-    
+
     window.emit("llama-server-status", "installed").ok();
-    
+
     Ok(binary_path.to_string_lossy().to_string())
 }
 
@@ -1005,7 +1365,7 @@ async fn start_llama_server(
     model_path: String,
     ctx_size: Option<i32>,
     window: Window,
-    app: tauri::AppHandle
+    app: tauri::AppHandle,
 ) -> Result<u32, String> {
     let context_size = ctx_size.unwrap_or(2048);
     llama_install::start_server_process(model_path, context_size, window, &app)
@@ -1039,10 +1399,17 @@ struct ServerDiagnostics {
 #[tauri::command]
 async fn get_server_diagnostics(app: AppHandle) -> Result<ServerDiagnostics, String> {
     let status = llama_install::check_server_binary(&app)?;
-    let bin_dir = status
-        .path
-        .as_ref()
-        .and_then(|p| std::path::Path::new(p).parent().map(|pp| pp.to_string_lossy().to_string()));
-    let env_path_head = std::env::var("PATH").ok().map(|p| p.chars().take(200).collect());
-    Ok(ServerDiagnostics { status, bin_dir, env_path_head })
+    let bin_dir = status.path.as_ref().and_then(|p| {
+        std::path::Path::new(p)
+            .parent()
+            .map(|pp| pp.to_string_lossy().to_string())
+    });
+    let env_path_head = std::env::var("PATH")
+        .ok()
+        .map(|p| p.chars().take(200).collect());
+    Ok(ServerDiagnostics {
+        status,
+        bin_dir,
+        env_path_head,
+    })
 }

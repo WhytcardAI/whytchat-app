@@ -66,7 +66,7 @@ export function ServerDebugModal({ onClose }: Props) {
       <div className="w-full max-w-3xl bg-white dark:bg-gray-900 rounded-lg shadow-xl overflow-hidden">
         <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between">
           <h3 className="text-sm font-semibold text-gray-800 dark:text-gray-100">
-            {i18n.t("settings.debug.title")} — {status}
+            {i18n.t("settings.debug.title")} - {status}
           </h3>
           <div className="flex gap-2">
             <button
@@ -81,7 +81,9 @@ export function ServerDebugModal({ onClose }: Props) {
                   setActionPending(false);
                 }
               }}
-              disabled={actionPending || status === "starting" || status === "ready"}
+              disabled={
+                actionPending || status === "starting" || status === "ready"
+              }
               className="px-3 py-1 text-xs bg-green-600 disabled:bg-green-900/40 text-white rounded hover:bg-green-700 disabled:cursor-not-allowed"
             >
               {i18n.t("ui.start")}
@@ -98,7 +100,9 @@ export function ServerDebugModal({ onClose }: Props) {
                   setActionPending(false);
                 }
               }}
-              disabled={actionPending || status === "stopped" || status === "checking"}
+              disabled={
+                actionPending || status === "stopped" || status === "checking"
+              }
               className="px-3 py-1 text-xs bg-red-600 disabled:bg-red-900/40 text-white rounded hover:bg-red-700 disabled:cursor-not-allowed"
             >
               {i18n.t("chat.stop")}
