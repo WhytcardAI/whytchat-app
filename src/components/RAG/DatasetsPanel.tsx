@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { i18n } from "../../i18n";
 import { createDataset, ingestText, ingestFile, ingestUrl, listDatasets } from "../../rag/api";
 import type { DatasetInfo } from "../../rag/types";
 import { open } from "@tauri-apps/plugin-dialog";
 
 export default function DatasetsPanel() {
-  const { t } = useTranslation();
+  const t = (key: string, params?: Record<string, any>) => {
+    const translation = i18n.t(key);
+    if (!params) return translation;
+    return Object.entries(params).reduce((acc, [k, v]) => acc.replace(`{${k}}`, String(v)), translation);
+  };
   const [datasets, setDatasets] = useState<DatasetInfo[]>([]);
   const [name, setName] = useState("");
   const [text, setText] = useState("");
