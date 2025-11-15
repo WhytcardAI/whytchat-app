@@ -34,7 +34,7 @@ export function ServerProvider({ children }: { children: ReactNode }) {
       try {
         const isHealthy = await invoke<boolean>("health_check_llama_server");
         console.log(
-          `[ServerContext] Health check ${i + 1}/${maxAttempts}: ${isHealthy}`
+          console.log(`[ServerContext] Health check ${i + 1}/${maxAttempts}: ${String(isHealthy)}`);
         );
         if (isHealthy) {
           console.log("[ServerContext] ✓ Server is healthy!");
