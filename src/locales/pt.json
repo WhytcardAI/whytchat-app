@@ -312,7 +312,13 @@
     "promptLearning": "Você é um pedagogo. Explique os conceitos progressivamente, do simples ao complexo. Use analogias concretas, exemplos práticos e verifique a compreensão antes de avançar. Encoraje perguntas.",
     "promptBrainstorm": "Você é um facilitador criativo. Explore múltiplos ângulos de abordagem, proponha ideias diversificadas e originais. Questione as hipóteses, combine conceitos e ajude a estruturar as reflexões.",
     "promptWriting": "Você é um assistente de redação. Melhore a clareza, coerência e impacto dos textos. Respeite o tom e estilo solicitados. Proponha reformulações e identifique fraquezas argumentativas.",
-    "promptAnalysis": "Você é um analista rigoroso. Sintetize as informações de forma estruturada, identifique tendências e inconsistências. Apresente conclusões factuais com suas limitações. Priorize dados verificáveis."
+    "promptAnalysis": "Você é um analista rigoroso. Sintetize as informações de forma estruturada, identifique tendências e inconsistências. Apresente conclusões factuais com suas limitações. Priorize dados verificáveis.",
+    "initialDatasetEnable": "Criar dataset inicial",
+    "initialDatasetNameLabel": "Nome do dataset",
+    "initialDatasetNamePlaceholder": "Ex: Projeto WhytChat - conhecimento",
+    "initialDatasetContentLabel": "Conteúdo inicial",
+    "initialDatasetContentPlaceholder": "Cole ou escreva o texto que a IA deve conhecer...",
+    "initialDatasetHelp": "Opcional: cria um dataset ligado à conversa e indexa este texto para contexto (RAG)."
   },
 
   "serverStatus": {

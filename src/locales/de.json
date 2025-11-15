@@ -312,7 +312,13 @@
     "promptLearning": "Sie sind ein Pädagoge. Erklären Sie Konzepte schrittweise, vom Einfachen zum Komplexen. Verwenden Sie konkrete Analogien, praktische Beispiele und überprüfen Sie das Verständnis, bevor Sie fortfahren. Ermutigen Sie Fragen.",
     "promptBrainstorm": "Sie sind ein kreativer Moderator. Erkunden Sie mehrere Ansätze, schlagen Sie vielfältige und originelle Ideen vor. Hinterfragen Sie Annahmen, kombinieren Sie Konzepte und helfen Sie, Überlegungen zu strukturieren.",
     "promptWriting": "Sie sind ein Schreibassistent. Verbessern Sie Klarheit, Kohärenz und Wirkung von Texten. Respektieren Sie den gewünschten Ton und Stil. Schlagen Sie Umformulierungen vor und identifizieren Sie argumentative Schwächen.",
-    "promptAnalysis": "Sie sind ein rigoroser Analyst. Fassen Sie Informationen strukturiert zusammen, identifizieren Sie Trends und Inkonsistenzen. Präsentieren Sie faktische Schlussfolgerungen mit ihren Grenzen. Bevorzugen Sie überprüfbare Daten."
+    "promptAnalysis": "Sie sind ein rigoroser Analyst. Fassen Sie Informationen strukturiert zusammen, identifizieren Sie Trends und Inkonsistenzen. Präsentieren Sie faktische Schlussfolgerungen mit ihren Grenzen. Bevorzugen Sie überprüfbare Daten.",
+    "initialDatasetEnable": "Initialen Wissens-Datensatz hinzufügen",
+    "initialDatasetNameLabel": "Dataset-Name (optional)",
+    "initialDatasetNamePlaceholder": "z.B. Projekt Notizen",
+    "initialDatasetContentLabel": "Initialer Dataset Text",
+    "initialDatasetContentPlaceholder": "Notizen, Richtlinien, Dokumentation hier einfügen...",
+    "initialDatasetHelp": "Dieser Text wird in Abschnitte geteilt und als Kontext für die ersten Nachrichten verwendet. Später können Sie mehr hinzufügen."
   },
 
   "serverStatus": {

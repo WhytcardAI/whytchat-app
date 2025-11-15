@@ -1,14 +1,14 @@
+use futures_util::StreamExt;
+use serde::{Deserialize, Serialize};
+use std::collections::VecDeque;
 use std::fs::{self, File};
-use std::io::{self, Write, BufRead, BufReader};
+use std::io::{self, BufRead, BufReader, Write};
+#[cfg(target_os = "windows")]
+use std::os::windows::process::CommandExt;
 use std::path::{Path, PathBuf};
 use std::process::{Child, Command, Stdio};
 use std::sync::{Mutex, MutexGuard};
-use std::collections::VecDeque;
-use futures_util::StreamExt;
-use serde::{Deserialize, Serialize};
 use tauri::{Emitter, Window};
-#[cfg(target_os = "windows")]
-use std::os::windows::process::CommandExt;
 
 // Global process handle
 static LLAMA_PROCESS: Mutex<Option<Child>> = Mutex::new(None);
@@ -20,7 +20,10 @@ fn get_base_dir() -> Result<PathBuf, String> {
     if cfg!(debug_assertions) {
         // Use project root (parent of src-tauri) to ensure stable paths in dev
         let src_tauri = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-        Ok(src_tauri.parent().ok_or("src-tauri has no parent")?.to_path_buf())
+        Ok(src_tauri
+            .parent()
+            .ok_or("src-tauri has no parent")?
+            .to_path_buf())
     } else {
         Ok(std::env::current_exe()
             .map_err(|e| format!("Failed to get exe path: {}", e))?
@@ -30,9 +33,16 @@ fn get_base_dir() -> Result<PathBuf, String> {
     }
 }
 
-// Hardcoded download URLs for MVP (Windows x64 CPU-only)
+// Download URLs for different platforms
 const LLAMA_VERSION: &str = "b6940";
-const WIN_X64_URL: &str = "https://github.com/ggml-org/llama.cpp/releases/download/b6940/llama-b6940-bin-win-cpu-x64.zip";
+const WIN_X64_URL: &str =
+    "https://github.com/ggml-org/llama.cpp/releases/download/b6940/llama-b6940-bin-win-cpu-x64.zip";
+const LINUX_X64_URL: &str = 
+    "https://github.com/ggml-org/llama.cpp/releases/download/b6940/llama-b6940-bin-ubuntu-x64.zip";
+const MACOS_ARM_URL: &str = 
+    "https://github.com/ggml-org/llama.cpp/releases/download/b6940/llama-b6940-bin-macos-arm64.zip";
+const MACOS_X64_URL: &str = 
+    "https://github.com/ggml-org/llama.cpp/releases/download/b6940/llama-b6940-bin-macos-x64.zip";
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct ServerStatus {
@@ -136,7 +146,10 @@ fn get_download_url() -> Result<&'static str, String> {
     match (os, arch) {
         ("windows", "x86_64") => Ok(WIN_X64_URL),
         ("windows", "aarch64") => Ok("https://github.com/ggml-org/llama.cpp/releases/download/b6916/llama-b6916-bin-win-cpu-arm64.zip"),
-        _ => Err(format!("Platform {}/{} not supported yet. Currently supported: Windows x64 and ARM64.", os, arch)),
+        ("linux", "x86_64") => Ok(LINUX_X64_URL),
+        ("macos", "aarch64") => Ok(MACOS_ARM_URL),
+        ("macos", "x86_64") => Ok(MACOS_X64_URL),
+        _ => Err(format!("Platform {}/{} not supported. Supported: Windows (x64/ARM64), Linux (x64), macOS (x64/ARM64).", os, arch)),
     }
 }
 
@@ -166,7 +179,10 @@ pub async fn download_server_binary(window: Window) -> Result<PathBuf, String> {
         .map_err(|e| format!("Failed to download: {}", e))?;
 
     if !response.status().is_success() {
-        return Err(format!("Download failed with status: {}", response.status()));
+        return Err(format!(
+            "Download failed with status: {}",
+            response.status()
+        ));
     }
 
     let total_size = response.content_length();
@@ -176,7 +192,8 @@ pub async fn download_server_binary(window: Window) -> Result<PathBuf, String> {
 
     while let Some(chunk) = stream.next().await {
         let chunk = chunk.map_err(|e| format!("Error reading chunk: {}", e))?;
-        file.write_all(&chunk).map_err(|e| format!("Error writing to file: {}", e))?;
+        file.write_all(&chunk)
+            .map_err(|e| format!("Error writing to file: {}", e))?;
 
         downloaded += chunk.len() as u64;
 
@@ -195,7 +212,8 @@ pub async fn download_server_binary(window: Window) -> Result<PathBuf, String> {
         window.emit("llama-download-progress", &progress).ok();
     }
 
-    file.flush().map_err(|e| format!("Failed to flush file: {}", e))?;
+    file.flush()
+        .map_err(|e| format!("Failed to flush file: {}", e))?;
 
     window.emit("llama-server-status", "extracting").ok();
 
@@ -203,9 +221,13 @@ pub async fn download_server_binary(window: Window) -> Result<PathBuf, String> {
 }
 
 /// Extract llama-server binary from ZIP archive
-pub fn extract_server_binary(zip_path: &Path, app_handle: &tauri::AppHandle) -> Result<PathBuf, String> {
+pub fn extract_server_binary(
+    zip_path: &Path,
+    app_handle: &tauri::AppHandle,
+) -> Result<PathBuf, String> {
     let file = File::open(zip_path).map_err(|e| format!("Failed to open ZIP: {}", e))?;
-    let mut archive = zip::ZipArchive::new(file).map_err(|e| format!("Failed to read ZIP archive: {}", e))?;
+    let mut archive =
+        zip::ZipArchive::new(file).map_err(|e| format!("Failed to read ZIP archive: {}", e))?;
 
     // Create bin directory within program folder
     let base = get_base_dir()?;
@@ -222,7 +244,9 @@ pub fn extract_server_binary(zip_path: &Path, app_handle: &tauri::AppHandle) -> 
     let mut found = false;
 
     for i in 0..archive.len() {
-        let mut entry = archive.by_index(i).map_err(|e| format!("Failed to read archive entry: {}", e))?;
+        let mut entry = archive
+            .by_index(i)
+            .map_err(|e| format!("Failed to read archive entry: {}", e))?;
         let full_name = entry.name().to_string();
         // Use only the basename to avoid nested paths from the archive
         let basename = std::path::Path::new(&full_name)
@@ -236,8 +260,13 @@ pub fn extract_server_binary(zip_path: &Path, app_handle: &tauri::AppHandle) -> 
 
         if is_target || is_dll {
             let dest_path = bin_dir.join(&basename);
-            let mut dest_file = File::create(&dest_path)
-                .map_err(|e| format!("Failed to create destination file {}: {}", dest_path.display(), e))?;
+            let mut dest_file = File::create(&dest_path).map_err(|e| {
+                format!(
+                    "Failed to create destination file {}: {}",
+                    dest_path.display(),
+                    e
+                )
+            })?;
             io::copy(&mut entry, &mut dest_file)
                 .map_err(|e| format!("Failed to extract {}: {}", basename, e))?;
 
@@ -245,12 +274,16 @@ pub fn extract_server_binary(zip_path: &Path, app_handle: &tauri::AppHandle) -> 
             #[cfg(unix)]
             if is_target {
                 use std::os::unix::fs::PermissionsExt;
-                let mut perms = fs::metadata(&dest_path).map_err(|e| e.to_string())?.permissions();
+                let mut perms = fs::metadata(&dest_path)
+                    .map_err(|e| e.to_string())?
+                    .permissions();
                 perms.set_mode(0o755);
                 fs::set_permissions(&dest_path, perms).map_err(|e| e.to_string())?;
             }
 
-            if is_target { found = true; }
+            if is_target {
+                found = true;
+            }
         }
     }
 
@@ -265,14 +298,21 @@ pub fn extract_server_binary(zip_path: &Path, app_handle: &tauri::AppHandle) -> 
 }
 
 /// Start llama-server process
-pub fn start_server_process(model_path: String, ctx_size: i32, window: Window, app_handle: &tauri::AppHandle) -> Result<u32, String> {
+pub fn start_server_process(
+    model_path: String,
+    ctx_size: i32,
+    window: Window,
+    app_handle: &tauri::AppHandle,
+) -> Result<u32, String> {
     eprintln!("[llama_install] ====== START SERVER PROCESS ======");
     eprintln!("[llama_install] Model: {}", model_path);
     eprintln!("[llama_install] Ctx size: {}", ctx_size);
 
     // Check if already running
     {
-        let mut guard = LLAMA_PROCESS.lock().map_err(|e| format!("Lock error: {}", e))?;
+        let mut guard = LLAMA_PROCESS
+            .lock()
+            .map_err(|e| format!("Lock error: {}", e))?;
         if let Some(child) = guard.as_mut() {
             match child.try_wait() {
                 Ok(None) => {
@@ -280,11 +320,11 @@ pub fn start_server_process(model_path: String, ctx_size: i32, window: Window, a
                     let pid = child.id();
                     eprintln!("[llama_install] Server already running with PID: {}", pid);
                     return Ok(pid);
-                },
+                }
                 Ok(Some(status)) => {
                     eprintln!("[llama_install] Previous process exited with: {:?}", status);
                     *guard = None;
-                },
+                }
                 Err(e) => {
                     eprintln!("[llama_install] Error checking process status: {}", e);
                     *guard = None;
@@ -313,7 +353,10 @@ pub fn start_server_process(model_path: String, ctx_size: i32, window: Window, a
     eprintln!("[llama_install] Starting server:");
     eprintln!("[llama_install]   Binary: {:?}", binary_path);
     eprintln!("[llama_install]   Model: {:?}", model_full_path);
-    let port: u16 = std::env::var("LLAMA_SERVER_PORT").ok().and_then(|s| s.parse().ok()).unwrap_or(8080);
+    let port: u16 = std::env::var("LLAMA_SERVER_PORT")
+        .ok()
+        .and_then(|s| s.parse().ok())
+        .unwrap_or(8080);
     eprintln!("[llama_install]   Port: {}", port);
     eprintln!("[llama_install]   Ctx size: {}", ctx_size);
 
@@ -323,9 +366,24 @@ pub fn start_server_process(model_path: String, ctx_size: i32, window: Window, a
         .map(|p| p.to_path_buf())
         .unwrap_or_else(|| std::env::current_dir().unwrap_or_else(|_| PathBuf::from(".")));
     let current_path = std::env::var("PATH").unwrap_or_default();
-    let injected_path = format!("{};{}", bin_dir.to_string_lossy(), current_path);
+    
+    // Use correct PATH separator for the platform
+    #[cfg(target_os = "windows")]
+    let path_separator = ";";
+    #[cfg(not(target_os = "windows"))]
+    let path_separator = ":";
+    
+    let injected_path = format!("{}{}{}", bin_dir.to_string_lossy(), path_separator, current_path);
+    
+    // SystemRoot is Windows-specific
+    #[cfg(target_os = "windows")]
     let system_root = std::env::var("SystemRoot").unwrap_or_else(|_| "C:\\Windows".to_string());
-    eprintln!("[llama_install]   Injected PATH head: {}", bin_dir.to_string_lossy());
+    #[cfg(not(target_os = "windows"))]
+    let system_root = String::new(); // Not used on Unix
+    eprintln!(
+        "[llama_install]   Injected PATH head: {}",
+        bin_dir.to_string_lossy()
+    );
     eprintln!("[llama_install]   SystemRoot: {}", system_root);
     eprintln!("[llama_install]   PATH length: {}", injected_path.len());
 
@@ -334,9 +392,17 @@ pub fn start_server_process(model_path: String, ctx_size: i32, window: Window, a
     let mut command = Command::new(&binary_path);
     command
         .current_dir(&bin_dir)
-        .env("PATH", &injected_path)
-        .env("SystemRoot", &system_root)
-        .env("WINDIR", &system_root)
+        .env("PATH", &injected_path);
+    
+    // Windows-specific environment variables
+    #[cfg(target_os = "windows")]
+    {
+        command
+            .env("SystemRoot", &system_root)
+            .env("WINDIR", &system_root);
+    }
+    
+    command
         .arg("-m")
         .arg(model_full_path.to_string_lossy().as_ref())
         .arg("--port")
@@ -368,7 +434,7 @@ pub fn start_server_process(model_path: String, ctx_size: i32, window: Window, a
         let window_clone = window.clone();
         std::thread::spawn(move || {
             let reader = BufReader::new(stdout);
-            for line in reader.lines().flatten() {
+            for line in reader.lines().map_while(Result::ok) {
                 let guard = LOG_BUFFER.lock().unwrap();
                 push_log_line(guard, &window_clone, format!("[stdout] {}", line));
             }
@@ -378,7 +444,7 @@ pub fn start_server_process(model_path: String, ctx_size: i32, window: Window, a
         let window_clone = window.clone();
         std::thread::spawn(move || {
             let reader = BufReader::new(stderr);
-            for line in reader.lines().flatten() {
+            for line in reader.lines().map_while(Result::ok) {
                 let guard = LOG_BUFFER.lock().unwrap();
                 push_log_line(guard, &window_clone, format!("[stderr] {}", line));
             }
@@ -399,7 +465,10 @@ pub fn start_server_process(model_path: String, ctx_size: i32, window: Window, a
         if let Some(child) = guard.as_mut() {
             match child.try_wait() {
                 Ok(Some(status)) => {
-                    eprintln!("[llama_install] ERROR: Process exited immediately with: {:?}", status);
+                    eprintln!(
+                        "[llama_install] ERROR: Process exited immediately with: {:?}",
+                        status
+                    );
                     *guard = None;
                     return Err("llama-server process exited immediately. Please verify dependencies and DLLs.".to_string());
                 }
@@ -422,7 +491,9 @@ pub fn start_server_process(model_path: String, ctx_size: i32, window: Window, a
 pub fn stop_server_process(window: Window) -> Result<(), String> {
     eprintln!("[llama_install] ====== STOP SERVER REQUESTED ======");
 
-    let mut guard = LLAMA_PROCESS.lock().map_err(|e| format!("Lock error: {}", e))?;
+    let mut guard = LLAMA_PROCESS
+        .lock()
+        .map_err(|e| format!("Lock error: {}", e))?;
 
     if let Some(mut child) = guard.take() {
         let pid = child.id();
@@ -432,7 +503,7 @@ pub fn stop_server_process(window: Window) -> Result<(), String> {
         match child.kill() {
             Ok(_) => {
                 eprintln!("[llama_install] Kill signal sent successfully");
-            },
+            }
             Err(e) => {
                 eprintln!("[llama_install] Failed to kill process: {}", e);
                 return Err(format!("Failed to kill process: {}", e));
@@ -442,7 +513,7 @@ pub fn stop_server_process(window: Window) -> Result<(), String> {
         match child.wait() {
             Ok(status) => {
                 eprintln!("[llama_install] Process exited with: {:?}", status);
-            },
+            }
             Err(e) => {
                 eprintln!("[llama_install] Failed to wait for process: {}", e);
                 return Err(format!("Failed to wait for process: {}", e));

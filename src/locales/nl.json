@@ -312,7 +312,13 @@
     "promptLearning": "Je bent een pedagoog. Leg concepten progressief uit, van eenvoudig naar complex. Gebruik concrete analogiën, praktische voorbeelden en controleer begrip voordat je verdergaat. Moedig vragen aan.",
     "promptBrainstorm": "Je bent een creatieve facilitator. Verken meerdere invalshoeken, stel diverse en originele ideeën voor. Bevraag aannames, combineer concepten en help bij het structureren van reflecties.",
     "promptWriting": "Je bent een schrijfassistent. Verbeter de helderheid, coherentie en impact van teksten. Respecteer de gevraagde toon en stijl. Stel herformuleringen voor en identificeer argumentatieve zwaktes.",
-    "promptAnalysis": "Je bent een rigoureuze analist. Synthetiseer informatie op gestructureerde wijze, identificeer trends en inconsistenties. Presenteer feitelijke conclusies met hun beperkingen. Geef prioriteit aan verifieerbare gegevens."
+    "promptAnalysis": "Je bent een rigoureuze analist. Synthetiseer informatie op gestructureerde wijze, identificeer trends en inconsistenties. Presenteer feitelijke conclusies met hun beperkingen. Geef prioriteit aan verifieerbare gegevens.",
+    "initialDatasetEnable": "Initieel dataset aanmaken",
+    "initialDatasetNameLabel": "Dataset naam",
+    "initialDatasetNamePlaceholder": "Bijv: WhytChat project - kennis",
+    "initialDatasetContentLabel": "Initiële inhoud",
+    "initialDatasetContentPlaceholder": "Plak of typ de tekst die de AI moet kennen...",
+    "initialDatasetHelp": "Optioneel: maakt een dataset gekoppeld aan het gesprek en indexeert deze tekst voor context (RAG)."
   },
 
   "serverStatus": {

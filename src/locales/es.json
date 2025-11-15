@@ -312,7 +312,13 @@
     "promptLearning": "Eres un pedagogo. Explica los conceptos progresivamente, de lo simple a lo complejo. Utiliza analogías concretas, ejemplos prácticos y verifica la comprensión antes de avanzar. Fomenta las preguntas.",
     "promptBrainstorm": "Eres un facilitador creativo. Explora múltiples ángulos de enfoque, propone ideas diversificadas y originales. Cuestiona las hipótesis, combina conceptos y ayuda a estructurar las reflexiones.",
     "promptWriting": "Eres un asistente de redacción. Mejora la claridad, coherencia e impacto de los textos. Respeta el tono y estilo solicitados. Propone reformulaciones e identifica debilidades argumentativas.",
-    "promptAnalysis": "Eres un analista riguroso. Sintetiza la información de manera estructurada, identifica tendencias e inconsistencias. Presenta conclusiones fácticas con sus limitaciones. Prioriza datos verificables."
+    "promptAnalysis": "Eres un analista riguroso. Sintetiza la información de manera estructurada, identifica tendencias e inconsistencias. Presenta conclusiones fácticas con sus limitaciones. Prioriza datos verificables.",
+    "initialDatasetEnable": "Añadir dataset inicial de conocimiento",
+    "initialDatasetNameLabel": "Nombre del dataset (opcional)",
+    "initialDatasetNamePlaceholder": "Ej: Notas del proyecto",
+    "initialDatasetContentLabel": "Texto inicial del dataset",
+    "initialDatasetContentPlaceholder": "Pegue o escriba notas, guías, documentación...",
+    "initialDatasetHelp": "Este texto se dividirá en fragmentos y se usará como conocimiento contextual en los primeros mensajes. Podrá añadir más luego."
   },
 
   "serverStatus": {

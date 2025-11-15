@@ -312,7 +312,13 @@
     "promptLearning": "You are an educator. Explain concepts progressively, from simple to complex. Use concrete analogies, practical examples and verify understanding before moving forward. Encourage questions.",
     "promptBrainstorm": "You are a creative facilitator. Explore multiple angles of approach, propose diverse and original ideas. Question assumptions, combine concepts and help structure reflections.",
     "promptWriting": "You are a writing assistant. Improve clarity, coherence and impact of texts. Respect the requested tone and style. Propose reformulations and identify argumentative weaknesses.",
-    "promptAnalysis": "You are a rigorous analyst. Synthesize information in a structured way, identify trends and inconsistencies. Present factual conclusions with their limitations. Prioritize verifiable data."
+    "promptAnalysis": "You are a rigorous analyst. Synthesize information in a structured way, identify trends and inconsistencies. Present factual conclusions with their limitations. Prioritize verifiable data.",
+    "initialDatasetEnable": "Add initial knowledge dataset",
+    "initialDatasetNameLabel": "Dataset name (optional)",
+    "initialDatasetNamePlaceholder": "Ex: Project Notes",
+    "initialDatasetContentLabel": "Initial dataset text",
+    "initialDatasetContentPlaceholder": "Paste or type reference notes, guidelines, docs...",
+    "initialDatasetHelp": "This text will be chunked and used as contextual knowledge for the very first messages. You can add more later."
   },
   "serverStatus": {
     "ready": "AI server operational and ready to receive requests.",

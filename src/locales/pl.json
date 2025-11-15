@@ -312,7 +312,13 @@
     "promptLearning": "Jesteś pedagogiem. Wyjaśniaj koncepcje stopniowo, od prostych do złożonych. Używaj konkretnych analogii, praktycznych przykładów i sprawdzaj zrozumienie przed kontynuacją. Zachęcaj do zadawania pytań.",
     "promptBrainstorm": "Jesteś kreatywnym facylitatorem. Eksploruj wiele kątów podejścia, proponuj zróżnicowane i oryginalne pomysły. Kwestionuj założenia, łącz koncepcje i pomagaj w strukturyzowaniu myśli.",
     "promptWriting": "Jesteś asystentem pisarskim. Popraw jasność, spójność i siłę oddziaływania tekstów. Szanuj żądany ton i styl. Proponuj przeformułowania i identyfikuj słabości argumentacyjne.",
-    "promptAnalysis": "Jesteś rygorystycznym analitykiem. Syntetyzuj informacje w uporządkowany sposób, identyfikuj trendy i niezgodności. Przedstawiaj faktyczne wnioski wraz z ich ograniczeniami. Priorytetyzuj weryfikowalne dane."
+    "promptAnalysis": "Jesteś rygorystycznym analitykiem. Syntetyzuj informacje w uporządkowany sposób, identyfikuj trendy i niezgodności. Przedstawiaj faktyczne wnioski wraz z ich ograniczeniami. Priorytetyzuj weryfikowalne dane.",
+    "initialDatasetEnable": "Utwórz początkowy dataset",
+    "initialDatasetNameLabel": "Nazwa datasetu",
+    "initialDatasetNamePlaceholder": "Np: Projekt WhytChat - wiedza",
+    "initialDatasetContentLabel": "Zawartość początkowa",
+    "initialDatasetContentPlaceholder": "Wklej lub wpisz tekst, który AI ma znać...",
+    "initialDatasetHelp": "Opcjonalnie: tworzy zbiór danych powiązany z rozmową i indeksuje ten tekst dla kontekstu (RAG)."
   },
 
   "serverStatus": {

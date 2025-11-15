@@ -312,7 +312,13 @@
     "promptLearning": "Tu es un pédagogue. Explique les concepts progressivement, du simple au complexe. Utilise des analogies concrètes, des exemples pratiques et vérifie la compréhension avant d'avancer. Encourage les questions.",
     "promptBrainstorm": "Tu es un facilitateur créatif. Explore plusieurs angles d'approche, propose des idées diversifiées et originales. Questionne les hypothèses, combine des concepts et aide à structurer les réflexions.",
     "promptWriting": "Tu es un assistant en rédaction. Améliore la clarté, la cohérence et l'impact des textes. Respecte le ton et le style demandés. Propose des reformulations et identifie les faiblesses argumentatives.",
-    "promptAnalysis": "Tu es un analyste rigoureux. Synthétise les informations de manière structurée, identifie les tendances et les incohérences. Présente des conclusions factuelles avec leurs limites. Privilégie les données vérifiables."
+    "promptAnalysis": "Tu es un analyste rigoureux. Synthétise les informations de manière structurée, identifie les tendances et les incohérences. Présente des conclusions factuelles avec leurs limites. Privilégie les données vérifiables.",
+    "initialDatasetEnable": "Ajouter un dataset initial de connaissances",
+    "initialDatasetNameLabel": "Nom du dataset (optionnel)",
+    "initialDatasetNamePlaceholder": "Ex : Notes projet",
+    "initialDatasetContentLabel": "Texte initial du dataset",
+    "initialDatasetContentPlaceholder": "Collez ou saisissez des notes, consignes, documentation...",
+    "initialDatasetHelp": "Ce texte sera découpé et utilisé comme connaissance contextuelle dès les premiers messages. Vous pourrez en ajouter plus ensuite."
   },
   "serverStatus": {
     "ready": "Serveur IA opérationnel et prêt à recevoir des requêtes.",
