@@ -17,21 +17,21 @@ export async function ingestText(
   datasetId: string,
   text: string,
 ): Promise<IngestResult> {
-  return invoke<IngestResult>("rag_ingest_text", { args: { datasetId, text } });
+  return invoke<IngestResult>("rag_ingest_text", { args: { dataset_id: datasetId, text } });
 }
 
 export async function ingestFile(
   datasetId: string,
   filePath: string,
 ): Promise<IngestResult> {
-  return invoke<IngestResult>("rag_ingest_file", { args: { datasetId, filePath } });
+  return invoke<IngestResult>("rag_ingest_file", { args: { dataset_id: datasetId, file_path: filePath } });
 }
 
 export async function ingestUrl(
   datasetId: string,
   url: string,
 ): Promise<IngestResult> {
-  return invoke<IngestResult>("rag_ingest_url", { args: { datasetId, url } });
+  return invoke<IngestResult>("rag_ingest_url", { args: { dataset_id: datasetId, url } });
 }
 
 export async function ragQuery(
@@ -39,5 +39,5 @@ export async function ragQuery(
   query: string,
   k = 5,
 ): Promise<RagHit[]> {
-  return invoke<RagHit[]>("rag_query", { args: { datasetId, query, k } });
+  return invoke<RagHit[]>("rag_query", { args: { dataset_id: datasetId, query, k } });
 }

@@ -440,6 +440,8 @@ struct CreateConversationArgs {
     #[serde(rename = "systemPrompt")]
     system_prompt: String,
     parameters: ModelParameters,
+    #[serde(rename = "datasetIds")]
+    dataset_ids: Option<Vec<String>>,
 }
 
 #[tauri::command]
@@ -469,6 +471,11 @@ async fn create_conversation(args: CreateConversationArgs, db: State<'_, DbState
         Some(args.system_prompt)
     };
     
+    // Convert dataset_ids Vec to JSON string
+    let dataset_ids_json = args.dataset_ids
+        .map(|ids| serde_json::to_string(&ids).ok())
+        .flatten();
+    
     let params = db::ConversationParams {
         name: args.name,
         group_id,
@@ -478,6 +485,7 @@ async fn create_conversation(args: CreateConversationArgs, db: State<'_, DbState
         top_p: args.parameters.top_p,
         max_tokens: args.parameters.max_tokens,
         repeat_penalty: args.parameters.repeat_penalty,
+        dataset_ids: dataset_ids_json,
     };
     
     db::create_conversation(&conn, params).map_err(|e| e.to_string())

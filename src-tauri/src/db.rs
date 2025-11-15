@@ -34,6 +34,7 @@ pub struct Conversation {
     pub top_p: f32,
     pub max_tokens: i32,
     pub repeat_penalty: f32,
+    pub dataset_ids: Option<String>, // JSON array or comma-separated list of dataset IDs
     pub created_at: String,
     pub updated_at: String,
 }
@@ -90,12 +91,19 @@ pub fn init_db(app_handle: &tauri::AppHandle) -> Result<Connection> {
             top_p REAL NOT NULL DEFAULT 0.9,
             max_tokens INTEGER NOT NULL DEFAULT 2048,
             repeat_penalty REAL NOT NULL DEFAULT 1.1,
+            dataset_ids TEXT,
             created_at TEXT NOT NULL DEFAULT (datetime('now')),
             updated_at TEXT NOT NULL DEFAULT (datetime('now')),
             FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE SET NULL
         )",
         [],
     )?;
+    
+    // Migration: Add dataset_ids column to existing tables
+    let _ = conn.execute(
+        "ALTER TABLE conversations ADD COLUMN dataset_ids TEXT",
+        [],
+    ); // Ignore error if column already exists
     
     conn.execute(
         "CREATE TABLE IF NOT EXISTS messages (
@@ -143,9 +151,9 @@ pub fn create_group(conn: &Connection, name: &str) -> Result<i64> {
 
 pub fn list_conversations(conn: &Connection) -> Result<Vec<Conversation>> {
     let mut stmt = conn.prepare(
-        "SELECT c.id, c.name, c.group_id, g.name as group_name, c.preset_id, 
+        "SELECT c.id, c.name, c.group_id, g.name as group_name, c.preset_id,
                 c.system_prompt, c.temperature, c.top_p, c.max_tokens, c.repeat_penalty,
-                c.created_at, c.updated_at
+                c.dataset_ids, c.created_at, c.updated_at
          FROM conversations c
          LEFT JOIN groups g ON c.group_id = g.id
          ORDER BY c.updated_at DESC"
@@ -163,8 +171,9 @@ pub fn list_conversations(conn: &Connection) -> Result<Vec<Conversation>> {
             top_p: row.get(7)?,
             max_tokens: row.get(8)?,
             repeat_penalty: row.get(9)?,
-            created_at: row.get(10)?,
-            updated_at: row.get(11)?,
+            dataset_ids: row.get(10)?,
+            created_at: row.get(11)?,
+            updated_at: row.get(12)?,
         })
     })?
     .collect::<Result<Vec<_>>>()?;
@@ -181,13 +190,14 @@ pub struct ConversationParams {
     pub top_p: f32,
     pub max_tokens: i32,
     pub repeat_penalty: f32,
+    pub dataset_ids: Option<String>,
 }
 
 pub fn get_conversation(conn: &Connection, id: i64) -> Result<Conversation> {
     let mut stmt = conn.prepare(
         "SELECT c.id, c.name, c.group_id, g.name as group_name, c.preset_id, 
                 c.system_prompt, c.temperature, c.top_p, c.max_tokens, c.repeat_penalty,
-                c.created_at, c.updated_at
+                c.dataset_ids, c.created_at, c.updated_at
          FROM conversations c
          LEFT JOIN groups g ON c.group_id = g.id
          WHERE c.id = ?1"
@@ -205,8 +215,9 @@ pub fn get_conversation(conn: &Connection, id: i64) -> Result<Conversation> {
             top_p: row.get(7)?,
             max_tokens: row.get(8)?,
             repeat_penalty: row.get(9)?,
-            created_at: row.get(10)?,
-            updated_at: row.get(11)?,
+            dataset_ids: row.get(10)?,
+            created_at: row.get(11)?,
+            updated_at: row.get(12)?,
         })
     })
 }
@@ -216,9 +227,9 @@ pub fn create_conversation(
     params: ConversationParams,
 ) -> Result<i64> {
     conn.execute(
-        "INSERT INTO conversations (name, group_id, preset_id, system_prompt, temperature, top_p, max_tokens, repeat_penalty)
-         VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)",
-        rusqlite::params![params.name, params.group_id, params.preset_id, params.system_prompt, params.temperature, params.top_p, params.max_tokens, params.repeat_penalty],
+        "INSERT INTO conversations (name, group_id, preset_id, system_prompt, temperature, top_p, max_tokens, repeat_penalty, dataset_ids)
+         VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9)",
+        rusqlite::params![params.name, params.group_id, params.preset_id, params.system_prompt, params.temperature, params.top_p, params.max_tokens, params.repeat_penalty, params.dataset_ids],
     )?;
     Ok(conn.last_insert_rowid())
 }
