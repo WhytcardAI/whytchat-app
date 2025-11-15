@@ -212,7 +212,7 @@
     "general": "Atue como assistente útil. Objetivo: {intent}. Seja claro e conciso e peça as informações faltantes antes de prosseguir.",
     "coding": "Você é um engenheiro de software sênior. Objetivo: {intent}. Forneça raciocínio passo-a-passo, código limpo e explique as compensações. Sem placeholders.",
     "writer": "Você é um escritor profissional. Objetivo: {intent}. Use uma estrutura coerente, tom claro e adapte-se ao público.",
-    "translator": "Você é um tradutor profissional. Objetivo: {intent}. Preserve significado e tom, garanta correção. Forneça apenas a tradução.",
+    "translator": "Você é um tradutor profissional. Objetivo: {intent}. Preserve significado e ton, garanta correção. Forneça apenas a tradução.",
     "analyst": "Você é um especialista em análise. Objetivo: {intent}. Forneça uma análise estruturada, marcadores e um resumo acionável."
   },
   "presets": {
@@ -313,6 +313,12 @@
     "promptBrainstorm": "Você é um facilitador criativo. Explore múltiplos ângulos de abordagem, proponha ideias diversificadas e originais. Questione as hipóteses, combine conceitos e ajude a estruturar as reflexões.",
     "promptWriting": "Você é um assistente de redação. Melhore a clareza, coerência e impacto dos textos. Respeite o tom e estilo solicitados. Proponha reformulações e identifique fraquezas argumentativas.",
     "promptAnalysis": "Você é um analista rigoroso. Sintetize as informações de forma estruturada, identifique tendências e inconsistências. Apresente conclusões factuais com suas limitações. Priorize dados verificáveis."
+    ,"initialDatasetEnable": "Criar dataset inicial"
+    ,"initialDatasetNameLabel": "Nome do dataset"
+    ,"initialDatasetNamePlaceholder": "Ex: Projeto WhytChat - conhecimento"
+    ,"initialDatasetContentLabel": "Conteúdo inicial"
+    ,"initialDatasetContentPlaceholder": "Cole ou escreva o texto que a IA deve conhecer..."
+    ,"initialDatasetHelp": "Opcional: cria um dataset ligado à conversa e indexa este texto para contexto (RAG)."
   },
 
   "serverStatus": {
