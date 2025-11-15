@@ -19,6 +19,7 @@ import {
   MessageCircle,
   Heart,
   ExternalLink,
+  Database,
 } from "lucide-react";
 
 type HomeProps = {
@@ -144,6 +145,16 @@ export function Home({ onNavigate }: HomeProps) {
                 className="w-full sm:w-auto px-8 py-3 rounded-lg bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-semibold hover:bg-gray-800 dark:hover:bg-gray-100 shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2"
               >
                 <Plus size={18} /> {i18n.t("home.new")}
+              </button>
+            </div>
+
+            {/* Knowledge Base / RAG Button */}
+            <div className="flex items-center justify-center">
+              <button
+                onClick={() => onNavigate("rag")}
+                className="px-6 py-2.5 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-500 dark:to-purple-500 text-white font-medium hover:from-blue-700 hover:to-purple-700 dark:hover:from-blue-600 dark:hover:to-purple-600 shadow-md hover:shadow-lg transition-all flex items-center gap-2"
+              >
+                <Database size={18} /> {i18n.t("home.knowledge")}
               </button>
             </div>
 
