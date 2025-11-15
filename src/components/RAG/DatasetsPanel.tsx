@@ -41,7 +41,9 @@ export default function DatasetsPanel() {
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
   const [msgType, setMsgType] = useState<"success" | "error" | null>(null);
-  const [ingestMode, setIngestMode] = useState<"text" | "file" | "folder" | "url" | "scrape">("text");
+  const [ingestMode, setIngestMode] = useState<
+    "text" | "file" | "folder" | "url" | "scrape"
+  >("text");
   const [showHelp, setShowHelp] = useState(false);
 
   const reload = async () => {
@@ -410,7 +412,8 @@ export default function DatasetsPanel() {
                   className="mx-auto text-gray-400 dark:text-gray-500 mb-3"
                 />
                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                  Select a folder to ingest all supported files (TXT, MD, PDF, DOCX, HTML, JSON, CSV)
+                  Select a folder to ingest all supported files (TXT, MD, PDF,
+                  DOCX, HTML, JSON, CSV)
                 </p>
                 <button
                   onClick={onIngestFolder}
@@ -475,7 +478,8 @@ export default function DatasetsPanel() {
                 </select>
               </div>
               <p className="text-xs text-gray-500 dark:text-gray-400">
-                ⚠️ Higher depths may take longer and scrape many pages. Only same-domain links are followed.
+                ⚠️ Higher depths may take longer and scrape many pages. Only
+                same-domain links are followed.
               </p>
               <button
                 onClick={onScrapeUrl}

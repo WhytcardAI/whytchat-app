@@ -2,7 +2,7 @@
 
 **🔒 100% Private AI Chat Desktop Application**
 
-WhytChat est une application de chat IA sécurisée et hors ligne, construite avec Tauri v2, React et llama.cpp. Toutes vos conversations restent sur votre machine—aucune donnée n'est jamais envoyée à des serveurs externes.
+WhytChat est une application de chat IA sécurisée et hors ligne, construite avec Tauri v2, React et llama.cpp. Toutes vos conversations restent sur votre machine-aucune donnée n'est jamais envoyée à des serveurs externes.
 
 [![Download Latest Release](https://img.shields.io/badge/Download-Latest%20Release-blue?style=for-the-badge)](https://github.com/WhytcardAI/whytchat-app/releases/latest)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)

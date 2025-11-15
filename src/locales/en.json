@@ -215,43 +215,43 @@
   },
   "presets": {
     "llama32_3b_light": {
-      "label": "Llama 3.2 3B — Light",
+      "label": "Llama 3.2 3B - Light",
       "desc": "Small and fast for general discussions, learning, and writing (4GB RAM)"
     },
     "mistral_balanced": {
-      "label": "Mistral 7B — Balanced",
+      "label": "Mistral 7B - Balanced",
       "desc": "Versatile for quality general discussions (6GB RAM)"
     },
     "llama31_8b_heavy": {
-      "label": "Llama 3.1 8B — Powerful",
+      "label": "Llama 3.1 8B - Powerful",
       "desc": "Robust model for complex discussions (8GB RAM)"
     },
     "qwen_coder_1.5b_light": {
-      "label": "Qwen Coder 1.5B — Light",
+      "label": "Qwen Coder 1.5B - Light",
       "desc": "Fast for simple code and scripts (3GB RAM)"
     },
     "qwen_coder_fast": {
-      "label": "Qwen Coder 7B — Fast",
+      "label": "Qwen Coder 7B - Fast",
       "desc": "Optimized for development and coding (6GB RAM)"
     },
     "qwen_coder_14b_heavy": {
-      "label": "Qwen Coder 14B — Powerful",
+      "label": "Qwen Coder 14B - Powerful",
       "desc": "Advanced model for complex projects (12GB RAM)"
     },
     "openhermes_balanced": {
-      "label": "OpenHermes 7B — Teaching",
+      "label": "OpenHermes 7B - Teaching",
       "desc": "Excellent teacher for learning (6GB RAM)"
     },
     "wizardlm_heavy": {
-      "label": "WizardLM 7B — Expert",
+      "label": "WizardLM 7B - Expert",
       "desc": "Expert model for advanced training (8GB RAM)"
     },
     "nous_hermes_balanced": {
-      "label": "Nous Hermes 7B — Creative",
+      "label": "Nous Hermes 7B - Creative",
       "desc": "Optimized for writing and creativity (6GB RAM)"
     },
     "dolphin_heavy": {
-      "label": "Dolphin 7B — Writer",
+      "label": "Dolphin 7B - Writer",
       "desc": "Specialized in long and nuanced writing (8GB RAM)"
     }
   },

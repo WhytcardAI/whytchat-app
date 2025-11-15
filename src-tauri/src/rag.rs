@@ -125,7 +125,7 @@ async fn extract_text_from_file(path: &Path) -> Result<String, String> {
         .and_then(|e| e.to_str())
         .unwrap_or("")
         .to_lowercase();
-    
+
     match ext.as_str() {
         "txt" | "md" | "json" | "csv" | "log" => {
             // Plain text files
@@ -164,12 +164,12 @@ fn extract_pdf_text(path: &Path) -> Result<String, String> {
 fn extract_docx_text(path: &Path) -> Result<String, String> {
     let file = fs::File::open(path).map_err(|e| format!("open docx: {}", e))?;
     let docx = docx_rs::read_docx(&file).map_err(|e| format!("parse docx: {}", e))?;
-    
+
     let mut text = String::new();
     for child in &docx.document.children {
         extract_docx_node(child, &mut text);
     }
-    
+
     Ok(text)
 }
 
@@ -206,9 +206,9 @@ fn extract_docx_node(node: &docx_rs::DocumentChild, text: &mut String) {
 // Extract text from HTML using scraper
 fn extract_html_text(html: &str) -> Result<String, String> {
     use scraper::{Html, Selector};
-    
+
     let document = Html::parse_document(html);
-    
+
     // Remove script and style tags content
     let script_selector = Selector::parse("script, style").unwrap();
     let mut clean_html = html.to_string();
@@ -217,13 +217,13 @@ fn extract_html_text(html: &str) -> Result<String, String> {
             clean_html = clean_html.replace(html, "");
         }
     }
-    
+
     // Parse cleaned HTML
     let document = Html::parse_document(&clean_html);
-    
+
     // Extract text from common content tags
     let text_selector = Selector::parse("p, h1, h2, h3, h4, h5, h6, li, td, th, span, div, a, article, section").unwrap();
-    
+
     let mut text = String::new();
     for element in document.select(&text_selector) {
         let element_text = element.text().collect::<Vec<_>>().join(" ");
@@ -232,40 +232,40 @@ fn extract_html_text(html: &str) -> Result<String, String> {
             text.push('\n');
         }
     }
-    
+
     // Fallback: if no text found, use simple tag stripping
     if text.trim().is_empty() {
         let re = regex::Regex::new(r"<[^>]*>").map_err(|e| e.to_string())?;
         text = re.replace_all(html, " ").to_string();
     }
-    
+
     Ok(text)
 }
 
 // Helper: Fetch and extract text from URL with scraping
 async fn extract_text_from_url(url: &str) -> Result<String, String> {
     use scraper::{Html, Selector};
-    
+
     let client = reqwest::Client::builder()
         .timeout(std::time::Duration::from_secs(30))
         .user_agent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36")
         .build()
         .map_err(|e| e.to_string())?;
-    
+
     let resp = client.get(url).send().await.map_err(|e| e.to_string())?;
-    
+
     if !resp.status().is_success() {
         return Err(format!("HTTP error: {}", resp.status()));
     }
-    
+
     let content_type = resp.headers()
         .get("content-type")
         .and_then(|v| v.to_str().ok())
         .unwrap_or("")
         .to_string();
-    
+
     let body = resp.text().await.map_err(|e| e.to_string())?;
-    
+
     if content_type.contains("text/html") || body.trim_start().starts_with("<!DOCTYPE") || body.trim_start().starts_with("<html") {
         // HTML scraping with advanced extraction
         extract_html_text(&body)
@@ -278,25 +278,25 @@ async fn extract_text_from_url(url: &str) -> Result<String, String> {
 // Helper: Scrape multiple URLs from a page (find links)
 async fn scrape_links_from_url(base_url: &str) -> Result<Vec<String>, String> {
     use scraper::{Html, Selector};
-    
+
     let client = reqwest::Client::builder()
         .timeout(std::time::Duration::from_secs(30))
         .user_agent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36")
         .build()
         .map_err(|e| e.to_string())?;
-    
+
     let resp = client.get(base_url).send().await.map_err(|e| e.to_string())?;
-    
+
     if !resp.status().is_success() {
         return Err(format!("HTTP error: {}", resp.status()));
     }
-    
+
     let body = resp.text().await.map_err(|e| e.to_string())?;
     let document = Html::parse_document(&body);
     let link_selector = Selector::parse("a[href]").unwrap();
-    
+
     let base = url::Url::parse(base_url).map_err(|e| format!("invalid base url: {}", e))?;
-    
+
     let mut links = Vec::new();
     for element in document.select(&link_selector) {
         if let Some(href) = element.value().attr("href") {
@@ -310,11 +310,11 @@ async fn scrape_links_from_url(base_url: &str) -> Result<Vec<String>, String> {
             }
         }
     }
-    
+
     // Deduplicate
     links.sort();
     links.dedup();
-    
+
     Ok(links)
 }
 
@@ -377,7 +377,7 @@ pub async fn rag_ingest_file(args: IngestFileArgs) -> Result<IngestResult, Strin
     // Extract text from file
     let path = Path::new(&args.file_path);
     let text = extract_text_from_file(path).await?;
-    
+
     // Reuse text ingestion logic
     rag_ingest_text(IngestTextArgs {
         dataset_id: args.dataset_id,
@@ -389,7 +389,7 @@ pub async fn rag_ingest_file(args: IngestFileArgs) -> Result<IngestResult, Strin
 pub async fn rag_ingest_url(args: IngestUrlArgs) -> Result<IngestResult, String> {
     // Fetch and extract text from URL
     let text = extract_text_from_url(&args.url).await?;
-    
+
     // Reuse text ingestion logic
     rag_ingest_text(IngestTextArgs {
         dataset_id: args.dataset_id,
@@ -450,22 +450,22 @@ pub async fn rag_query(args: RagQueryArgs) -> Result<Vec<RagHit>, String> {
 #[tauri::command]
 pub async fn rag_ingest_folder(args: IngestFolderArgs) -> Result<IngestResult, String> {
     let folder = Path::new(&args.folder_path);
-    
+
     if !folder.exists() || !folder.is_dir() {
         return Err("Folder does not exist or is not a directory".into());
     }
-    
+
     let mut all_text = String::new();
     let mut file_count = 0;
-    
+
     // Recursively walk directory
     fn walk_dir(dir: &Path, all_text: &mut String, file_count: &mut usize) -> Result<(), String> {
         let entries = fs::read_dir(dir).map_err(|e| format!("read dir: {}", e))?;
-        
+
         for entry in entries {
             let entry = entry.map_err(|e| format!("dir entry: {}", e))?;
             let path = entry.path();
-            
+
             if path.is_dir() {
                 // Recurse into subdirectory
                 walk_dir(&path, all_text, file_count)?;
@@ -475,7 +475,7 @@ pub async fn rag_ingest_folder(args: IngestFolderArgs) -> Result<IngestResult, S
                     .and_then(|e| e.to_str())
                     .unwrap_or("")
                     .to_lowercase();
-                
+
                 // Only process supported formats
                 match ext.as_str() {
                     "txt" | "md" | "json" | "csv" | "log" | "pdf" | "html" | "htm" | "docx" => {
@@ -504,22 +504,22 @@ pub async fn rag_ingest_folder(args: IngestFolderArgs) -> Result<IngestResult, S
                 }
             }
         }
-        
+
         Ok(())
     }
-    
+
     walk_dir(folder, &mut all_text, &mut file_count)?;
-    
+
     if all_text.is_empty() {
         return Err("No supported files found in folder".into());
     }
-    
+
     // Ingest all collected text
     let result = rag_ingest_text(IngestTextArgs {
         dataset_id: args.dataset_id,
         text: all_text,
     }).await?;
-    
+
     Ok(IngestResult {
         chunks: result.chunks,
     })
@@ -529,20 +529,20 @@ pub async fn rag_ingest_folder(args: IngestFolderArgs) -> Result<IngestResult, S
 #[tauri::command]
 pub async fn rag_scrape_url(args: ScrapeUrlArgs) -> Result<IngestResult, String> {
     let max_depth = args.max_depth.unwrap_or(1).min(3); // Limit to 3 levels max for safety
-    
+
     let mut visited = std::collections::HashSet::new();
     let mut to_visit = vec![(args.base_url.clone(), 0)];
     let mut all_text = String::new();
-    
+
     while let Some((url, depth)) = to_visit.pop() {
         if depth > max_depth || visited.contains(&url) {
             continue;
         }
-        
+
         visited.insert(url.clone());
-        
+
         eprintln!("[RAG Scrape] Visiting {} (depth {})", url, depth);
-        
+
         // Extract text from current URL
         match extract_text_from_url(&url).await {
             Ok(text) => {
@@ -557,7 +557,7 @@ pub async fn rag_scrape_url(args: ScrapeUrlArgs) -> Result<IngestResult, String>
                 continue;
             }
         }
-        
+
         // If not at max depth, find and queue links
         if depth < max_depth {
             match scrape_links_from_url(&url).await {
@@ -577,17 +577,17 @@ pub async fn rag_scrape_url(args: ScrapeUrlArgs) -> Result<IngestResult, String>
             }
         }
     }
-    
+
     if all_text.is_empty() {
         return Err("No content extracted from URLs".into());
     }
-    
+
     // Ingest all scraped text
     let result = rag_ingest_text(IngestTextArgs {
         dataset_id: args.dataset_id,
         text: all_text,
     }).await?;
-    
+
     Ok(IngestResult {
         chunks: result.chunks,
     })
