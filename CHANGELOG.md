@@ -7,6 +7,47 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [3.0.0] - Launcher 3.0 - 2025-01-XX
+
+### ✨ Added
+
+#### Multi-Platform Build System (Launcher 3.0)
+- **Windows Build Support**:
+  - `.msi` installer (Windows Installer) - Enterprise deployment
+  - `.exe` installer (NSIS Setup) - Standard installation
+  - Automated builds on GitHub Actions with Windows runner
+
+- **Linux Build Support** (NEW):
+  - `.deb` package for Debian/Ubuntu distributions
+  - `.AppImage` universal Linux package (portable, no installation required)
+  - Automated builds on GitHub Actions with Ubuntu runner
+  - Required system dependencies: webkit2gtk, libappindicator3, librsvg2, patchelf
+
+- **macOS Build Support** (NEW):
+  - `.dmg` disk image installer
+  - Universal Binary support (Intel + Apple Silicon in one package)
+  - Automated builds on GitHub Actions with macOS runner
+  - Minimum system version: macOS 10.13 (High Sierra)
+
+#### GitHub Actions Workflow Improvements
+- Multi-platform parallel build system
+- Separate jobs for Windows, Linux, and macOS builds
+- Centralized release creation with artifacts from all platforms
+- Improved artifact upload with proper paths
+- Enhanced release notes with platform-specific installation instructions
+
+### 🔧 Changed
+- Updated README.md with multi-platform installation instructions
+- Updated CONTRIBUTING.md with platform-specific build requirements
+- Renamed workflow from "Release Windows" to "Release Multi-Platform"
+
+### 📚 Documentation
+- Added platform-specific prerequisites for development
+- Added build instructions for all supported platforms
+- Added universal binary build instructions for macOS
+
+---
+
 ## [0.2.1] - 2025-01-XX
 
 ### ✨ Added

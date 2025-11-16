@@ -1,4 +1,4 @@
-name: Release Windows
+name: Release Multi-Platform
 
 on:
   push:
@@ -6,8 +6,47 @@ on:
       - "v*.*.*"
 
 jobs:
-  release-windows:
-    name: Build and Release (Windows)
+  create-release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      release_id: ${{ steps.create-release.outputs.id }}
+      upload_url: ${{ steps.create-release.outputs.upload_url }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create Release
+        id: create-release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: WhytChat ${{ github.ref_name }}
+          body: |
+            Download and install WhytChat ${{ github.ref_name }}
+
+            **Windows:**
+            - `.msi` - Windows Installer (recommended)
+            - `.exe` - NSIS Setup
+
+            **Linux:**
+            - `.deb` - Debian/Ubuntu package
+            - `.AppImage` - Universal Linux package (recommended)
+
+            **macOS:**
+            - `.dmg` - macOS Disk Image (recommended)
+
+            See [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/CHANGELOG.md) for details.
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build-windows:
+    name: Build (Windows)
+    needs: create-release
     runs-on: windows-latest
     permissions:
       contents: write
@@ -41,23 +80,115 @@ jobs:
       - name: Build Tauri app
         run: npm run tauri:build -- --verbose
 
-      - name: Create Release
+      - name: Upload Windows artifacts
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ github.ref_name }}
-          name: WhytChat ${{ github.ref_name }}
-          body: |
-            Download and install WhytChat ${{ github.ref_name }}
-
-            **Windows:**
-            - `.msi` - Windows Installer (recommended)
-            - `.exe` - NSIS Setup
-
-            See [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/CHANGELOG.md) for details.
-          draft: false
-          prerelease: false
           files: |
-            .tauri-target/release/bundle/msi/*.msi
-            .tauri-target/release/bundle/nsis/*.exe
+            src-tauri/target/release/bundle/msi/*.msi
+            src-tauri/target/release/bundle/nsis/*.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build-linux:
+    name: Build (Linux)
+    needs: create-release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libwebkit2gtk-4.1-dev \
+            libappindicator3-dev \
+            librsvg2-dev \
+            patchelf \
+            libssl-dev
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Run i18n parity check
+        run: node scripts/check-i18n.cjs
+
+      - name: Rust cache
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: "./src-tauri -> target"
+
+      - name: Install Tauri CLI
+        run: npm install -g @tauri-apps/cli@latest
+
+      - name: Build Tauri app
+        run: npm run tauri:build -- --verbose
+
+      - name: Upload Linux artifacts
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.ref_name }}
+          files: |
+            src-tauri/target/release/bundle/deb/*.deb
+            src-tauri/target/release/bundle/appimage/*.AppImage
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build-macos:
+    name: Build (macOS)
+    needs: create-release
+    runs-on: macos-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-darwin,x86_64-apple-darwin
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Run i18n parity check
+        run: node scripts/check-i18n.cjs
+
+      - name: Rust cache
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: "./src-tauri -> target"
+
+      - name: Install Tauri CLI
+        run: npm install -g @tauri-apps/cli@latest
+
+      - name: Build Tauri app (Universal Binary)
+        run: npm run tauri:build -- --verbose --target universal-apple-darwin
+
+      - name: Upload macOS artifacts
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.ref_name }}
+          files: |
+            src-tauri/target/universal-apple-darwin/release/bundle/dmg/*.dmg
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

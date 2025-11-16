@@ -47,22 +47,38 @@ WhytChat est une application de chat IA sécurisée et hors ligne, construite av
 
 ### Télécharger l'Application
 
-**Windows** (3 options disponibles)
+**Windows**
 
-- **[EXE Installer](https://github.com/WhytcardAI/whytchat-app/releases/latest/download/WhytChat_0.2.9_x64-setup.exe)** - Installation classique (recommandé)
-- **[MSI Installer](https://github.com/WhytcardAI/whytchat-app/releases/latest/download/WhytChat_0.2.9_x64_en-US.msi)** - Déploiement entreprise
-- **[ZIP Portable](https://github.com/WhytcardAI/whytchat-app/releases/tag/v0.2.9)** - Version portable
+- **[EXE Installer](https://github.com/WhytcardAI/whytchat-app/releases/latest)** - Installation classique (NSIS)
+- **[MSI Installer](https://github.com/WhytcardAI/whytchat-app/releases/latest)** - Déploiement entreprise (recommandé)
+
+**Linux**
+
+- **[AppImage](https://github.com/WhytcardAI/whytchat-app/releases/latest)** - Universal Linux package (recommandé)
+- **[DEB Package](https://github.com/WhytcardAI/whytchat-app/releases/latest)** - Debian/Ubuntu
+
+**macOS**
+
+- **[DMG Installer](https://github.com/WhytcardAI/whytchat-app/releases/latest)** - macOS Disk Image (Universal Binary: Intel + Apple Silicon)
 
 Ou visitez la [page des releases](https://github.com/WhytcardAI/whytchat-app/releases/latest) pour toutes les versions
 
 ### Build for Production
 
 ```bash
-# Build optimized bundle
+# Install dependencies
+npm ci
+
+# Build optimized frontend bundle
 npm run build
 
-# Create installer (Inno Setup required)
-iscc installer.iss
+# Build Tauri app for your platform
+npm run tauri:build
+
+# Build for specific platforms (requires appropriate OS):
+# Windows: Builds .msi and .exe installers
+# Linux: Builds .deb and .AppImage packages
+# macOS: Builds universal .dmg (Intel + Apple Silicon)
 ```
 
 ## 📁 Project Structure

@@ -59,12 +59,35 @@ Enhancement suggestions are tracked as GitHub issues. When creating an enhanceme
 # Required
 - Node.js >= 18
 - Rust >= 1.70
-- Windows (primary platform)
+- Platform-specific dependencies (see below)
 
 # Optional
 - Visual Studio Code
 - Rust Analyzer extension
 ```
+
+#### Platform-Specific Dependencies
+
+**Windows**
+- No additional dependencies required
+
+**Linux (Ubuntu/Debian)**
+```bash
+sudo apt-get update
+sudo apt-get install -y \
+  libwebkit2gtk-4.1-dev \
+  libappindicator3-dev \
+  librsvg2-dev \
+  patchelf \
+  libssl-dev
+```
+
+**macOS**
+- Xcode Command Line Tools: `xcode-select --install`
+- For universal binary builds:
+  ```bash
+  rustup target add aarch64-apple-darwin x86_64-apple-darwin
+  ```
 
 ### Setup Steps
 
@@ -85,6 +108,21 @@ cargo clippy --all-targets   # Rust Clippy (in src-tauri/)
 
 # Run build
 npm run build
+```
+
+### Building for Production
+
+```bash
+# Build for your current platform
+npm run tauri:build
+
+# Platform-specific outputs:
+# Windows: .msi and .exe in src-tauri/target/release/bundle/
+# Linux: .deb and .AppImage in src-tauri/target/release/bundle/
+# macOS: .dmg in src-tauri/target/release/bundle/
+
+# macOS Universal Binary (Intel + Apple Silicon)
+npm run tauri:build -- --target universal-apple-darwin
 ```
 
 ### Coding Standards
