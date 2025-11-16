@@ -72,5 +72,9 @@ jobs:
             echo "**Tag:** ${{ github.event.inputs.tag || github.ref_name }}"
             echo ""
             echo "**Artifacts:**"
-            find src-tauri/target/universal-apple-darwin/release/bundle/dmg -name "*.dmg" -type f -exec basename {} \; | sed 's/^/- /'
+            if find src-tauri/target/universal-apple-darwin/release/bundle/dmg -name "*.dmg" -type f 2>/dev/null | grep -q .; then
+              find src-tauri/target/universal-apple-darwin/release/bundle/dmg -name "*.dmg" -type f -exec basename {} \; | sed 's/^/- /'
+            else
+              echo "- No DMG files found"
+            fi
           } >> "$GITHUB_STEP_SUMMARY"

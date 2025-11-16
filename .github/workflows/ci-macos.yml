@@ -55,6 +55,7 @@ jobs:
         run: npm install -g @tauri-apps/cli@2.0.0
 
       - name: Build Tauri app (x86_64)
+        # Use x86_64 target for faster CI builds (universal binary takes ~2x longer)
         run: npm run tauri:build -- --verbose --target x86_64-apple-darwin
 
       - name: Create build summary
