@@ -75,7 +75,7 @@ jobs:
           workspaces: "./src-tauri -> target"
 
       - name: Install Tauri CLI
-        run: npm install -g @tauri-apps/cli@latest
+        run: npm install -g @tauri-apps/cli@2.0.0
 
       - name: Build Tauri app
         run: npm run tauri:build -- --verbose
@@ -131,7 +131,7 @@ jobs:
           workspaces: "./src-tauri -> target"
 
       - name: Install Tauri CLI
-        run: npm install -g @tauri-apps/cli@latest
+        run: npm install -g @tauri-apps/cli@2.0.0
 
       - name: Build Tauri app
         run: npm run tauri:build -- --verbose
@@ -179,7 +179,7 @@ jobs:
           workspaces: "./src-tauri -> target"
 
       - name: Install Tauri CLI
-        run: npm install -g @tauri-apps/cli@latest
+        run: npm install -g @tauri-apps/cli@2.0.0
 
       - name: Build Tauri app (Universal Binary)
         run: npm run tauri:build -- --verbose --target universal-apple-darwin
