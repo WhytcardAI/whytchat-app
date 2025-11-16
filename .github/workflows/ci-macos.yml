@@ -57,7 +57,9 @@ jobs:
 
       - name: Create build summary
         run: |
-          echo "### macOS CI Build Complete ✅" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Platform:** x86_64-apple-darwin" >> $GITHUB_STEP_SUMMARY
-          echo "**Status:** Build successful" >> $GITHUB_STEP_SUMMARY
+          {
+            echo "### macOS CI Build Complete ✅"
+            echo ""
+            echo "**Platform:** x86_64-apple-darwin"
+            echo "**Status:** Build successful"
+          } >> "$GITHUB_STEP_SUMMARY"

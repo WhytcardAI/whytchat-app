@@ -55,7 +55,7 @@ jobs:
           find src-tauri/target -name "*.dmg" -type f
 
       - name: Upload macOS artifacts
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.event.inputs.tag || github.ref_name }}
           files: |
@@ -65,10 +65,12 @@ jobs:
 
       - name: Create build summary
         run: |
-          echo "### macOS Build Complete ✅" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Platform:** Universal Binary (Intel + Apple Silicon)" >> $GITHUB_STEP_SUMMARY
-          echo "**Tag:** ${{ github.event.inputs.tag || github.ref_name }}" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Artifacts:**" >> $GITHUB_STEP_SUMMARY
-          find src-tauri/target/universal-apple-darwin/release/bundle/dmg -name "*.dmg" -type f -exec basename {} \; | sed 's/^/- /' >> $GITHUB_STEP_SUMMARY
+          {
+            echo "### macOS Build Complete ✅"
+            echo ""
+            echo "**Platform:** Universal Binary (Intel + Apple Silicon)"
+            echo "**Tag:** ${{ github.event.inputs.tag || github.ref_name }}"
+            echo ""
+            echo "**Artifacts:**"
+            find src-tauri/target/universal-apple-darwin/release/bundle/dmg -name "*.dmg" -type f -exec basename {} \; | sed 's/^/- /'
+          } >> "$GITHUB_STEP_SUMMARY"
