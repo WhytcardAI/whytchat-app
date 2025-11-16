@@ -1,0 +1,74 @@
+name: macOS Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag to release (e.g., v0.2.9)'
+        required: true
+        type: string
+
+jobs:
+  build-macos:
+    name: Build macOS Universal Binary
+    runs-on: macos-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-darwin,x86_64-apple-darwin
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Run i18n parity check
+        run: node scripts/check-i18n.cjs
+
+      - name: Rust cache
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: "./src-tauri -> target"
+
+      - name: Install Tauri CLI
+        run: npm install -g @tauri-apps/cli@latest
+
+      - name: Build Tauri app (Universal Binary)
+        run: npm run tauri:build -- --verbose --target universal-apple-darwin
+
+      - name: List built artifacts
+        run: |
+          echo "Listing DMG files..."
+          find src-tauri/target -name "*.dmg" -type f
+
+      - name: Upload macOS artifacts
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.event.inputs.tag || github.ref_name }}
+          files: |
+            src-tauri/target/universal-apple-darwin/release/bundle/dmg/*.dmg
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create build summary
+        run: |
+          echo "### macOS Build Complete ✅" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Platform:** Universal Binary (Intel + Apple Silicon)" >> $GITHUB_STEP_SUMMARY
+          echo "**Tag:** ${{ github.event.inputs.tag || github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Artifacts:**" >> $GITHUB_STEP_SUMMARY
+          find src-tauri/target/universal-apple-darwin/release/bundle/dmg -name "*.dmg" -type f -exec basename {} \; | sed 's/^/- /' >> $GITHUB_STEP_SUMMARY

@@ -1,0 +1,63 @@
+name: macOS CI
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'src-tauri/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'Cargo.toml'
+      - 'Cargo.lock'
+      - '.github/workflows/ci-macos.yml'
+  workflow_dispatch:
+
+jobs:
+  build-macos:
+    name: Build & Test macOS
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-darwin,x86_64-apple-darwin
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Run i18n parity check
+        run: node scripts/check-i18n.cjs
+
+      - name: Run ESLint
+        run: npm run check:lint
+
+      - name: Build frontend
+        run: npm run build
+
+      - name: Rust cache
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: "./src-tauri -> target"
+
+      - name: Install Tauri CLI
+        run: npm install -g @tauri-apps/cli@latest
+
+      - name: Build Tauri app (x86_64)
+        run: npm run tauri:build -- --verbose --target x86_64-apple-darwin
+
+      - name: Create build summary
+        run: |
+          echo "### macOS CI Build Complete ✅" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Platform:** x86_64-apple-darwin" >> $GITHUB_STEP_SUMMARY
+          echo "**Status:** Build successful" >> $GITHUB_STEP_SUMMARY
