@@ -17,6 +17,8 @@ jobs:
   build-macos:
     name: Build & Test macOS
     runs-on: macos-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
