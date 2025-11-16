@@ -68,3 +68,4 @@ data/
 .env
 .env.*
 !.env.example
+actionlint
