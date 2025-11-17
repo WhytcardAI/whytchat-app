@@ -6,8 +6,37 @@ on:
       - "v*.*.*"
 
 jobs:
+  verify-versions:
+    name: Verify Version Consistency
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+      
+      - name: Check version consistency
+        run: |
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          CARGO_VERSION=$(grep '^version =' src-tauri/Cargo.toml | cut -d'"' -f2)
+          TAURI_VERSION=$(node -p "require('./src-tauri/tauri.conf.json').version")
+          
+          echo "package.json: $PACKAGE_VERSION"
+          echo "Cargo.toml: $CARGO_VERSION"
+          echo "tauri.conf.json: $TAURI_VERSION"
+          
+          if [ "$PACKAGE_VERSION" != "$CARGO_VERSION" ] || [ "$PACKAGE_VERSION" != "$TAURI_VERSION" ]; then
+            echo "❌ Version mismatch detected!"
+            exit 1
+          fi
+          echo "✅ All versions match: $PACKAGE_VERSION"
+
   create-release:
     name: Create Release
+    needs: verify-versions
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -80,6 +109,19 @@ jobs:
       - name: Build Tauri app
         run: npm run tauri:build -- --verbose
 
+      - name: Verify build artifacts
+        shell: bash
+        run: |
+          echo "Checking generated files..."
+          find src-tauri/target/release/bundle -type f -name "*.msi" -o -name "*.exe" | while read file; do
+            echo "Found: $file ($(stat -c%s "$file" 2>/dev/null || stat -f%z "$file" 2>/dev/null) bytes)"
+            if [ ! -s "$file" ]; then
+              echo "❌ File is empty: $file"
+              exit 1
+            fi
+          done
+          echo "✅ All Windows artifacts verified"
+
       - name: Upload Windows artifacts
         uses: softprops/action-gh-release@v1
         with:
@@ -136,6 +178,18 @@ jobs:
       - name: Build Tauri app
         run: npm run tauri:build -- --verbose
 
+      - name: Verify build artifacts
+        run: |
+          echo "Checking generated files..."
+          find src-tauri/target/release/bundle -type f \( -name "*.deb" -o -name "*.AppImage" \) | while read file; do
+            echo "Found: $file ($(stat -c%s "$file") bytes)"
+            if [ ! -s "$file" ]; then
+              echo "❌ File is empty: $file"
+              exit 1
+            fi
+          done
+          echo "✅ All Linux artifacts verified"
+
       - name: Upload Linux artifacts
         uses: softprops/action-gh-release@v1
         with:
@@ -183,6 +237,18 @@ jobs:
 
       - name: Build Tauri app (Universal Binary)
         run: npm run tauri:build -- --verbose --target universal-apple-darwin
+
+      - name: Verify build artifacts
+        run: |
+          echo "Checking generated files..."
+          find src-tauri/target/universal-apple-darwin/release/bundle -type f -name "*.dmg" | while read file; do
+            echo "Found: $file ($(stat -f%z "$file") bytes)"
+            if [ ! -s "$file" ]; then
+              echo "❌ File is empty: $file"
+              exit 1
+            fi
+          done
+          echo "✅ All macOS artifacts verified"
 
       - name: Upload macOS artifacts
         uses: softprops/action-gh-release@v1

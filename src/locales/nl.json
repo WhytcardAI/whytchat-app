@@ -455,5 +455,27 @@
     },
     "list": { "empty": "Nog geen datasets" },
     "error": { "generic": "Er is een fout opgetreden" }
+  },
+  "update": {
+    "available": "Update beschikbaar",
+    "currentVersion": "Huidige versie",
+    "newVersion": "Nieuwe versie",
+    "patchNotes": "Versienotities",
+    "download": "Nu updaten",
+    "downloading": "Update downloaden...",
+    "downloadProgress": "Downloaden: {progress}%",
+    "installing": "Update installeren...",
+    "installed": "Update geïnstalleerd! Herstart om toe te passen.",
+    "restart": "Nu herstarten",
+    "later": "Later",
+    "upToDate": "U bent up-to-date!",
+    "checkForUpdates": "Controleren op updates",
+    "checking": "Controleren op updates...",
+    "lastChecked": "Laatst gecontroleerd: {time}",
+    "error": "Update-controle mislukt",
+    "manualCheck": "Nu controleren",
+    "autoCheckEnabled": "Automatische update-controle",
+    "settingsTitle": "Updates",
+    "settingsDesc": "Applicatie-updates en meldingen beheren"
   }
 }

@@ -1,6 +1,6 @@
 {
   "productName": "WhytChat",
-  "version": "0.2.9",
+  "version": "0.3.1",
   "identifier": "ai.whytcard.whytchat",
   "build": {
     "beforeDevCommand": "npm run dev",
@@ -71,6 +71,16 @@
     ],
     "security": {
       "csp": null
+    }
+  },
+  "plugins": {
+    "updater": {
+      "active": true,
+      "endpoints": [
+        "https://github.com/WhytcardAI/whytchat-app/releases/latest/download/latest.json"
+      ],
+      "dialog": false,
+      "pubkey": ""
     }
   }
 }

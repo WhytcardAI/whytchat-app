@@ -1,4 +1,4 @@
-# WhytChat v0.2.9
+# WhytChat v0.3.1
 
 **🔒 100% Private AI Chat Desktop Application**
 
@@ -11,31 +11,17 @@ WhytChat est une application de chat IA sécurisée et hors ligne, construite av
 
 ---
 
-## 🔧 Code Quality Setup
+## ✨ Nouvelles Fonctionnalités v0.3.1
 
-This repository uses automated code quality tools. To activate them:
+### 🔄 Système de Mise à Jour Automatique
 
-### Codacy Setup (Repository Owner)
-1. Visit [Codacy](https://app.codacy.com)
-2. Sign in with GitHub account
-3. Add this repository
-4. Copy the project ID from the dashboard
-5. Update the Codacy badge URL in README.md with your project ID
+- **Notifications de mise à jour intégrées** - Soyez informé lorsque de nouvelles versions sont disponibles
+- **Mises à jour en un clic** - Téléchargez et installez les mises à jour directement depuis l'application
+- **Notes de version multilingues** - Consultez les notes de version dans votre langue (8 langues supportées)
+- **Option de vérification manuelle** - Vérifiez les mises à jour à tout moment depuis les Paramètres
+- **Mises à jour sécurisées** - Versions signées cryptographiquement pour la sécurité
 
-### Sourcery Setup (Repository Owner)
-1. Visit [Sourcery](https://sourcery.ai)
-2. Sign in with GitHub account
-3. Install the [Sourcery GitHub App](https://github.com/apps/sourcery-ai)
-4. Generate an API token
-5. Add token as `SOURCERY_TOKEN` in repository secrets
-
-Once configured, these tools will automatically review all pull requests.
-
----
-
-## ✨ Nouvelles Fonctionnalités v0.2.9
-
-### 🛍️ Support & Donations
+### 🛍️ Support & Donations (v0.2.9)
 
 - **Boutique intégrée** avec 3 niveaux de don (Coffee ☕, Happiness 🌟, Hope 🚀)
 - Support du projet via Stripe sécurisé
