@@ -81,7 +81,16 @@
     "serverStarting": "Iniciando el servidor IA (esto puede tardar 5-10 segundos)...",
     "serverError": "Error al iniciar el servidor IA",
     "initializing": "Inicializando...",
-    "loadingModel": "Cargando modelo IA e iniciando servidor"
+    "loadingModel": "Cargando modelo de IA e iniciando servidor",
+    "importFile": {
+      "title": "Importar archivo",
+      "description": "Importe un documento para agregar contexto a la conversación. La IA usará esta información para responder sus preguntas.",
+      "button": "Importar archivo",
+      "local": "Archivo local",
+      "url": "URL / Documentación",
+      "loading": "Cargando archivo...",
+      "success": "¡Archivo importado con éxito!"
+    }
   },
   "shortcuts": {
     "title": "Atajos de teclado",
@@ -131,7 +140,10 @@
     "unpinOverlay": "Desfijar",
     "overlayOpacity": "Opacidad",
     "minimize": "Minimizar",
-    "close": "Cerrar"
+    "maximize": "Maximizar",
+    "restore": "Restaurar",
+    "close": "Cerrar",
+    "settings": "Configuración"
   },
   "settings": {
     "debug": {
@@ -255,6 +267,22 @@
     "dolphin_heavy": {
       "label": "Dolphin 7B - Escritor",
       "desc": "Especializado en escritura larga y matizada (8GB RAM)"
+    },
+    "qwen25_7b_balanced": {
+      "label": "Qwen 2.5 7B - Equilibrado (2025)",
+      "desc": "Último modelo Qwen, excelente rendimiento general con contexto 32K (6GB RAM)"
+    },
+    "qwen25_32b_heavy": {
+      "label": "Qwen 2.5 32B - Potente (2025)",
+      "desc": "Modelo avanzado 2025, razonamiento excepcional y alucinaciones reducidas (20GB RAM)"
+    },
+    "llama33_70b_powerful": {
+      "label": "Llama 3.3 70B - Élite (2025)",
+      "desc": "Modelo insignia de Meta, rendimiento nivel GPT-4, requiere hardware potente (48GB RAM)"
+    },
+    "mistral_small3_balanced": {
+      "label": "Mistral Small 3 24B - Pro (2025)",
+      "desc": "Último modelo equilibrado de Mistral AI, excelente para tareas complejas (16GB RAM)"
     }
   },
   "newConversation": {
@@ -312,15 +340,8 @@
     "promptLearning": "Eres un pedagogo. Explica los conceptos progresivamente, de lo simple a lo complejo. Utiliza analogías concretas, ejemplos prácticos y verifica la comprensión antes de avanzar. Fomenta las preguntas.",
     "promptBrainstorm": "Eres un facilitador creativo. Explora múltiples ángulos de enfoque, propone ideas diversificadas y originales. Cuestiona las hipótesis, combina conceptos y ayuda a estructurar las reflexiones.",
     "promptWriting": "Eres un asistente de redacción. Mejora la claridad, coherencia e impacto de los textos. Respeta el tono y estilo solicitados. Propone reformulaciones e identifica debilidades argumentativas.",
-    "promptAnalysis": "Eres un analista riguroso. Sintetiza la información de manera estructurada, identifica tendencias e inconsistencias. Presenta conclusiones fácticas con sus limitaciones. Prioriza datos verificables.",
-    "initialDatasetEnable": "Añadir dataset inicial de conocimiento",
-    "initialDatasetNameLabel": "Nombre del dataset (opcional)",
-    "initialDatasetNamePlaceholder": "Ej: Notas del proyecto",
-    "initialDatasetContentLabel": "Texto inicial del dataset",
-    "initialDatasetContentPlaceholder": "Pegue o escriba notas, guías, documentación...",
-    "initialDatasetHelp": "Este texto se dividirá en fragmentos y se usará como conocimiento contextual en los primeros mensajes. Podrá añadir más luego."
+    "promptAnalysis": "Eres un analista riguroso. Sintetiza la información de manera estructurada, identifica tendencias e inconsistencias. Presenta conclusiones fácticas con sus limitaciones. Prioriza datos verificables."
   },
-
   "serverStatus": {
     "ready": "Servidor IA operativo y listo para recibir solicitudes.",
     "checking": "Verificando estado del servidor...",
@@ -420,41 +441,6 @@
     "casual": "Informal - Amigable y relajado",
     "concise": "Conciso - Breve y directo",
     "detailed": "Detallado - Completo y exhaustivo"
-  },
-  "rag": {
-    "title": "Conjuntos de datos (RAG)",
-    "help": {
-      "title": "¿Cómo funciona?",
-      "description": "El sistema RAG te permite crear bases de conocimiento a partir de tus documentos.",
-      "step1": "Crea un dataset con un nombre único",
-      "step2": "Selecciona el dataset y elige un modo de ingestión",
-      "step3": "Añade texto, archivos (PDF, DOCX, TXT...) o URLs"
-    },
-    "createDataset": {
-      "title": "Crear un Dataset",
-      "label": "Crear dataset",
-      "success": "¡Dataset creado con éxito!"
-    },
-    "datasetName": { "placeholder": "Nombre del dataset" },
-    "select": { "label": "Seleccionar dataset", "none": "Ninguno" },
-    "ingest": {
-      "pasteText": "Pega texto para indexar",
-      "placeholder": "Pega o escribe el contenido aquí...",
-      "urlPlaceholder": "https://ejemplo.com/articulo",
-      "ingestButton": "Indexar",
-      "chooseFile": "Elegir archivo",
-      "fetchUrl": "Obtener URL",
-      "loading": "Procesando...",
-      "success": "{count} fragmentos indexados",
-      "fileDescription": "Formatos soportados: TXT, MD, JSON, CSV, LOG, HTML, PDF, DOCX",
-      "mode": {
-        "text": "Texto",
-        "file": "Archivo",
-        "url": "URL"
-      }
-    },
-    "list": { "empty": "Aún no hay datasets" },
-    "error": { "generic": "Ocurrió un error" }
   },
   "update": {
     "available": "Actualización disponible",

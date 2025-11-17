@@ -82,7 +82,7 @@ export function App() {
       <ThemeProvider>
         <ServerProvider>
           {/* Custom Title Bar */}
-          <TitleBar />
+          <TitleBar onNavigate={handleNavigate} />
 
           {/* Global Server Status Indicator */}
           <div className="fixed top-12 right-4 z-50">
@@ -90,9 +90,7 @@ export function App() {
           </div>
 
           {/* Update Notification */}
-          <UpdateNotification 
-            translations={i18n.translations[i18n.locale]} 
-          />
+          <UpdateNotification />
 
           {/* Views */}
           {currentView === "home" && <Home onNavigate={handleNavigate} />}

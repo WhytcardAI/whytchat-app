@@ -88,5 +88,41 @@
     "quant": "Q5_K_M",
     "context": 8192,
     "useCases": ["writing", "brainstorm"]
+  },
+  {
+    "id": "qwen25_7b_balanced",
+    "labelKey": "presets.qwen25_7b_balanced.label",
+    "descKey": "presets.qwen25_7b_balanced.desc",
+    "engine": "llama.cpp",
+    "quant": "Q4_K_M",
+    "context": 32768,
+    "useCases": ["general", "coding", "analysis", "writing"]
+  },
+  {
+    "id": "qwen25_32b_heavy",
+    "labelKey": "presets.qwen25_32b_heavy.label",
+    "descKey": "presets.qwen25_32b_heavy.desc",
+    "engine": "llama.cpp",
+    "quant": "Q4_K_M",
+    "context": 32768,
+    "useCases": ["general", "coding", "analysis", "learning"]
+  },
+  {
+    "id": "llama33_70b_powerful",
+    "labelKey": "presets.llama33_70b_powerful.label",
+    "descKey": "presets.llama33_70b_powerful.desc",
+    "engine": "llama.cpp",
+    "quant": "Q4_K_M",
+    "context": 32768,
+    "useCases": ["general", "analysis", "learning", "writing"]
+  },
+  {
+    "id": "mistral_small3_balanced",
+    "labelKey": "presets.mistral_small3_balanced.label",
+    "descKey": "presets.mistral_small3_balanced.desc",
+    "engine": "llama.cpp",
+    "quant": "Q4_K_M",
+    "context": 32768,
+    "useCases": ["general", "analysis", "brainstorm"]
   }
 ]

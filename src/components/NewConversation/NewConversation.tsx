@@ -94,10 +94,10 @@ export function NewConversation({ onNavigate }: Props) {
   const [dl, setDl] = useState<DownloadState | null>(null);
 
   const [parameters, setParameters] = useState<ModelParameters>({
-    temperature: 0.7,
-    topP: 0.9,
+    temperature: 0.5,
+    topP: 0.85,
     maxTokens: 2048,
-    repeatPenalty: 1.1,
+    repeatPenalty: 1.15,
   });
 
   // Initial dataset (optional)
@@ -265,40 +265,40 @@ export function NewConversation({ onNavigate }: Props) {
     if (!isExpertMode) {
       switch (template) {
         case "coding":
-          // Code needs precision
+          // Code needs precision - anti-hallucination optimized
           setParameters({
-            temperature: 0.3,
+            temperature: 0.2,
             topP: 0.85,
             maxTokens: 4096,
-            repeatPenalty: 1.15,
+            repeatPenalty: 1.2,
           });
           break;
         case "writing":
-          // Writing needs creativity
-          setParameters({
-            temperature: 0.9,
-            topP: 0.95,
-            maxTokens: 4096,
-            repeatPenalty: 1.05,
-          });
-          break;
-        case "learning":
-          // Learning needs clarity
+          // Writing needs creativity but controlled
           setParameters({
             temperature: 0.6,
             topP: 0.9,
-            maxTokens: 3072,
+            maxTokens: 4096,
             repeatPenalty: 1.1,
+          });
+          break;
+        case "learning":
+          // Learning needs clarity and factual accuracy
+          setParameters({
+            temperature: 0.4,
+            topP: 0.85,
+            maxTokens: 3072,
+            repeatPenalty: 1.15,
           });
           break;
         case "general":
         default:
-          // Balanced defaults
+          // Balanced defaults - anti-hallucination optimized
           setParameters({
-            temperature: 0.7,
-            topP: 0.9,
+            temperature: 0.5,
+            topP: 0.85,
             maxTokens: 2048,
-            repeatPenalty: 1.1,
+            repeatPenalty: 1.15,
           });
           break;
       }

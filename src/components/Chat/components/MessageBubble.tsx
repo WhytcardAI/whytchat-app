@@ -1,7 +1,12 @@
 import { Bot, User } from "lucide-react";
 import { i18n } from "../../../i18n";
 import { MessageToolbar } from "./MessageToolbar";
-import { Streamdown } from "streamdown";
+import { lazy, Suspense } from "react";
+
+// Lazy-load Streamdown (bundles shiki/katex/mermaid) to shrink initial bundle
+const Streamdown = lazy(() =>
+  import("streamdown").then((m) => ({ default: m.Streamdown }))
+);
 
 export type BubbleRole = "user" | "assistant";
 
@@ -69,7 +74,13 @@ export function MessageBubble({
                 <div
                   className={`${compact ? "text-[13px] leading-relaxed" : "text-sm leading-relaxed"} prose prose-sm dark:prose-invert max-w-none`}
                 >
-                  <Streamdown isAnimating={isStreaming}>{content}</Streamdown>
+                  <Suspense
+                    fallback={
+                      <div className="text-xs text-gray-500">Loading…</div>
+                    }
+                  >
+                    <Streamdown isAnimating={isStreaming}>{content}</Streamdown>
+                  </Suspense>
                 </div>
               )}
             </div>

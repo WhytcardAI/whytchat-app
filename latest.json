@@ -1,0 +1,11 @@
+{
+  "version": "v0.3.0",
+  "notes": "WhytChat v0.3.0 release\n\nSee CHANGELOG.md for details.",
+  "pub_date": "2025-11-15T00:00:00Z",
+  "platforms": {
+    "windows-x86_64": {
+      "signature": "",
+      "url": "https://github.com/WhytcardAI/whytchat-app/releases/download/v0.3.0/WhytChat_0.3.0_x64-setup.msi"
+    }
+  }
+}

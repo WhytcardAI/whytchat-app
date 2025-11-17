@@ -81,7 +81,16 @@
     "serverStarting": "AI server starten (dit kan 5-10 seconden duren)...",
     "serverError": "Kon AI server niet starten",
     "initializing": "Initialiseren...",
-    "loadingModel": "AI-model laden en server starten"
+    "loadingModel": "AI-model laden en server starten",
+    "importFile": {
+      "title": "Bestand importeren",
+      "description": "Importeer een document om context toe te voegen aan het gesprek. De AI zal deze informatie gebruiken om uw vragen te beantwoorden.",
+      "button": "Bestand importeren",
+      "local": "Lokaal bestand",
+      "url": "URL / Documentatie",
+      "loading": "Bestand laden...",
+      "success": "Bestand succesvol geïmporteerd!"
+    }
   },
   "shortcuts": {
     "title": "Sneltoetsen",
@@ -131,7 +140,10 @@
     "unpinOverlay": "Losmaken",
     "overlayOpacity": "Dekking",
     "minimize": "Minimaliseren",
-    "close": "Sluiten"
+    "maximize": "Maximaliseren",
+    "restore": "Herstellen",
+    "close": "Sluiten",
+    "settings": "Instellingen"
   },
   "settings": {
     "debug": {
@@ -255,6 +267,22 @@
     "dolphin_heavy": {
       "label": "Dolphin 7B - Schrijver",
       "desc": "Gespecialiseerd in lang en genuanceerd schrijven (8GB RAM)"
+    },
+    "qwen25_7b_balanced": {
+      "label": "Qwen 2.5 7B - Gebalanceerd (2025)",
+      "desc": "Nieuwste Qwen-model, uitstekende algemene prestaties met 32K context (6GB RAM)"
+    },
+    "qwen25_32b_heavy": {
+      "label": "Qwen 2.5 32B - Krachtig (2025)",
+      "desc": "Geavanceerd 2025-model, uitzonderlijke redenering en verminderde hallucinaties (20GB RAM)"
+    },
+    "llama33_70b_powerful": {
+      "label": "Llama 3.3 70B - Elite (2025)",
+      "desc": "Vlaggenschip-model van Meta, GPT-4-niveau prestaties, vereist krachtige hardware (48GB RAM)"
+    },
+    "mistral_small3_balanced": {
+      "label": "Mistral Small 3 24B - Pro (2025)",
+      "desc": "Nieuwste gebalanceerd model van Mistral AI, uitstekend voor complexe taken (16GB RAM)"
     }
   },
   "newConversation": {
@@ -312,15 +340,8 @@
     "promptLearning": "Je bent een pedagoog. Leg concepten progressief uit, van eenvoudig naar complex. Gebruik concrete analogiën, praktische voorbeelden en controleer begrip voordat je verdergaat. Moedig vragen aan.",
     "promptBrainstorm": "Je bent een creatieve facilitator. Verken meerdere invalshoeken, stel diverse en originele ideeën voor. Bevraag aannames, combineer concepten en help bij het structureren van reflecties.",
     "promptWriting": "Je bent een schrijfassistent. Verbeter de helderheid, coherentie en impact van teksten. Respecteer de gevraagde toon en stijl. Stel herformuleringen voor en identificeer argumentatieve zwaktes.",
-    "promptAnalysis": "Je bent een rigoureuze analist. Synthetiseer informatie op gestructureerde wijze, identificeer trends en inconsistenties. Presenteer feitelijke conclusies met hun beperkingen. Geef prioriteit aan verifieerbare gegevens.",
-    "initialDatasetEnable": "Initieel dataset aanmaken",
-    "initialDatasetNameLabel": "Dataset naam",
-    "initialDatasetNamePlaceholder": "Bijv: WhytChat project - kennis",
-    "initialDatasetContentLabel": "Initiële inhoud",
-    "initialDatasetContentPlaceholder": "Plak of typ de tekst die de AI moet kennen...",
-    "initialDatasetHelp": "Optioneel: maakt een dataset gekoppeld aan het gesprek en indexeert deze tekst voor context (RAG)."
+    "promptAnalysis": "Je bent een rigoureuze analist. Synthetiseer informatie op gestructureerde wijze, identificeer trends en inconsistenties. Presenteer feitelijke conclusies met hun beperkingen. Geef prioriteit aan verifieerbare gegevens."
   },
-
   "serverStatus": {
     "ready": "AI-server operationeel en klaar om verzoeken te ontvangen.",
     "checking": "Serverstatus controleren...",
@@ -420,41 +441,6 @@
     "casual": "Informeel - Vriendelijk en ontspannen",
     "concise": "Beknopt - Kort en direct",
     "detailed": "Gedetailleerd - Grondig en uitgebreid"
-  },
-  "rag": {
-    "title": "Datasets (RAG)",
-    "help": {
-      "title": "Hoe werkt het?",
-      "description": "Het RAG-systeem stelt je in staat om kennisbanken te creëren vanuit je documenten.",
-      "step1": "Maak een dataset met een unieke naam",
-      "step2": "Selecteer de dataset en kies een opname-modus",
-      "step3": "Voeg tekst, bestanden (PDF, DOCX, TXT...) of URLs toe"
-    },
-    "createDataset": {
-      "title": "Dataset Maken",
-      "label": "Dataset aanmaken",
-      "success": "Dataset succesvol aangemaakt!"
-    },
-    "datasetName": { "placeholder": "Naam van dataset" },
-    "select": { "label": "Dataset selecteren", "none": "Geen" },
-    "ingest": {
-      "pasteText": "Plak tekst om te indexeren",
-      "placeholder": "Plak of typ hier de inhoud...",
-      "urlPlaceholder": "https://voorbeeld.com/artikel",
-      "ingestButton": "Indexeren",
-      "chooseFile": "Bestand kiezen",
-      "fetchUrl": "URL ophalen",
-      "loading": "Bezig met verwerken...",
-      "success": "{count} fragmenten geïndexeerd",
-      "fileDescription": "Ondersteunde formaten: TXT, MD, JSON, CSV, LOG, HTML, PDF, DOCX",
-      "mode": {
-        "text": "Tekst",
-        "file": "Bestand",
-        "url": "URL"
-      }
-    },
-    "list": { "empty": "Nog geen datasets" },
-    "error": { "generic": "Er is een fout opgetreden" }
   },
   "update": {
     "available": "Update beschikbaar",

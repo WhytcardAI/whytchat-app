@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@source "../node_modules/streamdown/dist/index.js";
-
 html,
 body,
 #root {

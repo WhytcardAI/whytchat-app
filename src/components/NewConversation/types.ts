@@ -108,6 +108,19 @@ export function getModelInfo(presetId: string): ModelInfo {
       size: "~9.8 GB",
       badge: "powerful",
     },
+    // New 2025 SOTA models
+    qwen25_7b_balanced: { ram: "6 GB", size: "~4.8 GB", badge: "balanced" },
+    qwen25_32b_heavy: { ram: "20 GB", size: "~18.5 GB", badge: "powerful" },
+    llama33_70b_powerful: {
+      ram: "48 GB",
+      size: "~40 GB",
+      badge: "powerful",
+    },
+    mistral_small3_balanced: {
+      ram: "16 GB",
+      size: "~14 GB",
+      badge: "balanced",
+    },
   };
   return (
     modelData[presetId] || { ram: "6 GB", size: "~5 GB", badge: "balanced" }

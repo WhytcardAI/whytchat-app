@@ -81,7 +81,16 @@
     "serverStarting": "Starting AI server (this may take 5-10 seconds)...",
     "serverError": "Failed to start AI server",
     "initializing": "Initializing...",
-    "loadingModel": "Loading AI model and starting server"
+    "loadingModel": "Loading AI model and starting server",
+    "importFile": {
+      "title": "Import File",
+      "description": "Import a document to add context to the conversation. The AI will use this information to answer your questions.",
+      "button": "Import File",
+      "local": "Local File",
+      "url": "URL / Documentation",
+      "loading": "Loading file...",
+      "success": "File imported successfully!"
+    }
   },
   "shortcuts": {
     "title": "Keyboard Shortcuts",
@@ -131,7 +140,10 @@
     "unpinOverlay": "Unpin",
     "overlayOpacity": "Opacity",
     "minimize": "Minimize",
-    "close": "Close"
+    "maximize": "Maximize",
+    "restore": "Restore",
+    "close": "Close",
+    "settings": "Settings"
   },
   "settings": {
     "debug": {
@@ -171,7 +183,7 @@
     "about": {
       "title": "About",
       "versionLabel": "Version",
-      "versionValue": "0.2.1",
+      "versionValue": "0.3.0",
       "publisherLabel": "Publisher",
       "publisherValue": "WhytCard",
       "description": "Local AI chat application using the llama.cpp engine."
@@ -255,6 +267,22 @@
     "dolphin_heavy": {
       "label": "Dolphin 7B - Writer",
       "desc": "Specialized in long and nuanced writing (8GB RAM)"
+    },
+    "qwen25_7b_balanced": {
+      "label": "Qwen 2.5 7B - Balanced (2025)",
+      "desc": "Latest Qwen model, excellent general performance with 32K context (6GB RAM)"
+    },
+    "qwen25_32b_heavy": {
+      "label": "Qwen 2.5 32B - Powerful (2025)",
+      "desc": "Advanced 2025 model, exceptional reasoning and reduced hallucinations (20GB RAM)"
+    },
+    "llama33_70b_powerful": {
+      "label": "Llama 3.3 70B - Elite (2025)",
+      "desc": "Meta's flagship model, GPT-4 level performance, requires powerful hardware (48GB RAM)"
+    },
+    "mistral_small3_balanced": {
+      "label": "Mistral Small 3 24B - Pro (2025)",
+      "desc": "Mistral AI's latest balanced model, excellent for complex tasks (16GB RAM)"
     }
   },
   "newConversation": {
@@ -312,13 +340,7 @@
     "promptLearning": "You are an educator. Explain concepts progressively, from simple to complex. Use concrete analogies, practical examples and verify understanding before moving forward. Encourage questions.",
     "promptBrainstorm": "You are a creative facilitator. Explore multiple angles of approach, propose diverse and original ideas. Question assumptions, combine concepts and help structure reflections.",
     "promptWriting": "You are a writing assistant. Improve clarity, coherence and impact of texts. Respect the requested tone and style. Propose reformulations and identify argumentative weaknesses.",
-    "promptAnalysis": "You are a rigorous analyst. Synthesize information in a structured way, identify trends and inconsistencies. Present factual conclusions with their limitations. Prioritize verifiable data.",
-    "initialDatasetEnable": "Add initial knowledge dataset",
-    "initialDatasetNameLabel": "Dataset name (optional)",
-    "initialDatasetNamePlaceholder": "Ex: Project Notes",
-    "initialDatasetContentLabel": "Initial dataset text",
-    "initialDatasetContentPlaceholder": "Paste or type reference notes, guidelines, docs...",
-    "initialDatasetHelp": "This text will be chunked and used as contextual knowledge for the very first messages. You can add more later."
+    "promptAnalysis": "You are a rigorous analyst. Synthesize information in a structured way, identify trends and inconsistencies. Present factual conclusions with their limitations. Prioritize verifiable data."
   },
   "serverStatus": {
     "ready": "AI server operational and ready to receive requests.",
@@ -419,41 +441,6 @@
     "casual": "Casual - Friendly and informal",
     "concise": "Concise - Brief and direct",
     "detailed": "Detailed - Thorough and comprehensive"
-  },
-  "rag": {
-    "title": "Datasets (RAG)",
-    "help": {
-      "title": "How does it work?",
-      "description": "The RAG system allows you to create knowledge bases from your documents.",
-      "step1": "Create a dataset with a unique name",
-      "step2": "Select the dataset and choose an ingestion mode",
-      "step3": "Add text, files (PDF, DOCX, TXT...) or URLs"
-    },
-    "createDataset": {
-      "title": "Create a Dataset",
-      "label": "Create dataset",
-      "success": "Dataset created successfully!"
-    },
-    "datasetName": { "placeholder": "Dataset name" },
-    "select": { "label": "Select dataset", "none": "None" },
-    "ingest": {
-      "pasteText": "Paste text to ingest",
-      "placeholder": "Paste or type content here...",
-      "urlPlaceholder": "https://example.com/article",
-      "ingestButton": "Ingest",
-      "chooseFile": "Choose File",
-      "fetchUrl": "Fetch URL",
-      "loading": "Processing...",
-      "success": "Ingested {count} chunks",
-      "fileDescription": "Supported formats: TXT, MD, JSON, CSV, LOG, HTML, PDF, DOCX",
-      "mode": {
-        "text": "Text",
-        "file": "File",
-        "url": "URL"
-      }
-    },
-    "list": { "empty": "No dataset yet" },
-    "error": { "generic": "An error occurred" }
   },
   "update": {
     "available": "Update available",

@@ -1,24 +1,48 @@
-import { useState } from 'react';
-import { invoke } from '@tauri-apps/api/core';
-import { Download, CheckCircle, AlertCircle, RefreshCw } from 'lucide-react';
+import { useEffect, useState } from "react";
+import { invoke } from "@tauri-apps/api/core";
+import { getVersion } from "@tauri-apps/api/app";
+import { Download, CheckCircle, AlertCircle, RefreshCw } from "lucide-react";
+import { i18n } from "../../i18n";
 
-interface UpdateSectionProps {
-  translations: Record<string, any>;
-}
-
-export default function UpdateSection({ translations }: UpdateSectionProps) {
+export default function UpdateSection() {
   const [checking, setChecking] = useState(false);
   const [updateAvailable, setUpdateAvailable] = useState(false);
-  const [newVersion, setNewVersion] = useState('');
-  const [currentVersion] = useState('0.3.1');
-  const [lastChecked, setLastChecked] = useState<string>('');
-  const [error, setError] = useState('');
+  const [newVersion, setNewVersion] = useState("");
+  const [currentVersion, setCurrentVersion] = useState("0.3.0");
+  const [lastChecked, setLastChecked] = useState<string>("");
+  const [error, setError] = useState("");
   const [downloading, setDownloading] = useState(false);
 
-  const t = translations.update || {};
+  const t = {
+    settingsTitle: i18n.t("update.settingsTitle", "Updates"),
+    settingsDesc: i18n.t(
+      "update.settingsDesc",
+      "Manage application updates and notifications"
+    ),
+    currentVersion: i18n.t("update.currentVersion", "Current version"),
+    newVersion: i18n.t("update.newVersion", "New version"),
+    lastChecked: i18n.t("update.lastChecked", "Last checked: {time}"),
+    checking: i18n.t("update.checking", "Checking..."),
+    manualCheck: i18n.t("update.manualCheck", "Check now"),
+    available: i18n.t("update.available", "Update available"),
+    upToDate: i18n.t("update.upToDate", "You are up to date!"),
+    download: i18n.t("update.download", "Update now"),
+    downloading: i18n.t("update.downloading", "Downloading..."),
+    error: i18n.t("update.error", "Update check failed"),
+  };
+
+  useEffect(() => {
+    getVersion()
+      .then((v) => setCurrentVersion(v))
+      .catch(() => {});
+  }, []);
 
   const formatLastChecked = (timestamp: string) => {
-    if (!timestamp) return t.lastChecked?.replace('{time}', t.checking || 'Never') || 'Never checked';
+    if (!timestamp)
+      return (
+        t.lastChecked?.replace("{time}", t.checking || "Never") ||
+        "Never checked"
+      );
     const date = new Date(parseInt(timestamp));
     const now = new Date();
     const diffMs = now.getTime() - date.getTime();
@@ -26,37 +50,37 @@ export default function UpdateSection({ translations }: UpdateSectionProps) {
     const diffHours = Math.floor(diffMs / 3600000);
     const diffDays = Math.floor(diffMs / 86400000);
 
-    let timeStr = '';
+    let timeStr = "";
     if (diffMins < 1) {
-      timeStr = 'just now';
+      timeStr = "just now";
     } else if (diffMins < 60) {
-      timeStr = `${diffMins} minute${diffMins > 1 ? 's' : ''} ago`;
+      timeStr = `${diffMins} minute${diffMins > 1 ? "s" : ""} ago`;
     } else if (diffHours < 24) {
-      timeStr = `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+      timeStr = `${diffHours} hour${diffHours > 1 ? "s" : ""} ago`;
     } else {
-      timeStr = `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+      timeStr = `${diffDays} day${diffDays > 1 ? "s" : ""} ago`;
     }
 
-    return t.lastChecked?.replace('{time}', timeStr) || `Last checked: ${timeStr}`;
+    return (t.lastChecked || "Last checked: {time}").replace("{time}", timeStr);
   };
 
   const handleCheckForUpdates = async () => {
     setChecking(true);
-    setError('');
+    setError("");
     setUpdateAvailable(false);
-    
+
     try {
-      const version = await invoke<string | null>('check_update');
+      const version = await invoke<string | null>("check_update");
       const now = Date.now().toString();
-      localStorage.setItem('lastUpdateCheck', now);
+      localStorage.setItem("lastUpdateCheck", now);
       setLastChecked(now);
-      
+
       if (version) {
         setNewVersion(version);
         setUpdateAvailable(true);
       }
     } catch (err) {
-      setError(err as string || t.error || 'Update check failed');
+      setError((err as string) || t.error || "Update check failed");
     } finally {
       setChecking(false);
     }
@@ -64,27 +88,27 @@ export default function UpdateSection({ translations }: UpdateSectionProps) {
 
   const handleInstallUpdate = async () => {
     setDownloading(true);
-    setError('');
-    
+    setError("");
+
     try {
-      await invoke('install_update');
+      await invoke("install_update");
       // Update will trigger restart automatically
     } catch (err) {
-      setError(err as string || 'Update installation failed');
+      setError((err as string) || "Update installation failed");
       setDownloading(false);
     }
   };
 
-  const storedLastCheck = localStorage.getItem('lastUpdateCheck');
+  const storedLastCheck = localStorage.getItem("lastUpdateCheck");
 
   return (
     <div className="space-y-4 p-6 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
       <div>
         <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1">
-          {t.settingsTitle || 'Updates'}
+          {t.settingsTitle}
         </h3>
         <p className="text-sm text-gray-600 dark:text-gray-400">
-          {t.settingsDesc || 'Manage application updates and notifications'}
+          {t.settingsDesc}
         </p>
       </div>
 
@@ -92,17 +116,17 @@ export default function UpdateSection({ translations }: UpdateSectionProps) {
         <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-900 rounded-lg">
           <div>
             <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
-              {t.currentVersion || 'Current version'}
+              {t.currentVersion}
             </p>
             <p className="text-xs text-gray-600 dark:text-gray-400 mt-0.5">
               v{currentVersion}
             </p>
           </div>
-          
+
           {updateAvailable && (
             <div className="text-right">
               <p className="text-sm font-medium text-blue-600 dark:text-blue-400">
-                {t.newVersion || 'New version'}
+                {t.newVersion}
               </p>
               <p className="text-xs text-gray-600 dark:text-gray-400 mt-0.5">
                 v{newVersion}
@@ -128,7 +152,7 @@ export default function UpdateSection({ translations }: UpdateSectionProps) {
           <div className="flex items-center gap-2 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
             <Download className="w-4 h-4 text-blue-600 dark:text-blue-400 flex-shrink-0" />
             <p className="text-xs text-blue-600 dark:text-blue-400">
-              {t.available || 'Update available'}
+              {t.available}
             </p>
           </div>
         )}
@@ -137,7 +161,7 @@ export default function UpdateSection({ translations }: UpdateSectionProps) {
           <div className="flex items-center gap-2 p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
             <CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
             <p className="text-xs text-green-600 dark:text-green-400">
-              {t.upToDate || 'You are up to date!'}
+              {t.upToDate}
             </p>
           </div>
         )}
@@ -148,8 +172,10 @@ export default function UpdateSection({ translations }: UpdateSectionProps) {
             disabled={checking || downloading}
             className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed rounded transition-colors"
           >
-            <RefreshCw className={`w-4 h-4 ${checking ? 'animate-spin' : ''}`} />
-            {checking ? (t.checking || 'Checking...') : (t.manualCheck || 'Check now')}
+            <RefreshCw
+              className={`w-4 h-4 ${checking ? "animate-spin" : ""}`}
+            />
+            {checking ? t.checking : t.manualCheck}
           </button>
 
           {updateAvailable && !downloading && (
@@ -158,14 +184,14 @@ export default function UpdateSection({ translations }: UpdateSectionProps) {
               className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded transition-colors"
             >
               <Download className="w-4 h-4" />
-              {t.download || 'Update now'}
+              {t.download}
             </button>
           )}
 
           {downloading && (
             <div className="flex items-center gap-2 px-4 py-2 text-sm text-gray-600 dark:text-gray-400">
               <RefreshCw className="w-4 h-4 animate-spin" />
-              {t.downloading || 'Downloading...'}
+              {t.downloading}
             </div>
           )}
         </div>

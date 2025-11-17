@@ -118,18 +118,6 @@ pub fn init_db(app_handle: &tauri::AppHandle) -> Result<Connection> {
         [],
     )?;
 
-    // Table N-N pour lier conversations et datasets RAG
-    conn.execute(
-        "CREATE TABLE IF NOT EXISTS conversation_datasets (
-            conversation_id INTEGER NOT NULL,
-            dataset_id TEXT NOT NULL,
-            created_at TEXT NOT NULL DEFAULT (datetime('now')),
-            PRIMARY KEY (conversation_id, dataset_id),
-            FOREIGN KEY (conversation_id) REFERENCES conversations(id) ON DELETE CASCADE
-        )",
-        [],
-    )?;
-
     // Create indexes
     conn.execute(
         "CREATE INDEX IF NOT EXISTS idx_conversations_group_id ON conversations(group_id)",
@@ -138,14 +126,6 @@ pub fn init_db(app_handle: &tauri::AppHandle) -> Result<Connection> {
 
     conn.execute(
         "CREATE INDEX IF NOT EXISTS idx_messages_conversation_id ON messages(conversation_id)",
-        [],
-    )?;
-    conn.execute(
-        "CREATE INDEX IF NOT EXISTS idx_conversation_datasets_conversation ON conversation_datasets(conversation_id)",
-        [],
-    )?;
-    conn.execute(
-        "CREATE INDEX IF NOT EXISTS idx_conversation_datasets_dataset ON conversation_datasets(dataset_id)",
         [],
     )?;
     Ok(conn)
@@ -305,43 +285,4 @@ pub fn add_message(
 pub fn delete_conversation(conn: &Connection, id: i64) -> Result<()> {
     conn.execute("DELETE FROM conversations WHERE id = ?1", [id])?;
     Ok(())
-}
-
-// ===== RAG Dataset Linking (N-N) =====
-
-pub fn link_dataset_to_conversation(
-    conn: &Connection,
-    conversation_id: i64,
-    dataset_id: &str,
-) -> Result<()> {
-    conn.execute(
-        "INSERT OR IGNORE INTO conversation_datasets (conversation_id, dataset_id) VALUES (?1, ?2)",
-        rusqlite::params![conversation_id, dataset_id],
-    )?;
-    Ok(())
-}
-
-pub fn unlink_dataset_from_conversation(
-    conn: &Connection,
-    conversation_id: i64,
-    dataset_id: &str,
-) -> Result<()> {
-    conn.execute(
-        "DELETE FROM conversation_datasets WHERE conversation_id = ?1 AND dataset_id = ?2",
-        rusqlite::params![conversation_id, dataset_id],
-    )?;
-    Ok(())
-}
-
-pub fn list_datasets_for_conversation(
-    conn: &Connection,
-    conversation_id: i64,
-) -> Result<Vec<String>> {
-    let mut stmt = conn.prepare(
-        "SELECT dataset_id FROM conversation_datasets WHERE conversation_id = ?1 ORDER BY created_at"
-    )?;
-    let dataset_ids = stmt
-        .query_map([conversation_id], |row| row.get::<_, String>(0))?
-        .collect::<Result<Vec<_>>>()?;
-    Ok(dataset_ids)
 }

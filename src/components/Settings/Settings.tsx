@@ -34,7 +34,7 @@ export function Settings({ onNavigate }: SettingsProps) {
     try {
       return Math.max(
         0.5,
-        Math.min(1, parseFloat(localStorage.getItem("overlayOpacity") || "1")),
+        Math.min(1, parseFloat(localStorage.getItem("overlayOpacity") || "1"))
       );
     } catch (err) {
       console.debug("[Settings] read overlayOpacity err", err);
@@ -51,7 +51,7 @@ export function Settings({ onNavigate }: SettingsProps) {
         console.debug("[Settings] read overlayAutoPassthrough err", err);
         return true;
       }
-    },
+    }
   );
   const [overlayControlsIdleSec, setOverlayControlsIdleSec] = useState<number>(
     () => {
@@ -60,14 +60,14 @@ export function Settings({ onNavigate }: SettingsProps) {
           1,
           Math.min(
             5,
-            parseInt(localStorage.getItem("overlayControlsIdleSec") || "2", 10),
-          ),
+            parseInt(localStorage.getItem("overlayControlsIdleSec") || "2", 10)
+          )
         );
       } catch (err) {
         console.debug("[Settings] read overlayControlsIdleSec err", err);
         return 2;
       }
-    },
+    }
   );
   const [overlayShowDragStrip, setOverlayShowDragStrip] = useState<boolean>(
     () => {
@@ -79,7 +79,7 @@ export function Settings({ onNavigate }: SettingsProps) {
         console.debug("[Settings] read overlayShowDragStrip err", err);
         return true;
       }
-    },
+    }
   );
   const [overlayToggleKey, setOverlayToggleKey] = useState<string>(() => {
     try {
@@ -157,7 +157,10 @@ export function Settings({ onNavigate }: SettingsProps) {
             </h2>
             <div className="flex items-center justify-between">
               <p className="text-sm text-gray-600 dark:text-gray-400 max-w-xl">
-                {i18n.t("settings.debug.desc", "View llama server logs and technical details.")}
+                {i18n.t(
+                  "settings.debug.desc",
+                  "View llama server logs and technical details."
+                )}
               </p>
               <button
                 onClick={() => setDebugOpen(true)}
@@ -197,7 +200,7 @@ export function Settings({ onNavigate }: SettingsProps) {
                       onChange={(e) => {
                         const v = Math.max(
                           50,
-                          Math.min(100, parseInt(e.target.value || "100", 10)),
+                          Math.min(100, parseInt(e.target.value || "100", 10))
                         );
                         const f = v / 100;
                         setOverlayOpacity(f);
@@ -206,7 +209,7 @@ export function Settings({ onNavigate }: SettingsProps) {
                         } catch (err) {
                           console.debug(
                             "[Settings] write overlayOpacity err",
-                            err,
+                            err
                           );
                         }
                         dispatchOverlayPrefsChange();
@@ -238,12 +241,12 @@ export function Settings({ onNavigate }: SettingsProps) {
                       try {
                         localStorage.setItem(
                           "overlayAutoPassthrough",
-                          e.target.checked ? "true" : "false",
+                          e.target.checked ? "true" : "false"
                         );
                       } catch (err) {
                         console.debug(
                           "[Settings] write overlayAutoPassthrough err",
-                          err,
+                          err
                         );
                       }
                       dispatchOverlayPrefsChange();
@@ -270,18 +273,18 @@ export function Settings({ onNavigate }: SettingsProps) {
                     onChange={(e) => {
                       const v = Math.max(
                         1,
-                        Math.min(5, parseInt(e.target.value || "2", 10)),
+                        Math.min(5, parseInt(e.target.value || "2", 10))
                       );
                       setOverlayControlsIdleSec(v);
                       try {
                         localStorage.setItem(
                           "overlayControlsIdleSec",
-                          String(v),
+                          String(v)
                         );
                       } catch (err) {
                         console.debug(
                           "[Settings] write overlayControlsIdleSec err",
-                          err,
+                          err
                         );
                       }
                       dispatchOverlayPrefsChange();
@@ -309,12 +312,12 @@ export function Settings({ onNavigate }: SettingsProps) {
                       try {
                         localStorage.setItem(
                           "overlayShowDragStrip",
-                          e.target.checked ? "true" : "false",
+                          e.target.checked ? "true" : "false"
                         );
                       } catch (err) {
                         console.debug(
                           "[Settings] write overlayShowDragStrip err",
-                          err,
+                          err
                         );
                       }
                       dispatchOverlayPrefsChange();
@@ -339,7 +342,7 @@ export function Settings({ onNavigate }: SettingsProps) {
                     onKeyDown={recordToggleKey}
                     value={overlayToggleKey}
                     placeholder={i18n.t(
-                      "settings.overlay.toggleKeyPlaceholder",
+                      "settings.overlay.toggleKeyPlaceholder"
                     )}
                     className="w-36 px-2 py-1 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm"
                     title={i18n.t("settings.overlay.toggleKeyHelp")}
@@ -512,7 +515,7 @@ export function Settings({ onNavigate }: SettingsProps) {
           </div>
 
           {/* Update Section */}
-          <UpdateSection translations={i18n.translations[i18n.locale]} />
+          <UpdateSection />
 
           {/* About Section */}
           <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">

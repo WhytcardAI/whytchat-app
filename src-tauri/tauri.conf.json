@@ -66,16 +66,16 @@
         "fullscreen": false,
         "decorations": false,
         "visible": true,
-        "transparent": true
+        "transparent": false
       }
     ],
     "security": {
-      "csp": null
+      "csp": "default-src 'self'; img-src 'self' data: tauri:; font-src 'self' data: tauri:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self' http://localhost:* http://127.0.0.1:* https://* tauri://localhost; object-src 'none'; frame-ancestors 'none'"
     }
   },
   "plugins": {
     "updater": {
-      "active": true,
+      "active": false,
       "endpoints": [
         "https://github.com/WhytcardAI/whytchat-app/releases/latest/download/latest.json"
       ],

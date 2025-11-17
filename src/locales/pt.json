@@ -81,7 +81,16 @@
     "serverStarting": "Iniciando servidor IA (isso pode levar 5-10 segundos)...",
     "serverError": "Falha ao iniciar servidor IA",
     "initializing": "Inicializando...",
-    "loadingModel": "Carregando modelo IA e iniciando servidor"
+    "loadingModel": "Carregando modelo de IA e iniciando servidor",
+    "importFile": {
+      "title": "Importar arquivo",
+      "description": "Importe um documento para adicionar contexto à conversa. A IA usará essas informações para responder suas perguntas.",
+      "button": "Importar arquivo",
+      "local": "Arquivo local",
+      "url": "URL / Documentação",
+      "loading": "Carregando arquivo...",
+      "success": "Arquivo importado com sucesso!"
+    }
   },
   "shortcuts": {
     "title": "Atalhos de teclado",
@@ -131,7 +140,10 @@
     "unpinOverlay": "Desafixar",
     "overlayOpacity": "Opacidade",
     "minimize": "Minimizar",
-    "close": "Fechar"
+    "maximize": "Maximizar",
+    "restore": "Restaurar",
+    "close": "Fechar",
+    "settings": "Configurações"
   },
   "settings": {
     "debug": {
@@ -255,6 +267,22 @@
     "dolphin_heavy": {
       "label": "Dolphin 7B - Escritor",
       "desc": "Especializado em escrita longa e nuanceada (8GB RAM)"
+    },
+    "qwen25_7b_balanced": {
+      "label": "Qwen 2.5 7B - Equilibrado (2025)",
+      "desc": "Último modelo Qwen, excelente desempenho geral com contexto 32K (6GB RAM)"
+    },
+    "qwen25_32b_heavy": {
+      "label": "Qwen 2.5 32B - Poderoso (2025)",
+      "desc": "Modelo avançado 2025, raciocínio excepcional e alucinações reduzidas (20GB RAM)"
+    },
+    "llama33_70b_powerful": {
+      "label": "Llama 3.3 70B - Elite (2025)",
+      "desc": "Modelo principal da Meta, desempenho nível GPT-4, requer hardware potente (48GB RAM)"
+    },
+    "mistral_small3_balanced": {
+      "label": "Mistral Small 3 24B - Pro (2025)",
+      "desc": "Último modelo equilibrado da Mistral AI, excelente para tarefas complexas (16GB RAM)"
     }
   },
   "newConversation": {
@@ -312,15 +340,8 @@
     "promptLearning": "Você é um pedagogo. Explique os conceitos progressivamente, do simples ao complexo. Use analogias concretas, exemplos práticos e verifique a compreensão antes de avançar. Encoraje perguntas.",
     "promptBrainstorm": "Você é um facilitador criativo. Explore múltiplos ângulos de abordagem, proponha ideias diversificadas e originais. Questione as hipóteses, combine conceitos e ajude a estruturar as reflexões.",
     "promptWriting": "Você é um assistente de redação. Melhore a clareza, coerência e impacto dos textos. Respeite o tom e estilo solicitados. Proponha reformulações e identifique fraquezas argumentativas.",
-    "promptAnalysis": "Você é um analista rigoroso. Sintetize as informações de forma estruturada, identifique tendências e inconsistências. Apresente conclusões factuais com suas limitações. Priorize dados verificáveis.",
-    "initialDatasetEnable": "Criar dataset inicial",
-    "initialDatasetNameLabel": "Nome do dataset",
-    "initialDatasetNamePlaceholder": "Ex: Projeto WhytChat - conhecimento",
-    "initialDatasetContentLabel": "Conteúdo inicial",
-    "initialDatasetContentPlaceholder": "Cole ou escreva o texto que a IA deve conhecer...",
-    "initialDatasetHelp": "Opcional: cria um dataset ligado à conversa e indexa este texto para contexto (RAG)."
+    "promptAnalysis": "Você é um analista rigoroso. Sintetize as informações de forma estruturada, identifique tendências e inconsistências. Apresente conclusões factuais com suas limitações. Priorize dados verificáveis."
   },
-
   "serverStatus": {
     "ready": "Servidor IA operacional e pronto para receber solicitações.",
     "checking": "Verificando estado do servidor...",
@@ -420,41 +441,6 @@
     "casual": "Casual - Amigável e informal",
     "concise": "Conciso - Breve e direto",
     "detailed": "Detalhado - Completo e abrangente"
-  },
-  "rag": {
-    "title": "Conjuntos de dados (RAG)",
-    "help": {
-      "title": "Como funciona?",
-      "description": "O sistema RAG permite criar bases de conhecimento a partir dos seus documentos.",
-      "step1": "Crie um dataset com um nome único",
-      "step2": "Selecione o dataset e escolha um modo de ingesta",
-      "step3": "Adicione texto, arquivos (PDF, DOCX, TXT...) ou URLs"
-    },
-    "createDataset": {
-      "title": "Criar um Dataset",
-      "label": "Criar dataset",
-      "success": "Dataset criado com sucesso!"
-    },
-    "datasetName": { "placeholder": "Nome do dataset" },
-    "select": { "label": "Selecionar dataset", "none": "Nenhum" },
-    "ingest": {
-      "pasteText": "Cole texto para indexar",
-      "placeholder": "Cole ou escreva o conteúdo aqui...",
-      "urlPlaceholder": "https://exemplo.com/artigo",
-      "ingestButton": "Indexar",
-      "chooseFile": "Escolher arquivo",
-      "fetchUrl": "Buscar URL",
-      "loading": "Processando...",
-      "success": "{count} fragmentos indexados",
-      "fileDescription": "Formatos suportados: TXT, MD, JSON, CSV, LOG, HTML, PDF, DOCX",
-      "mode": {
-        "text": "Texto",
-        "file": "Arquivo",
-        "url": "URL"
-      }
-    },
-    "list": { "empty": "Nenhum dataset por enquanto" },
-    "error": { "generic": "Ocorreu um erro" }
   },
   "update": {
     "available": "Atualização disponível",

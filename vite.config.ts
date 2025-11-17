@@ -12,5 +12,20 @@ export default defineConfig({
   },
   build: {
     outDir: "../dist",
+    emptyOutDir: true,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes("node_modules")) {
+            if (id.includes("mermaid")) return "mermaid";
+            if (id.includes("cytoscape")) return "cytoscape";
+            if (id.includes("katex")) return "katex";
+            if (id.includes("shiki") || id.includes("highlight.js"))
+              return "syntax";
+          }
+        },
+      },
+    },
+    chunkSizeWarningLimit: 900,
   },
 });

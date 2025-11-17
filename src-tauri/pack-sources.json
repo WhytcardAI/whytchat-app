@@ -58,5 +58,29 @@
     "url": "https://huggingface.co/bartowski/dolphin-2.8-mistral-7b-v02-GGUF/resolve/main/dolphin-2.8-mistral-7b-v02-Q5_K_M.gguf",
     "filename": "dolphin-2.8-mistral-7b-v02-Q5_K_M.gguf",
     "sizeBytes": 5400000000
+  },
+  {
+    "id": "qwen25_7b_balanced",
+    "url": "https://huggingface.co/bartowski/Qwen2.5-7B-Instruct-GGUF/resolve/main/Qwen2.5-7B-Instruct-Q4_K_M.gguf",
+    "filename": "Qwen2.5-7B-Instruct-Q4_K_M.gguf",
+    "sizeBytes": 4800000000
+  },
+  {
+    "id": "qwen25_32b_heavy",
+    "url": "https://huggingface.co/bartowski/Qwen2.5-32B-Instruct-GGUF/resolve/main/Qwen2.5-32B-Instruct-Q4_K_M.gguf",
+    "filename": "Qwen2.5-32B-Instruct-Q4_K_M.gguf",
+    "sizeBytes": 18500000000
+  },
+  {
+    "id": "llama33_70b_powerful",
+    "url": "https://huggingface.co/bartowski/Llama-3.3-70B-Instruct-GGUF/resolve/main/Llama-3.3-70B-Instruct-Q4_K_M.gguf",
+    "filename": "Llama-3.3-70B-Instruct-Q4_K_M.gguf",
+    "sizeBytes": 40000000000
+  },
+  {
+    "id": "mistral_small3_balanced",
+    "url": "https://huggingface.co/bartowski/Mistral-Small-3-24B-Instruct-GGUF/resolve/main/Mistral-Small-3-24B-Instruct-Q4_K_M.gguf",
+    "filename": "Mistral-Small-3-24B-Instruct-Q4_K_M.gguf",
+    "sizeBytes": 14000000000
   }
 ]

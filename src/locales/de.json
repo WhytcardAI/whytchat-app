@@ -81,7 +81,16 @@
     "serverStarting": "KI-Server wird gestartet (dies kann 5-10 Sekunden dauern)...",
     "serverError": "KI-Server konnte nicht gestartet werden",
     "initializing": "Initialisierung...",
-    "loadingModel": "KI-Modell wird geladen und Server gestartet"
+    "loadingModel": "KI-Modell wird geladen und Server gestartet",
+    "importFile": {
+      "title": "Datei importieren",
+      "description": "Importieren Sie ein Dokument, um der Konversation Kontext hinzuzufügen. Die KI wird diese Informationen verwenden, um Ihre Fragen zu beantworten.",
+      "button": "Datei importieren",
+      "local": "Lokale Datei",
+      "url": "URL / Dokumentation",
+      "loading": "Datei wird geladen...",
+      "success": "Datei erfolgreich importiert!"
+    }
   },
   "shortcuts": {
     "title": "Tastenkombinationen",
@@ -131,7 +140,10 @@
     "unpinOverlay": "Fixierung aufheben",
     "overlayOpacity": "Deckkraft",
     "minimize": "Minimieren",
-    "close": "Schließen"
+    "maximize": "Maximieren",
+    "restore": "Wiederherstellen",
+    "close": "Schließen",
+    "settings": "Einstellungen"
   },
   "settings": {
     "debug": {
@@ -255,6 +267,22 @@
     "dolphin_heavy": {
       "label": "Dolphin 7B - Schriftsteller",
       "desc": "Spezialisiert auf langes und nuanciertes Schreiben (8GB RAM)"
+    },
+    "qwen25_7b_balanced": {
+      "label": "Qwen 2.5 7B - Ausgewogen (2025)",
+      "desc": "Neuestes Qwen-Modell, hervorragende Gesamtleistung mit 32K-Kontext (6GB RAM)"
+    },
+    "qwen25_32b_heavy": {
+      "label": "Qwen 2.5 32B - Leistungsstark (2025)",
+      "desc": "Fortgeschrittenes 2025-Modell, außergewöhnliche Argumentation und reduzierte Halluzinationen (20GB RAM)"
+    },
+    "llama33_70b_powerful": {
+      "label": "Llama 3.3 70B - Elite (2025)",
+      "desc": "Flaggschiff-Modell von Meta, GPT-4-Leistung, erfordert leistungsstarke Hardware (48GB RAM)"
+    },
+    "mistral_small3_balanced": {
+      "label": "Mistral Small 3 24B - Pro (2025)",
+      "desc": "Neuestes ausgewogenes Modell von Mistral AI, hervorragend für komplexe Aufgaben (16GB RAM)"
     }
   },
   "newConversation": {
@@ -312,15 +340,8 @@
     "promptLearning": "Sie sind ein Pädagoge. Erklären Sie Konzepte schrittweise, vom Einfachen zum Komplexen. Verwenden Sie konkrete Analogien, praktische Beispiele und überprüfen Sie das Verständnis, bevor Sie fortfahren. Ermutigen Sie Fragen.",
     "promptBrainstorm": "Sie sind ein kreativer Moderator. Erkunden Sie mehrere Ansätze, schlagen Sie vielfältige und originelle Ideen vor. Hinterfragen Sie Annahmen, kombinieren Sie Konzepte und helfen Sie, Überlegungen zu strukturieren.",
     "promptWriting": "Sie sind ein Schreibassistent. Verbessern Sie Klarheit, Kohärenz und Wirkung von Texten. Respektieren Sie den gewünschten Ton und Stil. Schlagen Sie Umformulierungen vor und identifizieren Sie argumentative Schwächen.",
-    "promptAnalysis": "Sie sind ein rigoroser Analyst. Fassen Sie Informationen strukturiert zusammen, identifizieren Sie Trends und Inkonsistenzen. Präsentieren Sie faktische Schlussfolgerungen mit ihren Grenzen. Bevorzugen Sie überprüfbare Daten.",
-    "initialDatasetEnable": "Initialen Wissens-Datensatz hinzufügen",
-    "initialDatasetNameLabel": "Dataset-Name (optional)",
-    "initialDatasetNamePlaceholder": "z.B. Projekt Notizen",
-    "initialDatasetContentLabel": "Initialer Dataset Text",
-    "initialDatasetContentPlaceholder": "Notizen, Richtlinien, Dokumentation hier einfügen...",
-    "initialDatasetHelp": "Dieser Text wird in Abschnitte geteilt und als Kontext für die ersten Nachrichten verwendet. Später können Sie mehr hinzufügen."
+    "promptAnalysis": "Sie sind ein rigoroser Analyst. Fassen Sie Informationen strukturiert zusammen, identifizieren Sie Trends und Inkonsistenzen. Präsentieren Sie faktische Schlussfolgerungen mit ihren Grenzen. Bevorzugen Sie überprüfbare Daten."
   },
-
   "serverStatus": {
     "ready": "KI-Server betriebsbereit und empfangsbereit.",
     "checking": "Serverstatus prüfen...",
@@ -420,41 +441,6 @@
     "casual": "Locker - Freundlich und ungezwungen",
     "concise": "Prägnant - Kurz und direkt",
     "detailed": "Detailliert - Gründlich und umfassend"
-  },
-  "rag": {
-    "title": "Datasets (RAG)",
-    "help": {
-      "title": "Wie funktioniert es?",
-      "description": "Das RAG-System ermöglicht es Ihnen, Wissensbasen aus Ihren Dokumenten zu erstellen.",
-      "step1": "Erstellen Sie ein Dataset mit einem eindeutigen Namen",
-      "step2": "Wählen Sie das Dataset und einen Aufnahme-Modus",
-      "step3": "Fügen Sie Text, Dateien (PDF, DOCX, TXT...) oder URLs hinzu"
-    },
-    "createDataset": {
-      "title": "Dataset Erstellen",
-      "label": "Dataset erstellen",
-      "success": "Dataset erfolgreich erstellt!"
-    },
-    "datasetName": { "placeholder": "Dataset-Name" },
-    "select": { "label": "Dataset wählen", "none": "Keins" },
-    "ingest": {
-      "pasteText": "Text zum Indizieren einfügen",
-      "placeholder": "Inhalt hier einfügen oder tippen...",
-      "urlPlaceholder": "https://beispiel.com/artikel",
-      "ingestButton": "Indizieren",
-      "chooseFile": "Datei wählen",
-      "fetchUrl": "URL abrufen",
-      "loading": "Verarbeitung...",
-      "success": "{count} Abschnitte indiziert",
-      "fileDescription": "Unterstützte Formate: TXT, MD, JSON, CSV, LOG, HTML, PDF, DOCX",
-      "mode": {
-        "text": "Text",
-        "file": "Datei",
-        "url": "URL"
-      }
-    },
-    "list": { "empty": "Noch keine Datasets" },
-    "error": { "generic": "Ein Fehler ist aufgetreten" }
   },
   "update": {
     "available": "Update verfügbar",
