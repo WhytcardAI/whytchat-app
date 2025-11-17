@@ -1,19 +1,48 @@
-### Description
+## 📋 Description
 
-<!-- A brief description of the changes in this pull request. -->
+<!-- Provide a brief description of the changes in this PR -->
 
-### Related Issues
+## 🎯 Type of Change
 
-<!-- Link to any related issues here. e.g. "Fixes #123" -->
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [ ] Documentation update
+- [ ] Code quality improvement
+- [ ] CI/CD improvement
 
-### Checklist
+## 🧪 Testing
 
-- [ ] I have read the [CONTRIBUTING.md](CONTRIBUTING.md) document.
-- [ ] My code follows the code style of this project.
-- [ ] I have added tests to cover my changes.
-- [ ] All new and existing tests passed.
-- [ ] I have updated the documentation accordingly.
+<!-- Describe the tests you ran and how to reproduce them -->
 
-### Additional Notes
+- [ ] Tested locally
+- [ ] All checks pass
+- [ ] Manually verified functionality
 
-<!-- Any additional information that you think is important for the reviewers. -->
+**Testing Steps**:
+1. 
+2. 
+3. 
+
+## 📸 Screenshots (if applicable)
+
+<!-- Add screenshots to help explain your changes -->
+
+## ✅ Checklist
+
+- [ ] My code follows the project's style guidelines
+- [ ] I have commented my code, particularly in hard-to-understand areas
+- [ ] I have updated the documentation accordingly
+- [ ] I have added tests that prove my fix is effective or that my feature works
+- [ ] New and existing tests pass locally
+- [ ] I have updated CHANGELOG.md
+- [ ] I have checked for code duplication
+- [ ] All i18n translations are updated (8 languages)
+
+## 🔗 Related Issues
+
+<!-- Link related issues: Fixes #123, Closes #456 -->
+
+## 📝 Additional Notes
+
+<!-- Any additional information that reviewers should know -->
