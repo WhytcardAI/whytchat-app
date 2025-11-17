@@ -455,5 +455,27 @@
     },
     "list": { "empty": "Brak zbiorów danych" },
     "error": { "generic": "Wystąpił błąd" }
+  },
+  "update": {
+    "available": "Aktualizacja dostępna",
+    "currentVersion": "Aktualna wersja",
+    "newVersion": "Nowa wersja",
+    "patchNotes": "Notatki wydania",
+    "download": "Zaktualizuj teraz",
+    "downloading": "Pobieranie aktualizacji...",
+    "downloadProgress": "Pobieranie: {progress}%",
+    "installing": "Instalowanie aktualizacji...",
+    "installed": "Aktualizacja zainstalowana! Uruchom ponownie, aby zastosować.",
+    "restart": "Uruchom ponownie teraz",
+    "later": "Później",
+    "upToDate": "Jesteś na bieżąco!",
+    "checkForUpdates": "Sprawdź aktualizacje",
+    "checking": "Sprawdzanie aktualizacji...",
+    "lastChecked": "Ostatnie sprawdzenie: {time}",
+    "error": "Sprawdzanie aktualizacji nie powiodło się",
+    "manualCheck": "Sprawdź teraz",
+    "autoCheckEnabled": "Automatyczne sprawdzanie aktualizacji",
+    "settingsTitle": "Aktualizacje",
+    "settingsDesc": "Zarządzaj aktualizacjami i powiadomieniami aplikacji"
   }
 }
