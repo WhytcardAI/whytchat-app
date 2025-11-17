@@ -25,11 +25,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run Codacy Analysis CLI
-<<<<<<< HEAD
-        uses: codacy/codacy-analysis-cli-action@master
-=======
-        uses: codacy/codacy-analysis-cli-action@abc123def456
->>>>>>> f1d3a2dd6f5a94e4a34ac0cc814a923dee7644e7
+        uses: codacy/codacy-analysis-cli-action@d2802cb739a8d53274c99e7e59c281026a6e43a0
         with:
           output: results.sarif
           format: sarif
