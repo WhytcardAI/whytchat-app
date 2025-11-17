@@ -7,6 +7,8 @@ WhytChat est une application de chat IA sécurisée et hors ligne, construite av
 [![Download Latest Release](https://img.shields.io/badge/Download-Latest%20Release-blue?style=for-the-badge)](https://github.com/WhytcardAI/whytchat-app/releases/latest)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Codacy Badge](https://img.shields.io/badge/Codacy-Setup%20Required-yellow)](https://www.codacy.com/gh/WhytcardAI/whytchat-app)
+[![Codacy Workflow](https://github.com/WhytcardAI/whytchat-app/actions/workflows/codacy.yml/badge.svg)](https://github.com/WhytcardAI/whytchat-app/actions/workflows/codacy.yml)
+[![Sourcery Workflow](https://github.com/WhytcardAI/whytchat-app/actions/workflows/sourcery.yml/badge.svg)](https://github.com/WhytcardAI/whytchat-app/actions/workflows/sourcery.yml)
 [![Quality Gate](https://img.shields.io/badge/code%20quality-automated-brightgreen)](https://github.com/WhytcardAI/whytchat-app)
 
 ---
@@ -243,6 +245,22 @@ We use automated code quality tools:
 - **Sourcery**: AI-powered code refactoring suggestions
 - **ESLint**: JavaScript/TypeScript linting
 - **Prettier**: Code formatting
+
+#### Setup Instructions (Repository Owner)
+
+**Codacy Configuration:**
+1. Visit [Codacy](https://app.codacy.com) and sign in with GitHub
+2. Add the `WhytcardAI/whytchat-app` repository
+3. Copy your project ID from the dashboard
+4. Update the Codacy badge on line 9 of README.md with your project ID
+
+**Sourcery Configuration:**
+1. Visit [Sourcery](https://sourcery.ai) and sign in with GitHub
+2. Install the [Sourcery GitHub App](https://github.com/apps/sourcery-ai)
+3. Generate an API token from your dashboard
+4. Add it as `SOURCERY_TOKEN` in repository Settings → Secrets → Actions
+
+Once configured, both tools will automatically review all pull requests.
 
 ## 🙏 Acknowledgments
 

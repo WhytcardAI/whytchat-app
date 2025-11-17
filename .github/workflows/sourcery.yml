@@ -26,3 +26,15 @@ jobs:
           token: ${{ secrets.SOURCERY_TOKEN }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true
+        
+      - name: Sourcery Setup Notice
+        if: failure()
+        run: |
+          echo "⚠️ Sourcery analysis failed. This is likely because SOURCERY_TOKEN is not configured."
+          echo "To enable Sourcery:"
+          echo "1. Visit https://sourcery.ai and sign in with GitHub"
+          echo "2. Install the Sourcery GitHub App: https://github.com/apps/sourcery-ai"
+          echo "3. Generate an API token"
+          echo "4. Add it as SOURCERY_TOKEN in repository secrets"
+          echo "See README.md for detailed instructions."

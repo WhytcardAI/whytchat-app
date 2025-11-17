@@ -1,5 +1,8 @@
 name: Codacy Analysis
 
+# Runs on pushes to main, PRs to main, and weekly on Mondays
+# No secrets required - analysis runs using Codacy CLI
+# Results are uploaded to GitHub Security tab
 on:
   push:
     branches: [main]
