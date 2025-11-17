@@ -1,31 +1,22 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { invoke } from '@tauri-apps/api/core';
 import { X, Download, AlertCircle } from 'lucide-react';
 
 interface UpdateNotificationProps {
-  locale: string;
   translations: Record<string, any>;
 }
 
-export default function UpdateNotification({ locale, translations }: UpdateNotificationProps) {
+export default function UpdateNotification({ translations }: UpdateNotificationProps) {
   const [updateAvailable, setUpdateAvailable] = useState(false);
   const [newVersion, setNewVersion] = useState('');
-  const [currentVersion, setCurrentVersion] = useState('0.3.1');
+  const [currentVersion] = useState('0.3.1');
   const [downloading, setDownloading] = useState(false);
-  const [downloadProgress, setDownloadProgress] = useState(0);
   const [error, setError] = useState('');
   const [dismissed, setDismissed] = useState(false);
 
   const t = translations.update || {};
 
-  useEffect(() => {
-    checkForUpdates();
-    // Check for updates once per day
-    const interval = setInterval(checkForUpdates, 24 * 60 * 60 * 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const checkForUpdates = async () => {
+  const checkForUpdates = useCallback(async () => {
     try {
       const lastCheck = localStorage.getItem('lastUpdateCheck');
       const now = Date.now();
@@ -45,7 +36,14 @@ export default function UpdateNotification({ locale, translations }: UpdateNotif
     } catch (err) {
       console.error('Failed to check for updates:', err);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    checkForUpdates();
+    // Check for updates once per day
+    const interval = setInterval(checkForUpdates, 24 * 60 * 60 * 1000);
+    return () => clearInterval(interval);
+  }, [checkForUpdates]);
 
   const handleUpdateNow = async () => {
     setDownloading(true);
@@ -103,8 +101,8 @@ export default function UpdateNotification({ locale, translations }: UpdateNotif
               </p>
               <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
                 <div 
-                  className="bg-blue-500 h-2 rounded-full transition-all duration-300"
-                  style={{ width: `${downloadProgress}%` }}
+                  className="bg-blue-500 h-2 rounded-full transition-all duration-300 animate-pulse"
+                  style={{ width: '100%' }}
                 />
               </div>
             </div>

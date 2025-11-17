@@ -12,6 +12,7 @@ import { ShortcutsHelp } from "./components/ShortcutsHelp";
 import { TitleBar } from "./components/TitleBar";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { useKeyboardShortcuts } from "./hooks/useKeyboardShortcuts";
+import UpdateNotification from "./components/UpdateNotification";
 
 type View = "home" | "chat" | "settings" | "newConversation" | "conversations";
 
@@ -87,6 +88,11 @@ export function App() {
           <div className="fixed top-12 right-4 z-50">
             <ServerStatusIndicator />
           </div>
+
+          {/* Update Notification */}
+          <UpdateNotification 
+            translations={i18n.translations[i18n.locale]} 
+          />
 
           {/* Views */}
           {currentView === "home" && <Home onNavigate={handleNavigate} />}

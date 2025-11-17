@@ -11,6 +11,7 @@ import {
   Lightbulb,
   FileText,
   BarChart3,
+  Info,
 } from "lucide-react";
 import { open } from "@tauri-apps/plugin-dialog";
 import { SimpleModeView } from "./SimpleModeView";
