@@ -454,5 +454,27 @@
     },
     "list": { "empty": "No dataset yet" },
     "error": { "generic": "An error occurred" }
+  },
+  "update": {
+    "available": "Update available",
+    "currentVersion": "Current version",
+    "newVersion": "New version",
+    "patchNotes": "Release notes",
+    "download": "Update now",
+    "downloading": "Downloading update...",
+    "downloadProgress": "Downloading: {progress}%",
+    "installing": "Installing update...",
+    "installed": "Update installed! Restart to apply.",
+    "restart": "Restart now",
+    "later": "Later",
+    "upToDate": "You are up to date!",
+    "checkForUpdates": "Check for updates",
+    "checking": "Checking for updates...",
+    "lastChecked": "Last checked: {time}",
+    "error": "Update check failed",
+    "manualCheck": "Check now",
+    "autoCheckEnabled": "Automatic update checks",
+    "settingsTitle": "Updates",
+    "settingsDesc": "Manage application updates and notifications"
   }
 }

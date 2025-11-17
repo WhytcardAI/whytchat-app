@@ -1,14 +1,10 @@
 import { useEffect, useState } from "react";
 import { i18n } from "../../i18n";
-<<<<<<< HEAD
-import { createDataset, ingestText, listDatasets } from "../../rag/api";
-=======
 import {
   createDataset,
   ingestText,
   listDatasets,
 } from "../../rag/api";
->>>>>>> f1d3a2dd6f5a94e4a34ac0cc814a923dee7644e7
 import type { DatasetInfo } from "../../rag/types";
 import { open } from "@tauri-apps/plugin-dialog";
 import {
@@ -291,11 +287,6 @@ export default function DatasetsPanel() {
               </div>
             </div>
           )}
-<<<<<<< HEAD
-=======
-
-
->>>>>>> f1d3a2dd6f5a94e4a34ac0cc814a923dee7644e7
         </div>
       )}
 

@@ -455,5 +455,27 @@
     },
     "list": { "empty": "Aún no hay datasets" },
     "error": { "generic": "Ocurrió un error" }
+  },
+  "update": {
+    "available": "Actualización disponible",
+    "currentVersion": "Versión actual",
+    "newVersion": "Nueva versión",
+    "patchNotes": "Notas de la versión",
+    "download": "Actualizar ahora",
+    "downloading": "Descargando actualización...",
+    "downloadProgress": "Descargando: {progress}%",
+    "installing": "Instalando actualización...",
+    "installed": "¡Actualización instalada! Reinicia para aplicar.",
+    "restart": "Reiniciar ahora",
+    "later": "Más tarde",
+    "upToDate": "¡Estás actualizado!",
+    "checkForUpdates": "Buscar actualizaciones",
+    "checking": "Buscando actualizaciones...",
+    "lastChecked": "Última comprobación: {time}",
+    "error": "Error al buscar actualizaciones",
+    "manualCheck": "Comprobar ahora",
+    "autoCheckEnabled": "Comprobación automática de actualizaciones",
+    "settingsTitle": "Actualizaciones",
+    "settingsDesc": "Administrar actualizaciones y notificaciones de la aplicación"
   }
 }

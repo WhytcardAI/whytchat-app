@@ -17,6 +17,7 @@ import { useState, useEffect } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import type { KeyboardEvent as ReactKeyboardEvent } from "react";
 import { ServerDebugModal } from "../ServerStatusIndicator/ServerDebugModal";
+import UpdateSection from "./UpdateSection";
 
 type SettingsProps = {
   onNavigate: (view: string) => void;
@@ -509,6 +510,9 @@ export function Settings({ onNavigate }: SettingsProps) {
               </div>
             </div>
           </div>
+
+          {/* Update Section */}
+          <UpdateSection translations={i18n.translations[i18n.locale]} />
 
           {/* About Section */}
           <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">

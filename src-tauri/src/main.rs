@@ -25,6 +25,7 @@ use tauri::{
     AppHandle, Emitter, LogicalPosition, LogicalSize, Manager, Position, Size, State, Window,
     WindowEvent,
 };
+use tauri_plugin_updater::UpdaterExt;
 use tokio::{fs as afs, io::AsyncWriteExt};
 
 struct OverlayState(Mutex<bool>);
@@ -248,6 +249,40 @@ async fn read_file_content(path: String) -> Result<String, String> {
     fs::read_to_string(&path).map_err(|e| format!("Failed to read file {}: {}", path, e))
 }
 
+// ============= AUTO-UPDATE COMMANDS =============
+
+#[tauri::command]
+async fn check_update(app: AppHandle) -> Result<Option<String>, String> {
+    match app.updater() {
+        Some(updater) => {
+            match updater.check().await {
+                Ok(Some(update)) => Ok(Some(update.version)),
+                Ok(None) => Ok(None),
+                Err(e) => Err(format!("Update check failed: {}", e))
+            }
+        }
+        None => Err("Updater not available".into())
+    }
+}
+
+#[tauri::command]
+async fn install_update(app: AppHandle) -> Result<(), String> {
+    match app.updater() {
+        Some(updater) => {
+            match updater.check().await {
+                Ok(Some(update)) => {
+                    update.download_and_install().await
+                        .map_err(|e| format!("Update failed: {}", e))?;
+                    Ok(())
+                }
+                Ok(None) => Err("No update available".into()),
+                Err(e) => Err(format!("Update check failed: {}", e))
+            }
+        }
+        None => Err("Updater not available".into())
+    }
+}
+
 fn main() {
     tauri::Builder::default()
         .manage(OverlayState(Mutex::new(false)))
@@ -256,6 +291,7 @@ fn main() {
         })
         .plugin(tauri_plugin_shell::init())
         .plugin(tauri_plugin_dialog::init())
+        .plugin(tauri_plugin_updater::Builder::new().build())
         .setup(|app| {
             // Initialize database with proper app data directory
             let db_conn = db::init_db(app.handle()).expect("Failed to initialize database");
@@ -302,6 +338,9 @@ fn main() {
             clear_llama_logs,
             get_server_diagnostics,
             read_file_content,
+            // Update commands
+            check_update,
+            install_update,
             // RAG commands
             rag::rag_list_datasets,
             rag::rag_create_dataset,

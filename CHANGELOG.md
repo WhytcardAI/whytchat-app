@@ -7,6 +7,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.3.1] - 2025-01-17
+
+### ✨ Added
+
+#### Automatic Update System
+- **In-app update checker**: Automatically checks for updates on startup
+- **Update notifications**: Banner notification when new version available
+- **Manual update check**: Button in Settings to check for updates anytime
+- **Multilingual patch notes**: Release notes displayed in user's language (8 languages)
+- **One-click updates**: Download and install updates directly from the app
+- **Progress tracking**: Real-time download progress with percentage
+- **Secure updates**: Cryptographic signature verification for all releases
+
+#### Release Infrastructure
+- **Standardized file naming**: All releases use `WhytChat_vX.X.X.{extension}` format
+- **Automated verification**: Pre-build version consistency checks
+- **Post-build validation**: Verify all expected files are generated
+- **SHA256 checksums**: Automatic checksum generation for all binaries
+- **Multi-platform releases**: Simultaneous Windows, Linux, and macOS builds
+
+### 🔧 Changed
+- Updated README.md to v0.3.1 with auto-update documentation
+- Enhanced release workflow with verification steps
+- Improved error handling in update process
+
+### 🐛 Fixed
+- Fixed inconsistent release file naming across platforms
+- Fixed missing Linux and macOS releases in previous versions
+
+---
+
 ## [3.0.0] - Launcher 3.0 - 2025-01-XX
 
 ### ✨ Added

@@ -1,4 +1,4 @@
-# WhytChat v0.2.9
+# WhytChat v0.3.1
 
 **🔒 100% Private AI Chat Desktop Application**
 
@@ -11,9 +11,17 @@ WhytChat est une application de chat IA sécurisée et hors ligne, construite av
 
 ---
 
-## ✨ Nouvelles Fonctionnalités v0.2.9
+## ✨ Nouvelles Fonctionnalités v0.3.1
 
-### 🛍️ Support & Donations
+### 🔄 Système de Mise à Jour Automatique
+
+- **Notifications de mise à jour intégrées** - Soyez informé lorsque de nouvelles versions sont disponibles
+- **Mises à jour en un clic** - Téléchargez et installez les mises à jour directement depuis l'application
+- **Notes de version multilingues** - Consultez les notes de version dans votre langue (8 langues supportées)
+- **Option de vérification manuelle** - Vérifiez les mises à jour à tout moment depuis les Paramètres
+- **Mises à jour sécurisées** - Versions signées cryptographiquement pour la sécurité
+
+### 🛍️ Support & Donations (v0.2.9)
 
 - **Boutique intégrée** avec 3 niveaux de don (Coffee ☕, Happiness 🌟, Hope 🚀)
 - Support du projet via Stripe sécurisé
