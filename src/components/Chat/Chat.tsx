@@ -107,6 +107,13 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
   const serverStartedRef = useRef<boolean>(false);
+  const lastTempIdRef = useRef<string | null>(null);
+  const lastGenContentRef = useRef<string>("");
+  const [genStartAt, setGenStartAt] = useState<number | null>(null);
+  const [lastStats, setLastStats] = useState<
+    | { words: number; tokens: number; durationSec: number; speedWps: number }
+    | null
+  >(null);
 
   // File import state
   const [importedFiles, setImportedFiles] = useState<
@@ -282,11 +289,12 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
     setImportedFiles((prev) => prev.filter((f) => f.name !== fileName));
   };
 
-  const handleSend = async () => {
-    if (!input.trim() || isLoading || !conversationId || !serverReady) return;
+  const handleSend = async (overrideText?: string) => {
+    const text = (overrideText ?? input).trim();
+    if (!text || isLoading || !conversationId || !serverReady) return;
 
-    const userContent = input.trim();
-    setInput("");
+    const userContent = text;
+    if (!overrideText) setInput("");
     setIsLoading(true);
 
     // Create AbortController for this generation
@@ -339,10 +347,14 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
       };
 
       setMessages((prev) => [...prev, tempMessage]);
+      lastTempIdRef.current = tempId;
+      lastGenContentRef.current = "";
+      setGenStartAt(Date.now());
 
       // Listen for streaming chunks
       unlistenChunk = await listen<string>("generation-chunk", (event) => {
         const chunk = sanitizeLLM(event.payload || "");
+        lastGenContentRef.current += chunk;
         setMessages((prev) =>
           prev.map((msg) =>
             msg.id === tempId ? { ...msg, content: msg.content + chunk } : msg
@@ -354,6 +366,14 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
       unlistenComplete = await listen<string>("generation-complete", () => {
         if (!currentAbortController.signal.aborted) {
           setIsLoading(false);
+        }
+        if (genStartAt) {
+          const durationSec = Math.max(0.01, (Date.now() - genStartAt) / 1000);
+          const content = lastGenContentRef.current || "";
+          const words = content.trim() ? content.trim().split(/\s+/).length : 0;
+          const tokens = Math.ceil(content.length / 4);
+          const speedWps = words > 0 ? words / durationSec : 0;
+          setLastStats({ words, tokens, durationSec, speedWps });
         }
         // Cleanup listeners
         if (unlistenChunk) unlistenChunk();
@@ -417,6 +437,42 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
       abortControllerRef.current = null;
       setIsLoading(false);
     }
+  };
+
+  const getLastUserMessage = (): Message | undefined => {
+    for (let i = messages.length - 1; i >= 0; i--) {
+      const m = messages[i];
+      if (m && m.role === "user") return m;
+    }
+    return undefined;
+  };
+
+  const getLastAssistantMessage = (): Message | undefined => {
+    for (let i = messages.length - 1; i >= 0; i--) {
+      const m = messages[i];
+      if (m && m.role === "assistant") return m;
+    }
+    return undefined;
+  };
+
+  const handleEditLast = () => {
+    const lastUser = getLastUserMessage();
+    if (!lastUser) return;
+    setInput(lastUser.content);
+    inputRef.current?.focus();
+  };
+
+  const handleCopyLast = () => {
+    const lastAssistant = getLastAssistantMessage();
+    const lastUser = getLastUserMessage();
+    const text = lastAssistant?.content || lastUser?.content || "";
+    if (text) navigator.clipboard.writeText(text);
+  };
+
+  const handleRegenerateLast = () => {
+    const lastUser = getLastUserMessage();
+    if (!lastUser) return;
+    handleSend(lastUser.content);
   };
 
   // No enter/exit helpers here: the TitleBar gamepad button is the single UI control for overlay mode.
@@ -753,6 +809,25 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
         className={`${overlayEnabled ? "bg-white/60 dark:bg-gray-800/50 backdrop-blur-md" : "bg-white dark:bg-gray-800"} border-t border-gray-200 dark:border-gray-700 px-6 py-5 shadow-sm`}
       >
         <div className="max-w-4xl mx-auto">
+          <div className="flex flex-wrap items-center gap-2 mb-3">
+            {[
+              i18n.t("chat.suggestions.summarize"),
+              i18n.t("chat.suggestions.translate"),
+              i18n.t("chat.suggestions.explain"),
+              i18n.t("chat.suggestions.improve"),
+            ].map((label) => (
+              <button
+                key={label}
+                onClick={() => {
+                  setInput(label + ": ");
+                  inputRef.current?.focus();
+                }}
+                className="px-3 py-1.5 text-xs rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 transition"
+              >
+                {label}
+              </button>
+            ))}
+          </div>
           <div className="flex items-end gap-2">
             <textarea
               ref={inputRef}
@@ -766,7 +841,7 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
               style={{ minHeight: "48px", maxHeight: "200px" }}
             />
             <button
-              onClick={isLoading ? stopGeneration : handleSend}
+              onClick={isLoading ? stopGeneration : () => handleSend()}
               disabled={(!input.trim() && !isLoading) || !serverReady}
               className={`rounded-lg ${overlayEnabled ? "px-3 py-2" : "px-8 py-3"} ${isLoading ? "bg-red-600 dark:bg-red-700 hover:bg-red-700 dark:hover:bg-red-800" : "bg-gray-800 dark:bg-gray-700 hover:bg-gray-700 dark:hover:bg-gray-600"} text-white font-semibold disabled:bg-gray-300 dark:disabled:bg-gray-600 disabled:cursor-not-allowed shadow-sm hover:shadow-md transition-all flex items-center gap-2`}
               title={
@@ -790,6 +865,26 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
             >
               <FileText size={20} />
             </button>
+          </div>
+          <div className="mt-2 flex items-center justify-between text-xs">
+            <div className="text-gray-500 dark:text-gray-400">
+              {lastStats && (
+                <span>
+                  {lastStats.words} {i18n.t("chat.stats.words")} • {lastStats.tokens} {i18n.t("chat.stats.tokensApprox")} • {lastStats.durationSec.toFixed(1)} {i18n.t("chat.stats.duration")} • {lastStats.speedWps.toFixed(1)} {i18n.t("chat.stats.speed")}
+                </span>
+              )}
+            </div>
+            <div className="flex items-center gap-3 text-gray-600 dark:text-gray-300">
+              <button onClick={handleEditLast} className="hover:underline">
+                {i18n.t("chat.actions.editLast")}
+              </button>
+              <button onClick={handleCopyLast} className="hover:underline">
+                {i18n.t("chat.actions.copyLast")}
+              </button>
+              <button onClick={handleRegenerateLast} className="hover:underline">
+                {i18n.t("chat.actions.regenerateLast")}
+              </button>
+            </div>
           </div>
           <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center flex items-center justify-center gap-1">
             <Lightbulb size={12} /> {i18n.t("chat.model")}: {modelName} • 100%

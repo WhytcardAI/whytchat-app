@@ -12,6 +12,7 @@ import {
   FileText,
   BarChart3,
   Info,
+  Gauge,
 } from "lucide-react";
 import { open } from "@tauri-apps/plugin-dialog";
 import { SimpleModeView } from "./SimpleModeView";
@@ -92,6 +93,12 @@ export function NewConversation({ onNavigate }: Props) {
     "idle" | "downloading" | "done"
   >("idle");
   const [dl, setDl] = useState<DownloadState | null>(null);
+  const [showPerfTest, setShowPerfTest] = useState(false);
+  const [perfTestResult, setPerfTestResult] = useState<{
+    cpuCores: number;
+    totalMemoryGb: number;
+    tier: string;
+  } | null>(null);
 
   const [parameters, setParameters] = useState<ModelParameters>({
     temperature: 0.5,
@@ -354,6 +361,29 @@ export function NewConversation({ onNavigate }: Props) {
           </h1>
           <div className="flex items-center gap-3">
             <button
+              onClick={async () => {
+                setShowPerfTest(true);
+                try {
+                  const result = await invoke<{
+                    cores: number;
+                    ram_bytes: number;
+                    tier: string;
+                  }>("system_info");
+                  setPerfTestResult({
+                    cpuCores: result.cores,
+                    totalMemoryGb: Math.round(result.ram_bytes / 1024 / 1024 / 1024),
+                    tier: result.tier,
+                  });
+                } catch (err) {
+                  console.error("Performance test failed:", err);
+                }
+              }}
+              className="px-4 py-2 rounded-lg bg-gray-700 dark:bg-gray-700 text-white hover:bg-gray-600 dark:hover:bg-gray-600 font-medium transition-colors flex items-center gap-2"
+            >
+              <Gauge size={18} />
+              {i18n.t("newConversation.perf.button")}
+            </button>
+            <button
               onClick={() => setIsExpertMode(!isExpertMode)}
               className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                 isExpertMode
@@ -373,6 +403,61 @@ export function NewConversation({ onNavigate }: Props) {
             </button>
           </div>
         </div>
+
+        {/* Performance Test Panel */}
+        {showPerfTest && (
+          <div className="mb-4 p-4 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2 text-gray-900 dark:text-gray-100">
+                <Gauge size={18} />
+                <span className="font-semibold">{i18n.t("newConversation.perf.title")}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={async () => {
+                    try {
+                      const result = await invoke<{
+                        cores: number;
+                        ram_bytes: number;
+                        tier: string;
+                      }>("system_info");
+                      setPerfTestResult({
+                        cpuCores: result.cores,
+                        totalMemoryGb: Math.round(result.ram_bytes / 1024 / 1024 / 1024),
+                        tier: result.tier,
+                      });
+                    } catch (err) {
+                      console.error("Performance test failed:", err);
+                    }
+                  }}
+                  className="px-3 py-1.5 rounded-md bg-gray-700 dark:bg-gray-700 text-white text-sm hover:bg-gray-600 dark:hover:bg-gray-600"
+                >
+                  {i18n.t("newConversation.perf.runAgain")}
+                </button>
+                <button
+                  onClick={() => setShowPerfTest(false)}
+                  className="px-3 py-1.5 rounded-md bg-gray-200 dark:bg-gray-700 text-sm text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600"
+                >
+                  {i18n.t("ui.close")}
+                </button>
+              </div>
+            </div>
+            <div className="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
+              <div className="p-3 rounded-md bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
+                <div className="text-gray-500 dark:text-gray-400">{i18n.t("newConversation.perf.cpuCores")}</div>
+                <div className="text-gray-900 dark:text-gray-100 font-semibold">{perfTestResult ? perfTestResult.cpuCores : "..."}</div>
+              </div>
+              <div className="p-3 rounded-md bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
+                <div className="text-gray-500 dark:text-gray-400">{i18n.t("newConversation.perf.memoryGb")}</div>
+                <div className="text-gray-900 dark:text-gray-100 font-semibold">{perfTestResult ? perfTestResult.totalMemoryGb : "..."}</div>
+              </div>
+              <div className="p-3 rounded-md bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
+                <div className="text-gray-500 dark:text-gray-400">{i18n.t("newConversation.perf.tier")}</div>
+                <div className="text-gray-900 dark:text-gray-100 font-semibold capitalize">{perfTestResult ? perfTestResult.tier : "..."}</div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {error && (
           <div className="mb-3 p-3 rounded-lg bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-300 text-sm">

@@ -89,7 +89,26 @@
       "local": "Archivo local",
       "url": "URL / Documentación",
       "loading": "Cargando archivo...",
-      "success": "¡Archivo importado con éxito!"
+      "success": "¡Archivo importado con éxito!",
+      "attached": "Archivos adjuntos"
+    }
+    ,
+    "suggestions": {
+      "summarize": "Resumir",
+      "translate": "Traducir",
+      "explain": "Explicar",
+      "improve": "Mejorar estilo"
+    },
+    "actions": {
+      "editLast": "Editar el último",
+      "copyLast": "Copiar el último",
+      "regenerateLast": "Regenerar"
+    },
+    "stats": {
+      "words": "palabras",
+      "tokensApprox": "tokens (≈)",
+      "duration": "s",
+      "speed": "p/s"
     }
   },
   "shortcuts": {
@@ -215,10 +234,117 @@
     "pl": "Polski"
   },
   "onboarding": {
-    "title": "Elige lo que quieres hacer",
-    "privacy": "Todo permanece en tu computadora. No se envían datos en línea.",
-    "tip": "Puedes cambiar tu uso en cualquier momento.",
-    "confirm": "Vamos"
+    "progress": "Paso {{current}} de {{total}}",
+    "nextButton": "Siguiente",
+    "continueButton": "Continuar",
+    "backButton": "Atrás",
+    "skipButton": "Omitir",
+    "welcome": {
+      "title": "Bienvenido a WhytChat",
+      "subtitle": "Una aplicación de WhytCard",
+      "description": "WhytChat es tu asistente de IA local y privado. Todas las conversaciones permanecen en tu dispositivo—sin nube, sin rastreo.",
+      "startButton": "Empezar",
+      "languageLabel": "Elige tu idioma"
+    },
+    "scan": {
+      "title": "Análisis de rendimiento del sistema",
+      "consentText": "Para recomendar el mejor modelo para tu ordenador, podemos realizar un escaneo rápido de tu CPU y RAM. Este análisis ocurre completamente en tu dispositivo—no se envían datos.",
+      "privacyNote": "100% local • Sin transmisión de datos",
+      "startButton": "Escanear mi sistema",
+      "skipButton": "Omitir este paso",
+      "runningMessage": "Analizando hardware...",
+      "errorMessage": "No se puede escanear el sistema. Aún puedes seleccionar un modelo manualmente.",
+      "detectingCpu": "Detectando procesador...",
+      "analyzingRam": "Analizando memoria RAM...",
+      "checkingGpu": "Verificando GPU...",
+      "calculatingSpace": "Calculando espacio disponible...",
+      "completed": "Completado"
+    },
+    "result": {
+      "title": "Análisis completado",
+      "ramLabel": "RAM: {{ram}} GB",
+      "coresLabel": "Núcleos CPU: {{cores}}",
+      "tierSmall": {
+        "title": "💡 Sistema ligero",
+        "description": "Tu ordenador tiene {{ram}}GB de RAM. Recomendamos modelos ligeros de hasta 4GB de tamaño.",
+        "examples": "Recomendado: Qwen 2.5 7B, Llama 3.2 3B, Mistral 7B (Q4_K_M)"
+      },
+      "tierMedium": {
+        "title": "⚡ Sistema equilibrado",
+        "description": "Tu ordenador tiene {{ram}}GB de RAM. Puedes ejecutar modelos medianos (4-12GB) cómodamente.",
+        "examples": "Recomendado: Qwen 2.5 32B, Llama 3.1 14B, Mistral Small 3 24B"
+      },
+      "tierLarge": {
+        "title": "🚀 Sistema potente",
+        "description": "Tu ordenador tiene {{ram}}GB de RAM. Puedes ejecutar modelos grandes (12GB+) incluyendo modelos de 70B parámetros.",
+        "examples": "Recomendado: Llama 3.3 70B, Qwen 2.5 72B, DeepSeek V3"
+      },
+      "warningLowRam": "⚠️ Con {{ram}}GB de RAM, comienza con modelos más pequeños. Los modelos más grandes pueden causar ralentizaciones.",
+      "intentQuestion": "¿Para qué usarás principalmente la IA?",
+      "intentCoding": "Código & Desarrollo",
+      "intentDiscussion": "Chat & Aprendizaje",
+      "intentBoth": "Ambos",
+      "recommendedFor": "Recomendado para {{intent}}",
+      "codingSmallTip": "Modelos ligeros optimizados para completar código y ayuda de sintaxis",
+      "codingMediumTip": "Modelos equilibrados para asistencia completa de proyectos y depuración",
+      "codingLargeTip": "Modelos potentes para refactorización compleja y arquitectura",
+      "discussionSmallTip": "Modelos conversacionales rápidos para preguntas rápidas",
+      "discussionMediumTip": "Modelos matizados para explicaciones detalladas",
+      "discussionLargeTip": "Modelos avanzados para discusiones de nivel experto",
+      "bothSmallTip": "Modelos ligeros versátiles para tareas variadas",
+      "bothMediumTip": "Modelos equilibrados de propósito general",
+      "bothLargeTip": "Modelos de alto nivel para cualquier carga de trabajo"
+    },
+    "model": {
+      "title": "Seleccionar un modelo",
+      "suggestion": "Según tu sistema, recomendamos:",
+      "noInstalled": "Aún no hay modelos instalados.",
+      "downloadButton": "Descargar modelo recomendado",
+      "pickInstalled": "Elegir un modelo instalado",
+      "installedBadge": "✓ Instalado",
+      "sizeLabel": "Tamaño: {{size}} GB"
+    },
+    "conversation": {
+      "title": "Crear tu primera conversación",
+      "helpText": "WhytChat ofrece plantillas especializadas para diferentes tareas:",
+      "templateGeneral": "**General**: Asistente equilibrado para preguntas cotidianas",
+      "templateCoding": "**Programación**: Optimizado para programación y ayuda técnica",
+      "templateLearning": "**Aprendizaje**: Explica conceptos claramente con ejemplos",
+      "templateWriting": "**Escritura**: Ayuda con escritura creativa y profesional",
+      "templateBrainstorm": "**Lluvia de ideas**: Genera ideas y explora posibilidades",
+      "templateAnalysis": "**Análisis**: Examen detallado y perspectivas",
+      "toneInfo": "También puedes ajustar el tono (casual, profesional, conciso, etc.) para que coincida con tus preferencias.",
+      "skipToCreate": "Puedes personalizar estas configuraciones más tarde al crear conversaciones."
+    },
+    "external": {
+      "title": "Encontrar más modelos",
+      "subtitle": "WhytChat admite cualquier modelo en formato GGUF. Aquí está dónde encontrarlos:",
+      "sourceHuggingFace": "**Hugging Face**: Repositorio de modelos más grande. Busca 'GGUF' en el hub de modelos.",
+      "linkHuggingFace": "https://huggingface.co/models?search=gguf",
+      "sourceBartowski": "**Cuantizaciones de Bartowski**: Cuantizaciones GGUF de alta calidad de modelos populares.",
+      "linkBartowski": "https://huggingface.co/bartowski",
+      "sourceTheBloke": "**TheBloke (Archivo)**: Colección histórica de modelos GGUF (principalmente pre-2024).",
+      "linkTheBloke": "https://huggingface.co/TheBloke",
+      "namingTitle": "Entender los nombres de los modelos",
+      "namingFormat": "**Formato**: `nombre-modelo-tamaño-cuant.gguf`",
+      "namingExample1": "`llama-3.1-8B-Q4_K_M.gguf` → Llama 3.1, 8 mil millones de parámetros, cuantización Q4_K_M",
+      "namingExample2": "`qwen2.5-7B-instruct-Q5_K_S.gguf` → Qwen 2.5, 7B, optimizado para instrucciones, cuantización Q5",
+      "quantExplainer": "**Cuantización** (Q4, Q5, Q8): Números más bajos = archivo más pequeño pero menos preciso. Q4_K_M es un buen equilibrio.",
+      "sizeWarning": "⚠️ **Importante**: Verifica los tamaños de archivo antes de descargar. Un modelo 70B Q4 puede ser de 40GB+. Asegúrate de tener suficiente espacio en disco y RAM.",
+      "importHelp": "Para usar modelos descargados: Ve a **Nueva conversación** → **Importar modelo local** → Selecciona tu archivo `.gguf`."
+    },
+    "finish": {
+      "title": "¡Todo listo!",
+      "subtitle": "Listo para comenzar a chatear con tu asistente de IA.",
+      "feature1": "🔒 100% privado — todo permanece en tu dispositivo",
+      "feature2": "⚡ Respuestas rápidas — no se requiere internet después de descargar el modelo",
+      "feature3": "🎨 Múltiples plantillas — programación, escritura, aprendizaje y más",
+      "feature4": "📚 Soporte RAG — importa documentos para respuestas contextuales",
+      "createNowButton": "Crear mi primera conversación",
+      "laterButton": "Explorar configuración primero",
+      "tipLabel": "💡 Consejo profesional:",
+      "tipText": "Usa Ctrl+N para crear rápidamente nuevas conversaciones desde cualquier lugar de la aplicación."
+    }
   },
   "promptTemplates": {
     "general": "Actúa como un asistente útil. Objetivo: {intent}. Sé claro y conciso y pide la información faltante antes de continuar.",
@@ -340,7 +466,15 @@
     "promptLearning": "Eres un pedagogo. Explica los conceptos progresivamente, de lo simple a lo complejo. Utiliza analogías concretas, ejemplos prácticos y verifica la comprensión antes de avanzar. Fomenta las preguntas.",
     "promptBrainstorm": "Eres un facilitador creativo. Explora múltiples ángulos de enfoque, propone ideas diversificadas y originales. Cuestiona las hipótesis, combina conceptos y ayuda a estructurar las reflexiones.",
     "promptWriting": "Eres un asistente de redacción. Mejora la claridad, coherencia e impacto de los textos. Respeta el tono y estilo solicitados. Propone reformulaciones e identifica debilidades argumentativas.",
-    "promptAnalysis": "Eres un analista riguroso. Sintetiza la información de manera estructurada, identifica tendencias e inconsistencias. Presenta conclusiones fácticas con sus limitaciones. Prioriza datos verificables."
+    "promptAnalysis": "Eres un analista riguroso. Sintetiza la información de manera estructurada, identifica tendencias e inconsistencias. Presenta conclusiones fácticas con sus limitaciones. Prioriza datos verificables.",
+    "perf": {
+      "button": "Probar mi rendimiento",
+      "title": "Prueba de rendimiento",
+      "runAgain": "Ejecutar de nuevo",
+      "cpuCores": "Núcleos CPU",
+      "memoryGb": "Memoria (GB)",
+      "tier": "Nivel"
+    }
   },
   "serverStatus": {
     "ready": "Servidor IA operativo y listo para recibir solicitudes.",

@@ -89,7 +89,26 @@
       "local": "Local File",
       "url": "URL / Documentation",
       "loading": "Loading file...",
-      "success": "File imported successfully!"
+      "success": "File imported successfully!",
+      "attached": "Attached files"
+    }
+    ,
+    "suggestions": {
+      "summarize": "Summarize",
+      "translate": "Translate",
+      "explain": "Explain",
+      "improve": "Improve writing"
+    },
+    "actions": {
+      "editLast": "Edit last",
+      "copyLast": "Copy last",
+      "regenerateLast": "Regenerate"
+    },
+    "stats": {
+      "words": "words",
+      "tokensApprox": "tokens (approx.)",
+      "duration": "s",
+      "speed": "w/s"
     }
   },
   "shortcuts": {
@@ -215,10 +234,117 @@
     "pl": "Polski"
   },
   "onboarding": {
-    "title": "Choose what you want to do",
-    "privacy": "Everything stays on your computer. No data is sent online.",
-    "tip": "You can change your usage at any time.",
-    "confirm": "Let's go"
+    "progress": "Step {{current}} of {{total}}",
+    "nextButton": "Next",
+    "continueButton": "Continue",
+    "backButton": "Back",
+    "skipButton": "Skip",
+    "welcome": {
+      "title": "Welcome to WhytChat",
+      "subtitle": "An application by WhytCard",
+      "description": "WhytChat is your local, privacy-focused AI assistant. All conversations stay on your device—no cloud, no tracking.",
+      "startButton": "Get Started",
+      "languageLabel": "Choose your language"
+    },
+    "scan": {
+      "title": "System Performance Analysis",
+      "consentText": "To recommend the best model for your computer, we can perform a quick scan of your CPU and RAM. This analysis happens entirely on your device—no data is sent anywhere.",
+      "privacyNote": "100% local - No data transmitted",
+      "startButton": "Scan My System",
+      "skipButton": "Skip This Step",
+      "runningMessage": "Analyzing hardware...",
+      "errorMessage": "Unable to scan system. You can still select a model manually.",
+      "detectingCpu": "Detecting processor...",
+      "analyzingRam": "Analyzing RAM memory...",
+      "checkingGpu": "Checking GPU...",
+      "calculatingSpace": "Calculating available space...",
+      "completed": "Completed"
+    },
+    "result": {
+      "title": "Analysis Complete",
+      "ramLabel": "RAM: {{ram}} GB",
+      "coresLabel": "CPU Cores: {{cores}}",
+      "tierSmall": {
+        "title": "💡 Lightweight System",
+        "description": "Your computer has {{ram}}GB of RAM. We recommend lightweight models up to 4GB in size.",
+        "examples": "Recommended: Qwen 2.5 7B, Llama 3.2 3B, Mistral 7B (Q4_K_M)"
+      },
+      "tierMedium": {
+        "title": "⚡ Balanced System",
+        "description": "Your computer has {{ram}}GB of RAM. You can run medium-sized models (4-12GB) comfortably.",
+        "examples": "Recommended: Qwen 2.5 32B, Llama 3.1 14B, Mistral Small 3 24B"
+      },
+      "tierLarge": {
+        "title": "🚀 Powerful System",
+        "description": "Your computer has {{ram}}GB of RAM. You can run large models (12GB+) including 70B parameter models.",
+        "examples": "Recommended: Llama 3.3 70B, Qwen 2.5 72B, DeepSeek V3"
+      },
+      "warningLowRam": "⚠️ With {{ram}}GB RAM, start with smaller models. Larger models may cause slowdowns.",
+      "intentQuestion": "What will you primarily use AI for?",
+      "intentCoding": "Code & Development",
+      "intentDiscussion": "Chat & Learning",
+      "intentBoth": "Both",
+      "recommendedFor": "Recommended for {{intent}}",
+      "codingSmallTip": "Lightweight models optimized for code completion and syntax help",
+      "codingMediumTip": "Balanced models for full project assistance and debugging",
+      "codingLargeTip": "Powerful models for complex refactoring and architecture",
+      "discussionSmallTip": "Fast conversational models for quick questions",
+      "discussionMediumTip": "Nuanced models for detailed explanations",
+      "discussionLargeTip": "Advanced models for expert-level discussions",
+      "bothSmallTip": "Versatile lightweight models for varied tasks",
+      "bothMediumTip": "Balanced all-purpose models",
+      "bothLargeTip": "Top-tier models for any workload"
+    },
+    "model": {
+      "title": "Select a Model",
+      "suggestion": "Based on your system, I recommend:",
+      "noInstalled": "No models installed yet.",
+      "downloadButton": "Download Recommended Model",
+      "pickInstalled": "Choose an Installed Model",
+      "installedBadge": "✓ Installed",
+      "sizeLabel": "Size: {{size}} GB"
+    },
+    "conversation": {
+      "title": "Create Your First Conversation",
+      "helpText": "WhytChat offers specialized templates for different tasks:",
+      "templateGeneral": "**General**: Balanced assistant for everyday questions",
+      "templateCoding": "**Coding**: Optimized for programming and technical help",
+      "templateLearning": "**Learning**: Explains concepts clearly with examples",
+      "templateWriting": "**Writing**: Helps with creative and professional writing",
+      "templateBrainstorm": "**Brainstorm**: Generates ideas and explores possibilities",
+      "templateAnalysis": "**Analysis**: Detailed examination and insights",
+      "toneInfo": "You can also adjust the tone (casual, professional, concise, etc.) to match your preference.",
+      "skipToCreate": "You can customize these settings later when creating conversations."
+    },
+    "external": {
+      "title": "Finding More Models",
+      "subtitle": "WhytChat supports any GGUF format model. Here's where to find them:",
+      "sourceHuggingFace": "**Hugging Face**: Largest model repository. Search for 'GGUF' in the model hub.",
+      "linkHuggingFace": "https://huggingface.co/models?search=gguf",
+      "sourceBartowski": "**Bartowski's Quantizations**: High-quality GGUF quantizations of popular models.",
+      "linkBartowski": "https://huggingface.co/bartowski",
+      "sourceTheBloke": "**TheBloke (Archive)**: Historical collection of GGUF models (mostly pre-2024).",
+      "linkTheBloke": "https://huggingface.co/TheBloke",
+      "namingTitle": "Understanding Model Names",
+      "namingFormat": "**Format**: `model-name-size-quant.gguf`",
+      "namingExample1": "`llama-3.1-8B-Q4_K_M.gguf` → Llama 3.1, 8 billion params, Q4_K_M quantization",
+      "namingExample2": "`qwen2.5-7B-instruct-Q5_K_S.gguf` → Qwen 2.5, 7B, instruction-tuned, Q5 quant",
+      "quantExplainer": "**Quantization** (Q4, Q5, Q8): Lower numbers = smaller file but less accurate. Q4_K_M is a good balance.",
+      "sizeWarning": "⚠️ **Important**: Check file sizes before downloading. A 70B Q4 model can be 40GB+. Make sure you have enough disk space and RAM.",
+      "importHelp": "To use downloaded models: Go to **New Conversation** → **Import Local Model** → Select your `.gguf` file."
+    },
+    "finish": {
+      "title": "You're All Set!",
+      "subtitle": "Ready to start chatting with your AI assistant.",
+      "feature1": "🔒 100% private — everything stays on your device",
+      "feature2": "⚡ Fast responses — no internet required after model download",
+      "feature3": "🎨 Multiple templates — coding, writing, learning, and more",
+      "feature4": "📚 RAG support — import documents for context-aware answers",
+      "createNowButton": "Create My First Conversation",
+      "laterButton": "Explore Settings First",
+      "tipLabel": "💡 Pro Tip:",
+      "tipText": "Use Ctrl+N to quickly create new conversations from anywhere in the app."
+    }
   },
   "promptTemplates": {
     "general": "Act as a helpful assistant. Goal: {intent}. Be clear, concise, and ask for missing information before proceeding.",
@@ -340,7 +466,15 @@
     "promptLearning": "You are an educator. Explain concepts progressively, from simple to complex. Use concrete analogies, practical examples and verify understanding before moving forward. Encourage questions.",
     "promptBrainstorm": "You are a creative facilitator. Explore multiple angles of approach, propose diverse and original ideas. Question assumptions, combine concepts and help structure reflections.",
     "promptWriting": "You are a writing assistant. Improve clarity, coherence and impact of texts. Respect the requested tone and style. Propose reformulations and identify argumentative weaknesses.",
-    "promptAnalysis": "You are a rigorous analyst. Synthesize information in a structured way, identify trends and inconsistencies. Present factual conclusions with their limitations. Prioritize verifiable data."
+    "promptAnalysis": "You are a rigorous analyst. Synthesize information in a structured way, identify trends and inconsistencies. Present factual conclusions with their limitations. Prioritize verifiable data.",
+    "perf": {
+      "button": "Test my performance",
+      "title": "Performance test",
+      "runAgain": "Run again",
+      "cpuCores": "CPU cores",
+      "memoryGb": "Memory (GB)",
+      "tier": "Tier"
+    }
   },
   "serverStatus": {
     "ready": "AI server operational and ready to receive requests.",

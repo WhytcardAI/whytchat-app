@@ -89,7 +89,26 @@
       "local": "Lokaal bestand",
       "url": "URL / Documentatie",
       "loading": "Bestand laden...",
-      "success": "Bestand succesvol geïmporteerd!"
+      "success": "Bestand succesvol geïmporteerd!",
+      "attached": "Bijgevoegde bestanden"
+    }
+    ,
+    "suggestions": {
+      "summarize": "Samenvatten",
+      "translate": "Vertalen",
+      "explain": "Uitleggen",
+      "improve": "Stijl verbeteren"
+    },
+    "actions": {
+      "editLast": "Laatste bewerken",
+      "copyLast": "Laatste kopiëren",
+      "regenerateLast": "Opnieuw genereren"
+    },
+    "stats": {
+      "words": "woorden",
+      "tokensApprox": "tokens (≈)",
+      "duration": "s",
+      "speed": "w/s"
     }
   },
   "shortcuts": {
@@ -215,10 +234,117 @@
     "pl": "Polski"
   },
   "onboarding": {
-    "title": "Kies wat je wilt doen",
-    "privacy": "Alles blijft op je computer. Er worden geen gegevens online verzonden.",
-    "tip": "Je kunt je gebruik op elk moment wijzigen.",
-    "confirm": "Laten we beginnen"
+    "progress": "Stap {{current}} van {{total}}",
+    "nextButton": "Volgende",
+    "continueButton": "Doorgaan",
+    "backButton": "Terug",
+    "skipButton": "Overslaan",
+    "welcome": {
+      "title": "Welkom bij WhytChat",
+      "subtitle": "Een applicatie van WhytCard",
+      "description": "WhytChat is je lokale, privacy-gerichte AI-assistent. Alle gesprekken blijven op je apparaat—geen cloud, geen tracking.",
+      "startButton": "Beginnen",
+      "languageLabel": "Kies je taal"
+    },
+    "scan": {
+      "title": "Systeemprestatieanalyse",
+      "consentText": "Om het beste model voor je computer aan te bevelen, kunnen we een snelle scan van je CPU en RAM uitvoeren. Deze analyse gebeurt volledig op je apparaat—er werden geen gegevens verzonden.",
+      "privacyNote": "100% lokaal • Geen gegevensoverdracht",
+      "startButton": "Scan mijn systeem",
+      "skipButton": "Deze stap overslaan",
+      "runningMessage": "Hardware analyseren...",
+      "errorMessage": "Kan systeem niet scannen. Je kunt nog steeds handmatig een model selecteren.",
+      "detectingCpu": "Processor detecteren...",
+      "analyzingRam": "RAM-geheugen analyseren...",
+      "checkingGpu": "GPU controleren...",
+      "calculatingSpace": "Beschikbare ruimte berekenen...",
+      "completed": "Voltooid"
+    },
+    "result": {
+      "title": "Analyse voltooid",
+      "ramLabel": "RAM: {{ram}} GB",
+      "coresLabel": "CPU-kernen: {{cores}}",
+      "tierSmall": {
+        "title": "💡 Lichtgewicht systeem",
+        "description": "Je computer heeft {{ram}}GB RAM. We bevelen lichtgewicht modellen aan tot 4GB groot.",
+        "examples": "Aanbevolen: Qwen 2.5 7B, Llama 3.2 3B, Mistral 7B (Q4_K_M)"
+      },
+      "tierMedium": {
+        "title": "⚡ Gebalanceerd systeem",
+        "description": "Je computer heeft {{ram}}GB RAM. Je kunt gemiddelde modellen (4-12GB) comfortabel draaien.",
+        "examples": "Aanbevolen: Qwen 2.5 32B, Llama 3.1 14B, Mistral Small 3 24B"
+      },
+      "tierLarge": {
+        "title": "🚀 Krachtig systeem",
+        "description": "Je computer heeft {{ram}}GB RAM. Je kunt grote modellen (12GB+) draaien inclusief 70B parameter modellen.",
+        "examples": "Aanbevolen: Llama 3.3 70B, Qwen 2.5 72B, DeepSeek V3"
+      },
+      "warningLowRam": "⚠️ Met {{ram}}GB RAM, begin met kleinere modellen. Grotere modellen kunnen vertragingen veroorzaken.",
+      "intentQuestion": "Waarvoor zul je AI voornamelijk gebruiken?",
+      "intentCoding": "Code & Ontwikkeling",
+      "intentDiscussion": "Chat & Leren",
+      "intentBoth": "Beide",
+      "recommendedFor": "Aanbevolen voor {{intent}}",
+      "codingSmallTip": "Lichtgewicht modellen geoptimaliseerd voor code-aanvulling en syntaxishulp",
+      "codingMediumTip": "Gebalanceerde modellen voor volledige projectondersteuning en debugging",
+      "codingLargeTip": "Krachtige modellen voor complexe refactoring en architectuur",
+      "discussionSmallTip": "Snelle conversatiemodellen voor snelle vragen",
+      "discussionMediumTip": "Genuanceerde modellen voor gedetailleerde uitleg",
+      "discussionLargeTip": "Geavanceerde modellen voor discussies op expertniveau",
+      "bothSmallTip": "Veelzijdige lichtgewicht modellen voor gevarieerde taken",
+      "bothMediumTip": "Gebalanceerde allround-modellen",
+      "bothLargeTip": "Topmodellen voor elke werkdruk"
+    },
+    "model": {
+      "title": "Selecteer een model",
+      "suggestion": "Op basis van je systeem bevelen we aan:",
+      "noInstalled": "Nog geen modellen geïnstalleerd.",
+      "downloadButton": "Download aanbevolen model",
+      "pickInstalled": "Kies een geïnstalleerd model",
+      "installedBadge": "✓ Geïnstalleerd",
+      "sizeLabel": "Grootte: {{size}} GB"
+    },
+    "conversation": {
+      "title": "Maak je eerste gesprek",
+      "helpText": "WhytChat biedt gespecialiseerde sjablonen voor verschillende taken:",
+      "templateGeneral": "**Algemeen**: Gebalanceerde assistent voor dagelijkse vragen",
+      "templateCoding": "**Programmeren**: Geoptimaliseerd voor programmeren en technische hulp",
+      "templateLearning": "**Leren**: Legt concepten duidelijk uit met voorbeelden",
+      "templateWriting": "**Schrijven**: Helpt met creatief en professioneel schrijven",
+      "templateBrainstorm": "**Brainstormen**: Genereert ideeën en verkent mogelijkheden",
+      "templateAnalysis": "**Analyse**: Gedetailleerd onderzoek en inzichten",
+      "toneInfo": "Je kunt ook de toon aanpassen (casual, professioneel, beknopt, enz.) om bij je voorkeur te passen.",
+      "skipToCreate": "Je kunt deze instellingen later aanpassen bij het maken van gesprekken."
+    },
+    "external": {
+      "title": "Meer modellen vinden",
+      "subtitle": "WhytChat ondersteunt elk model in GGUF-formaat. Hier vind je ze:",
+      "sourceHuggingFace": "**Hugging Face**: Grootste modelrepository. Zoek naar 'GGUF' in de modelhub.",
+      "linkHuggingFace": "https://huggingface.co/models?search=gguf",
+      "sourceBartowski": "**Bartowski's Kwantisaties**: Hoogwaardige GGUF-kwantisaties van populaire modellen.",
+      "linkBartowski": "https://huggingface.co/bartowski",
+      "sourceTheBloke": "**TheBloke (Archief)**: Historische verzameling van GGUF-modellen (voornamelijk pre-2024).",
+      "linkTheBloke": "https://huggingface.co/TheBloke",
+      "namingTitle": "Modelnamen begrijpen",
+      "namingFormat": "**Formaat**: `modelnaam-grootte-quant.gguf`",
+      "namingExample1": "`llama-3.1-8B-Q4_K_M.gguf` → Llama 3.1, 8 miljard parameters, Q4_K_M kwantisatie",
+      "namingExample2": "`qwen2.5-7B-instruct-Q5_K_S.gguf` → Qwen 2.5, 7B, instructie-geoptimaliseerd, Q5 kwantisatie",
+      "quantExplainer": "**Kwantisatie** (Q4, Q5, Q8): Lagere getallen = kleiner bestand maar minder nauwkeurig. Q4_K_M is een goede balans.",
+      "sizeWarning": "⚠️ **Belangrijk**: Controleer bestandsgroottes voor het downloaden. Een 70B Q4-model kan 40GB+ zijn. Zorg ervoor dat je genoeg schijfruimte en RAM hebt.",
+      "importHelp": "Om gedownloade modellen te gebruiken: Ga naar **Nieuw gesprek** → **Lokaal model importeren** → Selecteer je `.gguf` bestand."
+    },
+    "finish": {
+      "title": "Alles klaar!",
+      "subtitle": "Klaar om te chatten met je AI-assistent.",
+      "feature1": "🔒 100% privé — alles blijft op je apparaat",
+      "feature2": "⚡ Snelle reacties — geen internet nodig na modeldownload",
+      "feature3": "🎨 Meerdere sjablonen — programmeren, schrijven, leren en meer",
+      "feature4": "📚 RAG-ondersteuning — importeer documenten voor contextbewuste antwoorden",
+      "createNowButton": "Maak mijn eerste gesprek",
+      "laterButton": "Verken eerst instellingen",
+      "tipLabel": "💡 Pro-tip:",
+      "tipText": "Gebruik Ctrl+N om snel nieuwe gesprekken te maken vanuit elke plek in de app."
+    }
   },
   "promptTemplates": {
     "general": "Handel als nuttige assistent. Doel: {intent}. Wees duidelijk en beknopt en vraag naar ontbrekende informatie voordat je verder gaat.",
@@ -340,7 +466,15 @@
     "promptLearning": "Je bent een pedagoog. Leg concepten progressief uit, van eenvoudig naar complex. Gebruik concrete analogiën, praktische voorbeelden en controleer begrip voordat je verdergaat. Moedig vragen aan.",
     "promptBrainstorm": "Je bent een creatieve facilitator. Verken meerdere invalshoeken, stel diverse en originele ideeën voor. Bevraag aannames, combineer concepten en help bij het structureren van reflecties.",
     "promptWriting": "Je bent een schrijfassistent. Verbeter de helderheid, coherentie en impact van teksten. Respecteer de gevraagde toon en stijl. Stel herformuleringen voor en identificeer argumentatieve zwaktes.",
-    "promptAnalysis": "Je bent een rigoureuze analist. Synthetiseer informatie op gestructureerde wijze, identificeer trends en inconsistenties. Presenteer feitelijke conclusies met hun beperkingen. Geef prioriteit aan verifieerbare gegevens."
+    "promptAnalysis": "Je bent een rigoureuze analist. Synthetiseer informatie op gestructureerde wijze, identificeer trends en inconsistenties. Presenteer feitelijke conclusies met hun beperkingen. Geef prioriteit aan verifieerbare gegevens.",
+    "perf": {
+      "button": "Mijn prestaties testen",
+      "title": "Prestatietest",
+      "runAgain": "Opnieuw uitvoeren",
+      "cpuCores": "CPU-kernen",
+      "memoryGb": "Geheugen (GB)",
+      "tier": "Niveau"
+    }
   },
   "serverStatus": {
     "ready": "AI-server operationeel en klaar om verzoeken te ontvangen.",

@@ -20,6 +20,7 @@ use std::{
         Arc, Mutex,
     },
 };
+use sysinfo::System;
 use tauri::{
     AppHandle, Emitter, LogicalPosition, LogicalSize, Manager, Position, Size, State, Window,
     WindowEvent,
@@ -33,6 +34,61 @@ struct DbState(Mutex<Connection>);
 
 struct DownloadManager {
     inner: Mutex<HashMap<String, DownloadEntry>>,
+}
+
+/// System information response structure for onboarding wizard
+#[derive(Serialize)]
+struct SystemInfo {
+    /// Number of logical CPU cores
+    cores: usize,
+    /// Total system RAM in bytes
+    ram_bytes: u64,
+    /// Recommended model tier: "small" | "medium" | "large"
+    tier: String,
+}
+
+/// Retrieve system hardware information for model recommendation
+///
+/// Returns:
+/// - cores: Logical CPU core count (physical cores × threads per core)
+/// - ram_bytes: Total installed RAM (not available RAM)
+/// - tier: Recommendation based on RAM:
+///   - "small" (≤4GB): Lightweight models (3B-7B Q4_K_M)
+///   - "medium" (4-12GB): Balanced models (7B-14B Q4_K_M)
+///   - "large" (>12GB): Large models (32B+ or 70B with lower quant)
+///
+/// # Privacy
+/// This command only reads local system specs. No data is transmitted
+/// over the network. Execution requires explicit user consent via UI.
+#[tauri::command]
+fn system_info() -> Result<SystemInfo, String> {
+    let mut sys = System::new_all();
+    sys.refresh_all();
+
+    let cores = sys.cpus().len();
+    if cores == 0 {
+        return Err("Unable to detect CPU cores".to_string());
+    }
+
+    let ram_bytes = sys.total_memory();
+    if ram_bytes == 0 {
+        return Err("Unable to detect system memory".to_string());
+    }
+
+    const GB: u64 = 1024 * 1024 * 1024;
+    let tier = if ram_bytes <= 4 * GB {
+        "small".to_string()
+    } else if ram_bytes <= 12 * GB {
+        "medium".to_string()
+    } else {
+        "large".to_string()
+    };
+
+    Ok(SystemInfo {
+        cores,
+        ram_bytes,
+        tier,
+    })
 }
 
 /// Enable/disable OS-level click-through on the window (ignore cursor events)
@@ -304,6 +360,7 @@ fn main() {
             }
         })
         .invoke_handler(tauri::generate_handler![
+            system_info,
             toggle_overlay,
             set_overlay_mode,
             apply_overlay_bounds,

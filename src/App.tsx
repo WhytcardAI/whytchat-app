@@ -13,7 +13,6 @@ import { TitleBar } from "./components/TitleBar";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { useKeyboardShortcuts } from "./hooks/useKeyboardShortcuts";
 import UpdateNotification from "./components/UpdateNotification";
-
 type View = "home" | "chat" | "settings" | "newConversation" | "conversations";
 
 export function App() {
