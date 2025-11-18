@@ -106,22 +106,46 @@ jobs:
       - name: Build Tauri app
         run: npm run tauri:build
 
+      - name: Debug build output
+        shell: bash
+        run: |
+          echo "Listing src-tauri directory structure:"
+          ls -la src-tauri/ || true
+          echo "Checking for .tauri-target:"
+          ls -la src-tauri/.tauri-target/release/ 2>/dev/null || echo "No .tauri-target directory"
+          echo "Checking for target:"
+          ls -la src-tauri/target/release/ 2>/dev/null || echo "No target directory"
+
       - name: Verify build artifacts
         shell: bash
         run: |
           echo "Checking generated files..."
           BUNDLE_DIR="src-tauri/.tauri-target/release/bundle"
           if [ ! -d "$BUNDLE_DIR" ]; then
+            echo "⚠️ .tauri-target not found, checking target/"
             BUNDLE_DIR="src-tauri/target/release/bundle"
+            if [ ! -d "$BUNDLE_DIR" ]; then
+              echo "❌ Bundle directory not found in either location"
+              echo "Available directories:"
+              find src-tauri -type d -name "bundle" 2>/dev/null || echo "No bundle directories found"
+              exit 1
+            fi
           fi
+          echo "Using bundle directory: $BUNDLE_DIR"
+          FOUND_FILES=0
           find "$BUNDLE_DIR" -type f \( -name "*.msi" -o -name "*.exe" \) | while read file; do
             if [ ! -s "$file" ]; then
               echo "❌ File is empty: $file"
               exit 1
             fi
             echo "✅ Found: $file"
+            FOUND_FILES=$((FOUND_FILES + 1))
           done
-          echo "✅ All Windows artifacts verified"
+          if [ $FOUND_FILES -eq 0 ]; then
+            echo "❌ No MSI or EXE files found in $BUNDLE_DIR"
+            exit 1
+          fi
+          echo "✅ All Windows artifacts verified ($FOUND_FILES files)"
 
       - name: Upload Windows artifacts
         uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844 # v1
@@ -176,13 +200,26 @@ jobs:
       - name: Build Tauri app
         run: npm run tauri:build
 
+      - name: Debug build output
+        run: |
+          echo "Checking for build directories:"
+          ls -la src-tauri/.tauri-target/release/ 2>/dev/null || echo "No .tauri-target directory"
+          ls -la src-tauri/target/release/ 2>/dev/null || echo "No target directory"
+
       - name: Verify build artifacts
         run: |
           echo "Checking generated files..."
           BUNDLE_DIR="src-tauri/.tauri-target/release/bundle"
           if [ ! -d "$BUNDLE_DIR" ]; then
+            echo "⚠️ .tauri-target not found, checking target/"
             BUNDLE_DIR="src-tauri/target/release/bundle"
+            if [ ! -d "$BUNDLE_DIR" ]; then
+              echo "❌ Bundle directory not found"
+              find src-tauri -type d -name "bundle" 2>/dev/null || echo "No bundle directories found"
+              exit 1
+            fi
           fi
+          echo "Using bundle directory: $BUNDLE_DIR"
           find "$BUNDLE_DIR" -type f \( -name "*.deb" -o -name "*.AppImage" \) | while read file; do
             if [ ! -s "$file" ]; then
               echo "❌ File is empty: $file"
@@ -237,13 +274,26 @@ jobs:
       - name: Build Tauri app (Universal Binary)
         run: npm run tauri:build -- --target universal-apple-darwin
 
+      - name: Debug build output
+        run: |
+          echo "Checking for build directories:"
+          ls -la src-tauri/.tauri-target/universal-apple-darwin/release/ 2>/dev/null || echo "No .tauri-target directory"
+          ls -la src-tauri/target/universal-apple-darwin/release/ 2>/dev/null || echo "No target directory"
+
       - name: Verify build artifacts
         run: |
           echo "Checking generated files..."
           BUNDLE_DIR="src-tauri/.tauri-target/universal-apple-darwin/release/bundle"
           if [ ! -d "$BUNDLE_DIR" ]; then
+            echo "⚠️ .tauri-target not found, checking target/"
             BUNDLE_DIR="src-tauri/target/universal-apple-darwin/release/bundle"
+            if [ ! -d "$BUNDLE_DIR" ]; then
+              echo "❌ Bundle directory not found"
+              find src-tauri -type d -name "bundle" 2>/dev/null || echo "No bundle directories found"
+              exit 1
+            fi
           fi
+          echo "Using bundle directory: $BUNDLE_DIR"
           find "$BUNDLE_DIR" -type f -name "*.dmg" | while read file; do
             if [ ! -s "$file" ]; then
               echo "❌ File is empty: $file"
