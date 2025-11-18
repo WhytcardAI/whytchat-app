@@ -13,10 +13,12 @@ export function MessageToolbar({ onCopy, onRegenerate, compact }: Props) {
   return (
     <div className="flex items-center gap-2 mt-2">
       <button onClick={onCopy} className={base}>
-        <Copy size={(compact ?? false) ? 10 : 12} /> {i18n.t("chat.copyMessage")}
+        <Copy size={(compact ?? false) ? 10 : 12} />{" "}
+        {i18n.t("chat.copyMessage")}
       </button>
       <button onClick={onRegenerate} className={base} disabled={!onRegenerate}>
-        <RefreshCw size={(compact ?? false) ? 10 : 12} /> {i18n.t("chat.regenerate")}
+        <RefreshCw size={(compact ?? false) ? 10 : 12} />{" "}
+        {i18n.t("chat.regenerate")}
       </button>
     </div>
   );

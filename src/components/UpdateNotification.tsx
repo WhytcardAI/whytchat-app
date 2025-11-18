@@ -11,7 +11,9 @@ export default function UpdateNotification() {
   const [downloading, setDownloading] = useState(false);
   const [error, setError] = useState("");
   const [dismissed, setDismissed] = useState(false);
-  const devDisabled = (import.meta as unknown as { env?: { DEV?: boolean } } | undefined)?.env?.DEV;
+  const devDisabled = (
+    import.meta as unknown as { env?: { DEV?: boolean } } | undefined
+  )?.env?.DEV;
 
   // Translation helper (fallback to English if missing)
   const t = {
@@ -37,7 +39,10 @@ export default function UpdateNotification() {
       const now = Date.now();
 
       // Check at most once per day
-      if (lastCheck != null && now - parseInt(lastCheck) < 24 * 60 * 60 * 1000) {
+      if (
+        lastCheck != null &&
+        now - parseInt(lastCheck) < 24 * 60 * 60 * 1000
+      ) {
         return;
       }
 

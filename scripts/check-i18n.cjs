@@ -7,13 +7,25 @@ const fs = require("fs");
 const path = require("path");
 
 // Using process.cwd() instead of __dirname to avoid no-undef lint issues when __dirname is not defined.
-const localesRoot = path.resolve(process.cwd(), "src", "locales");
+const localesRoot = path.normalize(
+  path.resolve(process.cwd(), "src", "locales")
+);
 const canonical = "en";
+const allowedLocales = ["en", "fr", "es", "de", "it", "pt", "nl", "pl"];
+
+function isPathSafe(filePath, baseDir) {
+  const normalized = path.normalize(path.resolve(baseDir, filePath));
+  return normalized.startsWith(baseDir);
+}
 
 function readJson(fp) {
+  const normalizedPath = path.normalize(fp);
+  if (!isPathSafe(normalizedPath, localesRoot)) {
+    throw new Error(`Path traversal detected: ${fp}`);
+  }
   let raw;
   try {
-    raw = fs.readFileSync(fp, "utf8");
+    raw = fs.readFileSync(normalizedPath, "utf8");
   } catch (e) {
     throw new Error(`Cannot read file '${fp}': ${e.message}`);
   }
@@ -54,19 +66,28 @@ function diffKeys(baseKeys, otherKeys) {
 }
 
 function getLocales() {
-  if (!fs.existsSync(localesRoot)) {
-    console.error(`Locales folder not found: ${localesRoot}`);
+  const normalizedRoot = path.normalize(localesRoot);
+  if (!fs.existsSync(normalizedRoot)) {
+    console.error(`Locales folder not found: ${normalizedRoot}`);
     process.exit(2);
   }
   return fs
-    .readdirSync(localesRoot, { withFileTypes: true })
+    .readdirSync(normalizedRoot, { withFileTypes: true })
     .filter((d) => d.isFile() && d.name.endsWith(".json"))
     .map((d) => path.basename(d.name, ".json"))
+    .filter((locale) => allowedLocales.includes(locale))
     .sort();
 }
 
 function loadLocale(locale) {
-  const fp = path.join(localesRoot, `${locale}.json`);
+  if (!allowedLocales.includes(locale)) {
+    throw new Error(`Invalid locale: ${locale}`);
+  }
+  const safeName = locale.replace(/[^a-z]/g, "");
+  const fp = path.normalize(path.join(localesRoot, `${safeName}.json`));
+  if (!isPathSafe(fp, localesRoot)) {
+    throw new Error(`Path traversal detected for locale: ${locale}`);
+  }
   if (!fs.existsSync(fp)) {
     throw new Error(`Missing translation file for ${locale}: ${fp}`);
   }

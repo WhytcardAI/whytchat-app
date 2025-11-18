@@ -42,8 +42,11 @@ function get(obj: Dict, path: string, fallback: string = ""): string {
     path
       .split(".")
       .reduce(
-        (acc: any, key: string) => (acc != null && (acc as any)[key] != null ? (acc as any)[key] : undefined),
-        obj,
+        (acc: any, key: string) =>
+          acc != null && (acc as any)[key] != null
+            ? (acc as any)[key]
+            : undefined,
+        obj
       ) ?? fallback
   );
 }

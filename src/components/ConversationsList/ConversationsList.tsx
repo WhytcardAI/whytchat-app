@@ -40,7 +40,7 @@ export function ConversationsList({ onNavigate }: ConversationsListProps) {
 
       // Extract unique groups
       const uniqueGroups = Array.from(
-        new Set(convs.map((c) => c.group_name).filter((g) => g !== null)),
+        new Set(convs.map((c) => c.group_name).filter((g) => g !== null))
       ) as string[];
       setGroups(uniqueGroups);
 
@@ -83,7 +83,7 @@ export function ConversationsList({ onNavigate }: ConversationsListProps) {
       acc[group].push(conv);
       return acc;
     },
-    {} as Record<string, Conversation[]>,
+    {} as Record<string, Conversation[]>
   );
 
   const formatDate = (dateStr: string) => {

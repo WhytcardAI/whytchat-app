@@ -49,7 +49,7 @@ jobs:
 
       - name: Create Release
         id: create-release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844 # v1
         with:
           tag_name: ${{ github.ref_name }}
           name: WhytChat ${{ github.ref_name }}
@@ -90,7 +90,7 @@ jobs:
           cache: npm
 
       - name: Install Rust stable
-        uses: dtolnay/rust-toolchain@stable
+        uses: dtolnay/rust-toolchain@6d9817901c499d6b02debbb57edb38d33daa680b # stable
 
       - name: Install frontend dependencies
         run: npm ci
@@ -120,7 +120,7 @@ jobs:
           echo "✅ All Windows artifacts verified"
 
       - name: Upload Windows artifacts
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844 # v1
         with:
           tag_name: ${{ github.ref_name }}
           files: |
@@ -146,7 +146,7 @@ jobs:
           cache: npm
 
       - name: Install Rust stable
-        uses: dtolnay/rust-toolchain@stable
+        uses: dtolnay/rust-toolchain@6d9817901c499d6b02debbb57edb38d33daa680b # stable
 
       - name: Install system dependencies
         run: |
@@ -165,7 +165,7 @@ jobs:
         run: node scripts/check-i18n.cjs
 
       - name: Rust cache
-        uses: swatinem/rust-cache@v2
+        uses: swatinem/rust-cache@98c8021b550208e191a6a3145459bfc9fb29c4c0 # v2
         with:
           workspaces: "./src-tauri -> target"
 
@@ -185,7 +185,7 @@ jobs:
           echo "✅ All Linux artifacts verified"
 
       - name: Upload Linux artifacts
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844 # v1
         with:
           tag_name: ${{ github.ref_name }}
           files: |
@@ -211,7 +211,7 @@ jobs:
           cache: npm
 
       - name: Install Rust stable
-        uses: dtolnay/rust-toolchain@stable
+        uses: dtolnay/rust-toolchain@6d9817901c499d6b02debbb57edb38d33daa680b # stable
         with:
           targets: aarch64-apple-darwin,x86_64-apple-darwin
 
@@ -222,7 +222,7 @@ jobs:
         run: node scripts/check-i18n.cjs
 
       - name: Rust cache
-        uses: swatinem/rust-cache@v2
+        uses: swatinem/rust-cache@98c8021b550208e191a6a3145459bfc9fb29c4c0 # v2
         with:
           workspaces: "./src-tauri -> target"
 
@@ -242,7 +242,7 @@ jobs:
           echo "✅ All macOS artifacts verified"
 
       - name: Upload macOS artifacts
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844 # v1
         with:
           tag_name: ${{ github.ref_name }}
           files: |
