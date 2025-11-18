@@ -78,6 +78,7 @@ npm run check:version    # Validate version consistency
 ### Before Committing
 
 **Required checks:**
+
 1. `npm run check:lint` - Must pass without errors
 2. `npm run check:i18n` - Ensure all translations are complete
 3. `npm run format:check` - Verify code formatting
@@ -133,6 +134,7 @@ const title = i18n.t("newFeature.title");
 ### Tauri v2 Permissions
 
 When adding new Tauri commands:
+
 1. Define command in `src-tauri/src/main.rs`
 2. Add capability definition in `src-tauri/capabilities/`
 3. Use minimal permissions (deny by default)
@@ -217,16 +219,19 @@ When adding new Tauri commands:
 ## Platform-Specific Considerations
 
 ### Windows
+
 - Installers: NSIS (.exe) and WiX (.msi)
 - Test with Windows Defender enabled
 - Verify clickthrough/overlay features
 
 ### Linux
+
 - Packages: DEB and AppImage
 - Test with common desktop environments (GNOME, KDE)
 - Verify permissions (file dialogs, etc.)
 
 ### macOS
+
 - Universal binary (Intel + Apple Silicon)
 - DMG installer
 - Test permission prompts (code signing)
