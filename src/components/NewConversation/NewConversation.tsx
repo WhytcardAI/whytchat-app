@@ -371,7 +371,9 @@ export function NewConversation({ onNavigate }: Props) {
                   }>("system_info");
                   setPerfTestResult({
                     cpuCores: result.cores,
-                    totalMemoryGb: Math.round(result.ram_bytes / 1024 / 1024 / 1024),
+                    totalMemoryGb: Math.round(
+                      result.ram_bytes / 1024 / 1024 / 1024
+                    ),
                     tier: result.tier,
                   });
                 } catch (err) {
@@ -410,7 +412,9 @@ export function NewConversation({ onNavigate }: Props) {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2 text-gray-900 dark:text-gray-100">
                 <Gauge size={18} />
-                <span className="font-semibold">{i18n.t("newConversation.perf.title")}</span>
+                <span className="font-semibold">
+                  {i18n.t("newConversation.perf.title")}
+                </span>
               </div>
               <div className="flex items-center gap-2">
                 <button
@@ -423,7 +427,9 @@ export function NewConversation({ onNavigate }: Props) {
                       }>("system_info");
                       setPerfTestResult({
                         cpuCores: result.cores,
-                        totalMemoryGb: Math.round(result.ram_bytes / 1024 / 1024 / 1024),
+                        totalMemoryGb: Math.round(
+                          result.ram_bytes / 1024 / 1024 / 1024
+                        ),
                         tier: result.tier,
                       });
                     } catch (err) {
@@ -444,16 +450,28 @@ export function NewConversation({ onNavigate }: Props) {
             </div>
             <div className="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
               <div className="p-3 rounded-md bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
-                <div className="text-gray-500 dark:text-gray-400">{i18n.t("newConversation.perf.cpuCores")}</div>
-                <div className="text-gray-900 dark:text-gray-100 font-semibold">{perfTestResult ? perfTestResult.cpuCores : "..."}</div>
+                <div className="text-gray-500 dark:text-gray-400">
+                  {i18n.t("newConversation.perf.cpuCores")}
+                </div>
+                <div className="text-gray-900 dark:text-gray-100 font-semibold">
+                  {perfTestResult ? perfTestResult.cpuCores : "..."}
+                </div>
               </div>
               <div className="p-3 rounded-md bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
-                <div className="text-gray-500 dark:text-gray-400">{i18n.t("newConversation.perf.memoryGb")}</div>
-                <div className="text-gray-900 dark:text-gray-100 font-semibold">{perfTestResult ? perfTestResult.totalMemoryGb : "..."}</div>
+                <div className="text-gray-500 dark:text-gray-400">
+                  {i18n.t("newConversation.perf.memoryGb")}
+                </div>
+                <div className="text-gray-900 dark:text-gray-100 font-semibold">
+                  {perfTestResult ? perfTestResult.totalMemoryGb : "..."}
+                </div>
               </div>
               <div className="p-3 rounded-md bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
-                <div className="text-gray-500 dark:text-gray-400">{i18n.t("newConversation.perf.tier")}</div>
-                <div className="text-gray-900 dark:text-gray-100 font-semibold capitalize">{perfTestResult ? perfTestResult.tier : "..."}</div>
+                <div className="text-gray-500 dark:text-gray-400">
+                  {i18n.t("newConversation.perf.tier")}
+                </div>
+                <div className="text-gray-900 dark:text-gray-100 font-semibold capitalize">
+                  {perfTestResult ? perfTestResult.tier : "..."}
+                </div>
               </div>
             </div>
           </div>

@@ -91,8 +91,7 @@
       "loading": "Datei wird geladen...",
       "success": "Datei erfolgreich importiert!",
       "attached": "Angehängte Dateien"
-    }
-    ,
+    },
     "suggestions": {
       "summarize": "Zusammenfassen",
       "translate": "Übersetzen",
