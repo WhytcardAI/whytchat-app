@@ -7,25 +7,57 @@ const fs = require("fs");
 const path = require("path");
 
 // Using process.cwd() instead of __dirname to avoid no-undef lint issues when __dirname is not defined.
-const localesRoot = path.normalize(
-  path.resolve(process.cwd(), "src", "locales")
-);
+const localesRoot = path.resolve(process.cwd(), "src", "locales");
 const canonical = "en";
-const allowedLocales = ["en", "fr", "es", "de", "it", "pt", "nl", "pl"];
 
-function isPathSafe(filePath, baseDir) {
-  const normalized = path.normalize(path.resolve(baseDir, filePath));
-  return normalized.startsWith(baseDir);
+/**
+ * Validates that a locale name is safe to use in file paths.
+ * Prevents path traversal attacks by rejecting unsafe characters and path segments.
+ * @param {string} locale - The locale name to validate
+ * @returns {boolean} - True if the locale is valid, false otherwise
+ */
+function isValidLocaleName(locale) {
+  // Reject null, undefined, or non-string values
+  if (!locale || typeof locale !== "string") return false;
+  
+  // Reject absolute paths
+  if (path.isAbsolute(locale)) return false;
+  
+  // Reject parent directory references and other unsafe patterns
+  const unsafePatterns = ["..", "~", "/", "\\", "\0"];
+  if (unsafePatterns.some((pattern) => locale.includes(pattern))) return false;
+  
+  // Only allow alphanumeric characters, hyphens, and underscores
+  // This is a whitelist approach for locale names (e.g., "en", "en-US", "zh_CN")
+  if (!/^[a-zA-Z0-9_-]+$/.test(locale)) return false;
+  
+  return true;
+}
+
+/**
+ * Validates that a resolved file path is within the allowed base directory.
+ * @param {string} filePath - The file path to validate
+ * @param {string} baseDir - The base directory that the file must be within
+ * @returns {boolean} - True if the path is safe, false otherwise
+ */
+function isPathWithinBase(filePath, baseDir) {
+  const resolvedPath = path.resolve(filePath);
+  const resolvedBase = path.resolve(baseDir);
+  
+  // Ensure the resolved path starts with the base directory
+  // Use path separator to prevent partial matches (e.g., /app/locales vs /app/locales-backup)
+  return resolvedPath.startsWith(resolvedBase + path.sep) || resolvedPath === resolvedBase;
 }
 
 function readJson(fp) {
-  const normalizedPath = path.normalize(fp);
-  if (!isPathSafe(normalizedPath, localesRoot)) {
-    throw new Error(`Path traversal detected: ${fp}`);
+  // Validate that the file path is within the locales directory
+  if (!isPathWithinBase(fp, localesRoot)) {
+    throw new Error(`Invalid file path: path is outside allowed directory`);
   }
+  
   let raw;
   try {
-    raw = fs.readFileSync(normalizedPath, "utf8");
+    raw = fs.readFileSync(fp, "utf8");
   } catch (e) {
     throw new Error(`Cannot read file '${fp}': ${e.message}`);
   }
@@ -66,28 +98,31 @@ function diffKeys(baseKeys, otherKeys) {
 }
 
 function getLocales() {
-  const normalizedRoot = path.normalize(localesRoot);
-  if (!fs.existsSync(normalizedRoot)) {
-    console.error(`Locales folder not found: ${normalizedRoot}`);
+  if (!fs.existsSync(localesRoot)) {
+    console.error(`Locales folder not found: ${localesRoot}`);
     process.exit(2);
   }
   return fs
-    .readdirSync(normalizedRoot, { withFileTypes: true })
+    .readdirSync(localesRoot, { withFileTypes: true })
     .filter((d) => d.isFile() && d.name.endsWith(".json"))
     .map((d) => path.basename(d.name, ".json"))
-    .filter((locale) => allowedLocales.includes(locale))
     .sort();
 }
 
 function loadLocale(locale) {
-  if (!allowedLocales.includes(locale)) {
-    throw new Error(`Invalid locale: ${locale}`);
+  // Validate locale name to prevent path traversal
+  if (!isValidLocaleName(locale)) {
+    throw new Error(`Invalid locale name: ${locale}`);
   }
-  const safeName = locale.replace(/[^a-z]/g, "");
-  const fp = path.normalize(path.join(localesRoot, `${safeName}.json`));
-  if (!isPathSafe(fp, localesRoot)) {
-    throw new Error(`Path traversal detected for locale: ${locale}`);
+  
+  // Use path.resolve to normalize the path and then validate it
+  const fp = path.resolve(localesRoot, `${locale}.json`);
+  
+  // Ensure the resolved path is within the locales directory
+  if (!isPathWithinBase(fp, localesRoot)) {
+    throw new Error(`Invalid file path for locale '${locale}': path is outside allowed directory`);
   }
+  
   if (!fs.existsSync(fp)) {
     throw new Error(`Missing translation file for ${locale}: ${fp}`);
   }
