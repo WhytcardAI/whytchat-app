@@ -38,17 +38,18 @@ if (!locales[currentLocale]) {
 }
 
 function get(obj: Dict, path: string, fallback: string = ""): string {
-  return (
-    path
-      .split(".")
-      .reduce(
-        (acc: any, key: string) =>
-          acc != null && (acc as any)[key] != null
-            ? (acc as any)[key]
-            : undefined,
-        obj
-      ) ?? fallback
-  );
+  const result = path
+    .split(".")
+    .reduce(
+      (acc: unknown, key: string) => {
+        if (typeof acc === "object" && acc !== null && key in acc) {
+          return (acc as Record<string, unknown>)[key];
+        }
+        return undefined;
+      },
+      obj as unknown
+    );
+  return (typeof result === "string" ? result : fallback) || fallback;
 }
 
 export const i18n = {

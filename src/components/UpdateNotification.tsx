@@ -26,14 +26,14 @@ export default function UpdateNotification() {
   };
 
   useEffect(() => {
-    if (devDisabled) return;
+    if (devDisabled ?? false) return;
     getVersion()
       .then((v) => setCurrentVersion(v))
       .catch(() => {});
   }, [devDisabled]);
 
   const checkForUpdates = useCallback(async () => {
-    if (devDisabled) return;
+    if (devDisabled ?? false) return;
     try {
       const lastCheck = localStorage.getItem("lastUpdateCheck");
       const now = Date.now();
@@ -62,7 +62,7 @@ export default function UpdateNotification() {
   }, [devDisabled]);
 
   useEffect(() => {
-    if (devDisabled) return;
+    if (devDisabled ?? false) return;
     void checkForUpdates();
     // Check for updates once per day
     const interval = setInterval(checkForUpdates, 24 * 60 * 60 * 1000);
@@ -85,7 +85,7 @@ export default function UpdateNotification() {
     setDismissed(true);
   };
 
-  if (devDisabled || !updateAvailable || dismissed) {
+  if ((devDisabled ?? false) || !updateAvailable || dismissed) {
     return null;
   }
 
