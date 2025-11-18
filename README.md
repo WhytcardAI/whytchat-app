@@ -21,7 +21,13 @@ WhytChat est une application de chat IA sécurisée et hors ligne, construite av
 - **Option de vérification manuelle** - Vérifiez les mises à jour à tout moment depuis les Paramètres
 - **Mises à jour sécurisées** - Versions signées cryptographiquement pour la sécurité
 
-### 🛍️ Support & Donations (v0.2.9)
+### � Améliorations de Sécurité et Qualité du Code
+
+- **Prévention d'injection de logs** - Template literals dans les messages d'erreur (storage.ts)
+- **Type safety renforcée** - Migration `any` → `unknown` avec guards de type (i18n.ts)
+- **Gestion nullish améliorée** - Vérifications explicites pour les booléens optionnels (UpdateNotification.tsx)
+
+### �🛍️ Support & Donations (v0.2.9)
 
 - **Boutique intégrée** avec 3 niveaux de don (Coffee ☕, Happiness 🌟, Hope 🚀)
 - Support du projet via Stripe sécurisé

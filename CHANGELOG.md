@@ -36,6 +36,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed inconsistent release file naming across platforms
 - Fixed missing Linux and macOS releases in previous versions
 
+### 🔒 Security
+- **Template literals in console.error**: Replaced string concatenation with template literals in `storage.ts` to prevent log injection attacks (5 functions: getStorageItem, setStorageItem, removeStorageItem, getStorageNumber, getStorageBoolean)
+- **Type safety improvements**: Enhanced type safety in `i18n.ts` by replacing `any` with `unknown` type and adding proper type guards
+- **Nullable boolean handling**: Fixed optional boolean checks in `UpdateNotification.tsx` by adding explicit nullish coalescing (`?? false`) to 4 useEffect hooks
+
 ---
 
 ## [3.0.0] - Launcher 3.0 - 2025-01-XX
