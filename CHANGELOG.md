@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.3.2] - 2025-11-18
+
+### ✨ Added
+- **Performance test integration**: Test de performance intégré comme Étape 3 dans l'assistant de création de conversation
+- **Intelligent model selection**: Sélection automatique du modèle basée sur les capacités matérielles (tier small/medium/large)
+- **Smart recommendations**: Matrice 3×7 de recommandations de modèles selon le tier système et le type de template
+
+### 🔧 Changed
+- **Native window decorations**: Suppression de la double barre de titre (activation des décorations natives)
+- **Improved UX**: Le test de performance fait maintenant partie du flux d'onboarding (plus de bouton séparé)
+- **Better auto-selection**: L'assistant prend en compte les résultats du test de performance pour recommander le bon modèle
+
+### 🐛 Fixed
+- **Tier display mapping**: Correction de l'affichage des tiers (small→Light, medium→Medium, large→Heavy)
+- **Auto-selection logic**: Les systèmes avec 64GB RAM sélectionnent maintenant des modèles heavy (et non plus light)
+
+### 🔒 Security
+- **Path traversal fix**: Correction de la vulnérabilité path traversal dans check-i18n.cjs (merged from main)
+- **Codacy fixes**: Application des corrections de sécurité et de type safety recommandées par Codacy
+
+---
+
 ## [0.3.1] - 2025-01-17
 
 ### ✨ Added
