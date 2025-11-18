@@ -53,7 +53,7 @@ export function ConversationsList({ onNavigate }: ConversationsListProps) {
   }
 
   useEffect(() => {
-    loadConversations();
+    void loadConversations();
   }, []);
 
   const deleteConversation = async (id: number, name: string) => {

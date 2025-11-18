@@ -122,7 +122,7 @@ export function SimpleModeView({
 
     // Try to find an installed model first
     const installedFiltered = filteredPresets.filter((p) =>
-      installedPresets.has(p.id),
+      installedPresets.has(p.id)
     );
     if (installedFiltered.length > 0 && installedFiltered[0]) {
       setSelectedPreset(installedFiltered[0].id);

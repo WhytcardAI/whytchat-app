@@ -40,7 +40,7 @@ export function InstallLlamaServer({
       });
     };
 
-    setupListeners();
+    void setupListeners();
 
     return () => {
       if (unlistenProgress) unlistenProgress();

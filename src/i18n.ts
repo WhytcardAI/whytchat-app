@@ -7,7 +7,7 @@ import pt from "./locales/pt.json";
 import nl from "./locales/nl.json";
 import pl from "./locales/pl.json";
 
-type Dict = Record<string, any>;
+type Dict = Record<string, unknown>;
 
 const locales: Record<string, Dict> = {
   fr,
@@ -31,7 +31,7 @@ export const availableLocaleCodes = [
   "pl",
 ] as const;
 
-let currentLocale = localStorage.getItem("locale") || "fr";
+let currentLocale = localStorage.getItem("locale") ?? "fr";
 
 if (!locales[currentLocale]) {
   currentLocale = "fr";
@@ -42,8 +42,7 @@ function get(obj: Dict, path: string, fallback: string = ""): string {
     path
       .split(".")
       .reduce(
-        (acc: any, key: string) =>
-          acc && acc[key] != null ? acc[key] : undefined,
+        (acc: any, key: string) => (acc != null && (acc as any)[key] != null ? (acc as any)[key] : undefined),
         obj,
       ) ?? fallback
   );

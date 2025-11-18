@@ -110,10 +110,12 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
   const lastTempIdRef = useRef<string | null>(null);
   const lastGenContentRef = useRef<string>("");
   const [genStartAt, setGenStartAt] = useState<number | null>(null);
-  const [lastStats, setLastStats] = useState<
-    | { words: number; tokens: number; durationSec: number; speedWps: number }
-    | null
-  >(null);
+  const [lastStats, setLastStats] = useState<{
+    words: number;
+    tokens: number;
+    durationSec: number;
+    speedWps: number;
+  } | null>(null);
 
   // File import state
   const [importedFiles, setImportedFiles] = useState<
@@ -870,7 +872,11 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
             <div className="text-gray-500 dark:text-gray-400">
               {lastStats && (
                 <span>
-                  {lastStats.words} {i18n.t("chat.stats.words")} • {lastStats.tokens} {i18n.t("chat.stats.tokensApprox")} • {lastStats.durationSec.toFixed(1)} {i18n.t("chat.stats.duration")} • {lastStats.speedWps.toFixed(1)} {i18n.t("chat.stats.speed")}
+                  {lastStats.words} {i18n.t("chat.stats.words")} •{" "}
+                  {lastStats.tokens} {i18n.t("chat.stats.tokensApprox")} •{" "}
+                  {lastStats.durationSec.toFixed(1)}{" "}
+                  {i18n.t("chat.stats.duration")} •{" "}
+                  {lastStats.speedWps.toFixed(1)} {i18n.t("chat.stats.speed")}
                 </span>
               )}
             </div>
@@ -881,7 +887,10 @@ export function Chat({ conversationId, onNavigate }: ChatProps) {
               <button onClick={handleCopyLast} className="hover:underline">
                 {i18n.t("chat.actions.copyLast")}
               </button>
-              <button onClick={handleRegenerateLast} className="hover:underline">
+              <button
+                onClick={handleRegenerateLast}
+                className="hover:underline"
+              >
                 {i18n.t("chat.actions.regenerateLast")}
               </button>
             </div>

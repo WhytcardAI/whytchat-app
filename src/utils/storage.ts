@@ -7,7 +7,7 @@ export function getStorageItem(key: string): string | null {
   try {
     return localStorage.getItem(key);
   } catch (error) {
-    console.error(`Failed to read localStorage key "${key}":`, error);
+    console.error("Failed to read localStorage key \"" + key + "\":", error);
     return null;
   }
 }
@@ -17,7 +17,7 @@ export function setStorageItem(key: string, value: string): boolean {
     localStorage.setItem(key, value);
     return true;
   } catch (error) {
-    console.error(`Failed to set localStorage key "${key}":`, error);
+    console.error("Failed to set localStorage key \"" + key + "\":", error);
     return false;
   }
 }
@@ -27,7 +27,7 @@ export function removeStorageItem(key: string): boolean {
     localStorage.removeItem(key);
     return true;
   } catch (error) {
-    console.error(`Failed to remove localStorage key "${key}":`, error);
+    console.error("Failed to remove localStorage key \"" + key + "\":", error);
     return false;
   }
 }
@@ -39,7 +39,7 @@ export function getStorageNumber(key: string, defaultValue: number): number {
     const num = parseFloat(value);
     return Number.isFinite(num) ? num : defaultValue;
   } catch (error) {
-    console.error(`Failed to parse localStorage number key "${key}":`, error);
+    console.error("Failed to parse localStorage number key \"" + key + "\":", error);
     return defaultValue;
   }
 }
@@ -69,7 +69,7 @@ export function getStorageBoolean(key: string, defaultValue: boolean): boolean {
     if (value === null) return defaultValue;
     return value === "true";
   } catch (error) {
-    console.error(`Failed to parse localStorage boolean key "${key}":`, error);
+    console.error("Failed to parse localStorage boolean key \"" + key + "\":", error);
     return defaultValue;
   }
 }

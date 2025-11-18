@@ -91,8 +91,7 @@
       "loading": "Carregando arquivo...",
       "success": "Arquivo importado com sucesso!",
       "attached": "Arquivos anexados"
-    }
-    ,
+    },
     "suggestions": {
       "summarize": "Resumir",
       "translate": "Traduzir",
