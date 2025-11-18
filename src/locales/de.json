@@ -472,7 +472,10 @@
       "runAgain": "Erneut ausführen",
       "cpuCores": "CPU-Kerne",
       "memoryGb": "Speicher (GB)",
-      "tier": "Stufe"
+      "tier": "Stufe",
+      "tierLight": "Leicht",
+      "tierMedium": "Mittel",
+      "tierHeavy": "Schwer"
     }
   },
   "serverStatus": {

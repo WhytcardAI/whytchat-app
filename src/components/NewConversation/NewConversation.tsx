@@ -132,7 +132,20 @@ export function NewConversation({ onNavigate }: Props) {
           }
         }
         setInstalledPresets(installed);
-        if (list.length > 0) {
+        
+        const savedTier = localStorage.getItem("system_tier");
+        if (savedTier && list.length > 0) {
+          const recommendedModels = selectModelsByTierAndType(savedTier, "general");
+          const firstRecommendedInstalled = recommendedModels.find(id => installed.has(id));
+          if (firstRecommendedInstalled) {
+            setSelectedPreset(firstRecommendedInstalled);
+          } else if (recommendedModels[0]) {
+            setSelectedPreset(recommendedModels[0]);
+          } else {
+            const firstInstalled = list.find((p) => installed.has(p.id));
+            setSelectedPreset(firstInstalled ? firstInstalled.id : list[0]!.id);
+          }
+        } else if (list.length > 0) {
           const firstInstalled = list.find((p) => installed.has(p.id));
           setSelectedPreset(firstInstalled ? firstInstalled.id : list[0]!.id);
         }
@@ -268,6 +281,19 @@ export function NewConversation({ onNavigate }: Props) {
     const promptWithTone = applyToneToPrompt(basePrompt, selectedTone);
     setSystemPrompt(promptWithTone);
 
+    const savedTier = localStorage.getItem("system_tier");
+    if (savedTier) {
+      const recommendedModels = selectModelsByTierAndType(savedTier, template);
+      if (recommendedModels.length > 0) {
+        const firstInstalled = recommendedModels.find(id => installedPresets.has(id));
+        if (firstInstalled) {
+          setSelectedPreset(firstInstalled);
+        } else if (recommendedModels[0]) {
+          setSelectedPreset(recommendedModels[0]);
+        }
+      }
+    }
+
     // Adjust parameters based on template type for Simple Mode
     if (!isExpertMode) {
       switch (template) {
@@ -310,6 +336,43 @@ export function NewConversation({ onNavigate }: Props) {
           break;
       }
     }
+  }
+
+  function selectModelsByTierAndType(
+    tier: string,
+    templateType: TemplateType
+  ): string[] {
+    const tierMap: Record<string, Record<TemplateType, string[]>> = {
+      small: {
+        general: ["llama32_3b_light"],
+        coding: ["qwen_coder_1_5b_light", "llama32_3b_light"],
+        learning: ["llama32_3b_light"],
+        brainstorm: ["llama32_3b_light"],
+        writing: ["llama32_3b_light"],
+        analysis: ["llama32_3b_light"],
+        custom: ["llama32_3b_light"],
+      },
+      medium: {
+        general: ["mistral_balanced", "qwen25_7b_balanced"],
+        coding: ["qwen_coder_fast", "qwen25_7b_balanced"],
+        learning: ["openhermes_balanced", "mistral_balanced"],
+        brainstorm: ["mistral_balanced", "qwen25_7b_balanced"],
+        writing: ["nous_hermes_balanced", "mistral_balanced"],
+        analysis: ["qwen25_7b_balanced", "mistral_balanced"],
+        custom: ["mistral_balanced"],
+      },
+      large: {
+        general: ["llama31_8b_heavy", "qwen25_32b_heavy"],
+        coding: ["qwen_coder_14b_heavy", "llama31_8b_heavy"],
+        learning: ["wizardlm_heavy", "llama31_8b_heavy"],
+        brainstorm: ["qwen25_32b_heavy", "llama31_8b_heavy"],
+        writing: ["dolphin_heavy", "qwen25_32b_heavy"],
+        analysis: ["qwen25_32b_heavy", "llama33_70b_powerful"],
+        custom: ["llama31_8b_heavy"],
+      },
+    };
+
+    return tierMap[tier]?.[templateType] || tierMap[tier]?.general || [];
   }
 
   async function createConversation() {
@@ -369,13 +432,29 @@ export function NewConversation({ onNavigate }: Props) {
                     ram_bytes: number;
                     tier: string;
                   }>("system_info");
-                  setPerfTestResult({
+                  const tierResult = {
                     cpuCores: result.cores,
                     totalMemoryGb: Math.round(
                       result.ram_bytes / 1024 / 1024 / 1024
                     ),
                     tier: result.tier,
-                  });
+                  };
+                  setPerfTestResult(tierResult);
+                  
+                  localStorage.setItem("system_tier", result.tier);
+                  
+                  const recommendedModels = selectModelsByTierAndType(
+                    result.tier,
+                    selectedTemplate
+                  );
+                  if (recommendedModels.length > 0) {
+                    const firstInstalled = recommendedModels.find(id => installedPresets.has(id));
+                    if (firstInstalled) {
+                      setSelectedPreset(firstInstalled);
+                    } else if (recommendedModels[0]) {
+                      setSelectedPreset(recommendedModels[0]);
+                    }
+                  }
                 } catch (err) {
                   console.error("Performance test failed:", err);
                 }
@@ -425,13 +504,29 @@ export function NewConversation({ onNavigate }: Props) {
                         ram_bytes: number;
                         tier: string;
                       }>("system_info");
-                      setPerfTestResult({
+                      const tierResult = {
                         cpuCores: result.cores,
                         totalMemoryGb: Math.round(
                           result.ram_bytes / 1024 / 1024 / 1024
                         ),
                         tier: result.tier,
-                      });
+                      };
+                      setPerfTestResult(tierResult);
+                      
+                      localStorage.setItem("system_tier", result.tier);
+                      
+                      const recommendedModels = selectModelsByTierAndType(
+                        result.tier,
+                        selectedTemplate
+                      );
+                      if (recommendedModels.length > 0) {
+                        const firstInstalled = recommendedModels.find(id => installedPresets.has(id));
+                        if (firstInstalled) {
+                          setSelectedPreset(firstInstalled);
+                        } else if (recommendedModels[0]) {
+                          setSelectedPreset(recommendedModels[0]);
+                        }
+                      }
                     } catch (err) {
                       console.error("Performance test failed:", err);
                     }
@@ -470,7 +565,7 @@ export function NewConversation({ onNavigate }: Props) {
                   {i18n.t("newConversation.perf.tier")}
                 </div>
                 <div className="text-gray-900 dark:text-gray-100 font-semibold capitalize">
-                  {perfTestResult ? perfTestResult.tier : "..."}
+                  {perfTestResult ? i18n.t(`newConversation.perf.tier${perfTestResult.tier.charAt(0).toUpperCase()}${perfTestResult.tier.slice(1)}`) : "..."}
                 </div>
               </div>
             </div>

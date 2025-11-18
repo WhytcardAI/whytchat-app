@@ -472,7 +472,10 @@
       "runAgain": "Uruchom ponownie",
       "cpuCores": "Rdzenie CPU",
       "memoryGb": "Pamięć (GB)",
-      "tier": "Poziom"
+      "tier": "Poziom",
+      "tierLight": "Lekki",
+      "tierMedium": "Średni",
+      "tierHeavy": "Ciężki"
     }
   },
   "serverStatus": {

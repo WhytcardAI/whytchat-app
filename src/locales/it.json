@@ -472,7 +472,10 @@
       "runAgain": "Esegui di nuovo",
       "cpuCores": "Core CPU",
       "memoryGb": "Memoria (GB)",
-      "tier": "Livello"
+      "tier": "Livello",
+      "tierLight": "Leggero",
+      "tierMedium": "Medio",
+      "tierHeavy": "Pesante"
     }
   },
   "serverStatus": {
