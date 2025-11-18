@@ -115,11 +115,11 @@ jobs:
             BUNDLE_DIR="src-tauri/target/release/bundle"
           fi
           find "$BUNDLE_DIR" -type f \( -name "*.msi" -o -name "*.exe" \) | while read file; do
-            echo "Found: $file ($(stat -c%s "$file" 2>/dev/null || stat -f%z "$file" 2>/dev/null) bytes)"
             if [ ! -s "$file" ]; then
               echo "❌ File is empty: $file"
               exit 1
             fi
+            echo "✅ Found: $file"
           done
           echo "✅ All Windows artifacts verified"
 
@@ -184,11 +184,11 @@ jobs:
             BUNDLE_DIR="src-tauri/target/release/bundle"
           fi
           find "$BUNDLE_DIR" -type f \( -name "*.deb" -o -name "*.AppImage" \) | while read file; do
-            echo "Found: $file ($(stat -c%s "$file") bytes)"
             if [ ! -s "$file" ]; then
               echo "❌ File is empty: $file"
               exit 1
             fi
+            echo "✅ Found: $file"
           done
           echo "✅ All Linux artifacts verified"
 
@@ -245,11 +245,11 @@ jobs:
             BUNDLE_DIR="src-tauri/target/universal-apple-darwin/release/bundle"
           fi
           find "$BUNDLE_DIR" -type f -name "*.dmg" | while read file; do
-            echo "Found: $file ($(stat -f%z "$file") bytes)"
             if [ ! -s "$file" ]; then
               echo "❌ File is empty: $file"
               exit 1
             fi
+            echo "✅ Found: $file"
           done
           echo "✅ All macOS artifacts verified"
 
