@@ -161,7 +161,8 @@
     "maximize": "Maximizar",
     "restore": "Restaurar",
     "close": "Cerrar",
-    "settings": "Configuración"
+    "settings": "Configuración",
+    "optional": "Opcional"
   },
   "settings": {
     "debug": {

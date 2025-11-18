@@ -161,7 +161,8 @@
     "maximize": "Agrandir",
     "restore": "Restaurer",
     "close": "Fermer",
-    "settings": "Paramètres"
+    "settings": "Paramètres",
+    "optional": "Optionnel"
   },
   "settings": {
     "debug": {
