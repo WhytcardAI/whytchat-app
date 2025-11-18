@@ -38,7 +38,7 @@ export function TitleBar({ title, onNavigate }: TitleBarProps) {
   useEffect(() => {
     const onKey = async (e: KeyboardEvent) => {
       try {
-        const key = (localStorage.getItem("overlayToggleKey") || "F10").trim();
+        const key = (localStorage.getItem("overlayToggleKey") ?? "F10").trim();
         if (!key) return;
         if (e.key !== key) return;
         const current = localStorage.getItem("overlayEnabled") === "true";

@@ -48,7 +48,7 @@ export function getStorageNumberWithClamp(
   key: string,
   defaultValue: number,
   min: number,
-  max: number,
+  max: number
 ): number {
   try {
     const value = localStorage.getItem(key);
@@ -58,7 +58,7 @@ export function getStorageNumberWithClamp(
       ? Math.min(max, Math.max(min, num))
       : defaultValue;
   } catch (error) {
-    console.error(`Failed to parse localStorage number key "${key}":`, error);
+    console.error("Failed to parse localStorage number key", key, error);
     return defaultValue;
   }
 }

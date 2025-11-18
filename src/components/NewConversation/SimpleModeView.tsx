@@ -5,6 +5,9 @@ import {
   Code,
   GraduationCap,
   FileText,
+  Gauge,
+  Cpu,
+  HardDrive,
 } from "lucide-react";
 import { i18n } from "../../i18n";
 import type {
@@ -29,6 +32,13 @@ type Props = {
   setConversationName: (name: string) => void;
   selectedTemplate: TemplateType;
   handleTemplateChange: (template: TemplateType) => void;
+  showPerfTest: boolean;
+  perfTestResult: {
+    cpuCores: number;
+    totalMemoryGb: number;
+    tier: string;
+  } | null;
+  onRunPerfTest: () => Promise<void>;
   selectedTone: ToneType;
   setSelectedTone: (tone: ToneType) => void;
   codeLanguage: CodeLanguageType;
@@ -75,6 +85,9 @@ export function SimpleModeView({
   setConversationName,
   selectedTemplate,
   handleTemplateChange,
+  showPerfTest,
+  perfTestResult,
+  onRunPerfTest,
   selectedTone,
   setSelectedTone,
   codeLanguage,
@@ -116,24 +129,90 @@ export function SimpleModeView({
     return preset.useCases.includes(selectedTemplate);
   });
 
-  // Auto-select best available model (prefer installed, then lightest)
+  // Smart model selection based on tier and template
+  function selectModelsByTierAndType(
+    tier: string,
+    templateType: TemplateType
+  ): string[] {
+    const tierMap: Record<string, Record<TemplateType, string[]>> = {
+      small: {
+        general: ["llama32_3b_light"],
+        coding: ["qwen_coder_1_5b_light", "llama32_3b_light"],
+        learning: ["llama32_3b_light"],
+        brainstorm: ["llama32_3b_light"],
+        writing: ["llama32_3b_light"],
+        analysis: ["llama32_3b_light"],
+        custom: ["llama32_3b_light"],
+      },
+      medium: {
+        general: ["mistral_balanced", "qwen25_7b_balanced"],
+        coding: ["qwen_coder_fast", "qwen25_7b_balanced"],
+        learning: ["openhermes_balanced", "mistral_balanced"],
+        brainstorm: ["mistral_balanced", "qwen25_7b_balanced"],
+        writing: ["nous_hermes_balanced", "mistral_balanced"],
+        analysis: ["qwen25_7b_balanced", "mistral_balanced"],
+        custom: ["mistral_balanced"],
+      },
+      large: {
+        general: ["llama31_8b_heavy", "qwen25_32b_heavy"],
+        coding: ["qwen_coder_14b_heavy", "llama31_8b_heavy"],
+        learning: ["wizardlm_heavy", "llama31_8b_heavy"],
+        brainstorm: ["qwen25_32b_heavy", "llama31_8b_heavy"],
+        writing: ["dolphin_heavy", "qwen25_32b_heavy"],
+        analysis: ["qwen25_32b_heavy", "llama33_70b_powerful"],
+        custom: ["llama31_8b_heavy"],
+      },
+    };
+    return tierMap[tier]?.[templateType] || tierMap[tier]?.general || [];
+  }
+
+  // Auto-select best model based on tier (if available) or fallback to lightest
   useEffect(() => {
     if (filteredPresets.length === 0) return;
 
-    // Try to find an installed model first
+    // If performance test was run, use tier-based intelligent selection
+    if (perfTestResult?.tier) {
+      const recommendedModels = selectModelsByTierAndType(
+        perfTestResult.tier,
+        selectedTemplate
+      );
+
+      // Try to find first installed recommended model
+      const firstInstalled = recommendedModels.find((id) =>
+        installedPresets.has(id)
+      );
+      if (firstInstalled) {
+        setSelectedPreset(firstInstalled);
+        return;
+      }
+
+      // If no installed match, select first recommended (may require download)
+      if (recommendedModels[0]) {
+        setSelectedPreset(recommendedModels[0]);
+        return;
+      }
+    }
+
+    // Fallback: prefer any installed model
     const installedFiltered = filteredPresets.filter((p) =>
-      installedPresets.has(p.id),
+      installedPresets.has(p.id)
     );
     if (installedFiltered.length > 0 && installedFiltered[0]) {
       setSelectedPreset(installedFiltered[0].id);
       return;
     }
 
-    // Otherwise, select the lightest model (first in filtered list)
+    // Last resort: select the lightest available model
     if (filteredPresets[0]) {
       setSelectedPreset(filteredPresets[0].id);
     }
-  }, [selectedTemplate, filteredPresets, installedPresets, setSelectedPreset]);
+  }, [
+    selectedTemplate,
+    filteredPresets,
+    installedPresets,
+    setSelectedPreset,
+    perfTestResult,
+  ]);
 
   return (
     <div className="space-y-3">
@@ -269,11 +348,101 @@ export function SimpleModeView({
         </div>
       </div>
 
-      {/* Étape 3: Personnaliser selon le type de conversation */}
+      {/* Étape 3: Test de performance (optionnel) */}
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700 p-3">
+        <div className="flex items-center gap-2 mb-2">
+          <div className="w-6 h-6 rounded-full bg-emerald-600 dark:bg-emerald-500 text-white flex items-center justify-center text-xs font-bold">
+            3
+          </div>
+          <h3 className="text-sm font-semibold">
+            {i18n.t("newConversation.perf.title")}
+          </h3>
+          <span className="text-xs text-gray-500 dark:text-gray-400 ml-auto">
+            {i18n.t("ui.optional")}
+          </span>
+        </div>
+
+        {!showPerfTest ? (
+          <button
+            onClick={async () => {
+              await onRunPerfTest();
+            }}
+            disabled={busy}
+            className="w-full px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 font-medium transition-colors flex items-center justify-center gap-2"
+          >
+            <Gauge size={18} />
+            {i18n.t("newConversation.perf.button")}
+          </button>
+        ) : (
+          <div className="space-y-2">
+            <div className="grid grid-cols-2 gap-2">
+              <div className="p-2 rounded-lg bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600">
+                <div className="flex items-center gap-2 mb-1">
+                  <Cpu size={14} className="text-blue-600 dark:text-blue-400" />
+                  <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
+                    {i18n.t("newConversation.perf.cpuCores")}
+                  </span>
+                </div>
+                <div className="text-sm font-semibold text-gray-900 dark:text-gray-100">
+                  {perfTestResult?.cpuCores || "..."}
+                </div>
+              </div>
+
+              <div className="p-2 rounded-lg bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600">
+                <div className="flex items-center gap-2 mb-1">
+                  <HardDrive
+                    size={14}
+                    className="text-purple-600 dark:text-purple-400"
+                  />
+                  <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
+                    {i18n.t("newConversation.perf.memoryGb")}
+                  </span>
+                </div>
+                <div className="text-sm font-semibold text-gray-900 dark:text-gray-100">
+                  {perfTestResult?.totalMemoryGb || "..."} GB
+                </div>
+              </div>
+            </div>
+
+            <div className="p-2 rounded-lg bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-medium text-emerald-700 dark:text-emerald-300">
+                  {i18n.t("newConversation.perf.tier")}
+                </span>
+                <span className="text-sm font-bold text-emerald-900 dark:text-emerald-100 capitalize">
+                  {perfTestResult
+                    ? i18n.t(
+                        `newConversation.perf.tier${
+                          perfTestResult.tier === "small"
+                            ? "Light"
+                            : perfTestResult.tier === "medium"
+                              ? "Medium"
+                              : "Heavy"
+                        }`
+                      )
+                    : "..."}
+                </span>
+              </div>
+            </div>
+
+            <button
+              onClick={async () => {
+                await onRunPerfTest();
+              }}
+              disabled={busy}
+              className="w-full px-3 py-1.5 text-xs rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 transition-colors"
+            >
+              {i18n.t("newConversation.perf.runAgain")}
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Étape 4: Personnaliser selon le type de conversation */}
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700 p-3">
         <div className="flex items-center gap-2 mb-3">
           <div className="w-6 h-6 rounded-full bg-emerald-600 dark:bg-emerald-500 text-white flex items-center justify-center text-xs font-bold">
-            3
+            4
           </div>
           <h3 className="text-sm font-semibold">
             {i18n.t("newConversation.customizeAI")}

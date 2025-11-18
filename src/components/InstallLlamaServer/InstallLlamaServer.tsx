@@ -32,7 +32,7 @@ export function InstallLlamaServer({
         "llama-download-progress",
         (event) => {
           setProgress(Math.round(event.payload.percentage));
-        },
+        }
       );
 
       unlistenStatus = await listen<string>("llama-server-status", (event) => {
@@ -40,7 +40,7 @@ export function InstallLlamaServer({
       });
     };
 
-    setupListeners();
+    void setupListeners();
 
     return () => {
       if (unlistenProgress) unlistenProgress();

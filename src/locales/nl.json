@@ -161,7 +161,8 @@
     "maximize": "Maximaliseren",
     "restore": "Herstellen",
     "close": "Sluiten",
-    "settings": "Instellingen"
+    "settings": "Instellingen",
+    "optional": "Optioneel"
   },
   "settings": {
     "debug": {
@@ -472,7 +473,10 @@
       "runAgain": "Opnieuw uitvoeren",
       "cpuCores": "CPU-kernen",
       "memoryGb": "Geheugen (GB)",
-      "tier": "Niveau"
+      "tier": "Niveau",
+      "tierLight": "Licht",
+      "tierMedium": "Gemiddeld",
+      "tierHeavy": "Zwaar"
     }
   },
   "serverStatus": {

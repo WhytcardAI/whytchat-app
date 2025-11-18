@@ -33,7 +33,9 @@ export default function UpdateSection() {
 
   useEffect(() => {
     getVersion()
-      .then((v) => setCurrentVersion(v))
+      .then((v) => {
+        setCurrentVersion(v);
+      })
       .catch(() => {});
   }, []);
 

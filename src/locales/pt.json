@@ -161,7 +161,8 @@
     "maximize": "Maximizar",
     "restore": "Restaurar",
     "close": "Fechar",
-    "settings": "Configurações"
+    "settings": "Configurações",
+    "optional": "Opcional"
   },
   "settings": {
     "debug": {
@@ -472,7 +473,10 @@
       "runAgain": "Executar novamente",
       "cpuCores": "Núcleos CPU",
       "memoryGb": "Memória (GB)",
-      "tier": "Nível"
+      "tier": "Nível",
+      "tierLight": "Leve",
+      "tierMedium": "Médio",
+      "tierHeavy": "Pesado"
     }
   },
   "serverStatus": {

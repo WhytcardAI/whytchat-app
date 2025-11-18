@@ -1,6 +1,6 @@
 [package]
 name = "whytchat-desktop"
-version = "0.3.1"
+version = "0.3.2"
 edition = "2021"
 description = "Whytchat local desktop app"
 
